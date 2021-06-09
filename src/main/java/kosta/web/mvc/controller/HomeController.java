@@ -8,8 +8,8 @@ public class HomeController {
 
 	@RequestMapping("/")
 	public String index() {
-		System.out.println("call testpage");
-		return "testpage"; // WEB-INF/views/testpage.jsp
+		System.out.println("call index");
+		return "main/index"; // WEB-INF/views/index.jsp
 	}
 	
 	@RequestMapping("/thymeleafTest")
