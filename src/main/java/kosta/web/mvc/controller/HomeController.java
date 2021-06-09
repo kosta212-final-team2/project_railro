@@ -16,10 +16,6 @@ public class HomeController {
 	public String thymeleafTest() { 
 		return "html/index"; 
 	}
-	
-	@RequestMapping("/main")
-	public String main() { 
-		return "html/main"; 
-	}
+
 
 }
