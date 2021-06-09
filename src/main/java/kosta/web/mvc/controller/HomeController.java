@@ -11,4 +11,15 @@ public class HomeController {
 		System.out.println("call testpage");
 		return "testpage"; // WEB-INF/views/testpage.jsp
 	}
+	
+	@RequestMapping("/thymeleafTest")
+	public String thymeleafTest() { 
+		return "html/index"; 
+	}
+	
+	@RequestMapping("/main")
+	public String main() { 
+		return "html/main"; 
+	}
+
 }
