@@ -11,4 +11,5 @@ public class MemberController {
 	public String loginPage() {
 		return "page/member/login";
 	}
+	
 }
