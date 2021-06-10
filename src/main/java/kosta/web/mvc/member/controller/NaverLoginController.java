@@ -50,7 +50,7 @@ public class NaverLoginController {
     session.setAttribute("state", state);
 
     model.addAttribute("apiURL", apiURL);
-    return "page/member/naverlogin";
+    return "page/member/login";
   }
 
   /**
