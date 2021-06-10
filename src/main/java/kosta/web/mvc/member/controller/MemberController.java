@@ -14,8 +14,8 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
-	@RequestMapping("/login")
-	public String loginPage() {
+	@RequestMapping("/loginForm")
+	public String loginFormPage() {
 		return "page/member/login";
 	}
 	
