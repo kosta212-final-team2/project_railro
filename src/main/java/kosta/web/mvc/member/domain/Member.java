@@ -23,11 +23,12 @@ import lombok.Setter;
 public class Member {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String memberId;
 	
 	@Column(nullable = false)
 	private String pwd;
+	@Column(nullable = false)
+	private String addr;
 	@Column(nullable = false)
 	private String email;
 	@Column(nullable = false)
@@ -36,9 +37,5 @@ public class Member {
 	private String picture;
 	@Column(nullable = false)
 	private String phone;
-	@CreatedDate
-	private LocalDateTime regDate;
-	
-	
 	
 }
