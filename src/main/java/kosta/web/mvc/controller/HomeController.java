@@ -9,17 +9,18 @@ public class HomeController {
 	@RequestMapping("/")
 	public String index() {
 		System.out.println("call testpage");
-		return "page/index"; // WEB-INF/views/testpage.jsp
+		return "page/main"; // WEB-INF/views/testpage.jsp
 	}
 	
-	@RequestMapping("/thymeleafTest")
+	@RequestMapping("/index")
 	public String thymeleafTest() { 
-		return "html/index"; 
+		return "page/index"; 
 	}
 	
-	@RequestMapping("/main")
-	public String main() { 
-		return "html/main"; 
+	@RequestMapping("/categorySearch")
+	public String main() {
+		
+		return "page/map";
 	}
 
 }
