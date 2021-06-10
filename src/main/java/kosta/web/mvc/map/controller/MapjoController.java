@@ -16,7 +16,7 @@ import kosta.web.mvc.map.domain.Station;
 import kosta.web.mvc.map.service.StationService;
 
 @Controller
-@RequestMapping("/map")
+@RequestMapping("/mapjo")
 public class MapjoController {
 	@Autowired
 	private StationService stationService;
@@ -29,7 +29,7 @@ public class MapjoController {
 		
 		Station stationDetail = stationService.selectById(id);
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("map/read");
+		mv.setViewName("mapjo/read");
 		mv.addObject("stationDetail", stationDetail);
 		return mv;
 		

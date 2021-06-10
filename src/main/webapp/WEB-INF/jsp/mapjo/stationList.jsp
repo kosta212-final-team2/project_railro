@@ -66,7 +66,7 @@
 		        </td>
 		        <td bgcolor="">
 					<p><span style="font-size:9pt;">
-					<a href="${pageContext.request.contextPath}/map/list/${st.id}">
+					<a href="${pageContext.request.contextPath}/mapjo/list/${st.id}">
 					${st.station}
 					</span></p>
 		        </td>
@@ -101,10 +101,10 @@
  <c:forEach begin="0" end="${stationList.totalPages-1}" var="i">
    <c:choose>
      <c:when test="${stationList.number==i}">
-         <a href="${pageContext.request.contextPath}/map/stationList?nowPage=${i}" style="color:red"> [ ${i+1} ] </a>
+         <a href="${pageContext.request.contextPath}/mapjo/stationList?nowPage=${i}" style="color:red"> [ ${i+1} ] </a>
      </c:when>
      <c:otherwise>
-         <a href="${pageContext.request.contextPath}/map/stationList?nowPage=${i}"> [ ${i+1} ] </a>
+         <a href="${pageContext.request.contextPath}/mapjo/stationList?nowPage=${i}"> [ ${i+1} ] </a>
      </c:otherwise>
    </c:choose>
    
