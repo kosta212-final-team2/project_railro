@@ -1,5 +1,7 @@
 package kosta.web.mvc.member.service;
 
+import java.util.List;
+
 import kosta.web.mvc.member.domain.Member;
 
 public interface MemberService {
@@ -12,4 +14,9 @@ public interface MemberService {
 	 * 로그인
 	 * */
 	Member login(Member member);
+	
+	/**
+	 * 전체회원조회
+	 * */
+	List<Member> findAll();
 }

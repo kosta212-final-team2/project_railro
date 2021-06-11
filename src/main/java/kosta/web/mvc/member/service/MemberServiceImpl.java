@@ -1,5 +1,7 @@
 package kosta.web.mvc.member.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,7 @@ public class MemberServiceImpl implements MemberService {
 		
 		Authorities authorities = new Authorities();
 		authorities.setMember(member);
-		authorities.setRole("MEMBER");
+		authorities.setRole("ROLE_ADMIN");
 		authoritiesRepository.save(authorities);
 		
 		memberRepository.save(member);
@@ -39,6 +41,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Member login(Member member) {
 		return memberRepository.login(member);
+	}
+
+	@Override
+	public List<Member> findAll() {
+		return memberRepository.findAll();
 	}
 	
 
