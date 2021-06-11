@@ -1,5 +1,10 @@
 package kosta.web.mvc.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -12,14 +17,9 @@ public class HomeController {
 		return "page/index"; // WEB-INF/views/testpage.jsp
 	}
 	
-	@RequestMapping("/thymeleafTest")
-	public String thymeleafTest() { 
-		return "html/index"; 
-	}
-	
-	@RequestMapping("/main")
-	public String main() { 
-		return "html/main"; 
+	@RequestMapping("/loginSuccess")
+	public String loginSuccess() {
+		return "page/loginSuccess";
 	}
 
 }

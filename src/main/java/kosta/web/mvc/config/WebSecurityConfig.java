@@ -2,6 +2,7 @@ package kosta.web.mvc.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+
 import org.springframework.context.annotation.Bean;
 
 import org.springframework.context.annotation.Configuration;
@@ -27,11 +28,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/**").permitAll();
 		
 		http.formLogin()
-		.loginPage("/member/login")
+		.loginPage("/member/loginForm")
 		.usernameParameter("memberId")
 		.passwordParameter("pwd")
-		.loginProcessingUrl("/j_spring_security_check")
-		.defaultSuccessUrl("/")
+		.loginProcessingUrl("/login")
+		.defaultSuccessUrl("/loginSuccess")
 		.failureHandler(memberAuthenticationFailureHandler);
 	}
 	
