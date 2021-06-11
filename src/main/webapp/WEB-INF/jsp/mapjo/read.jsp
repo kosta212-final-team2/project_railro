@@ -33,7 +33,7 @@
     <button onclick="hideMarkers()">마커 삭제 </button>
 </p> 
 </div>
-	station : ${stationDetail.station}
+	station : ${stationDetail.station}  
 	<br> lat : ${stationDetail.lat}
 	<br> lng : ${stationDetail.lng}
 	<div id="map"></div>
