@@ -18,21 +18,18 @@ import lombok.Setter;
 @Entity
 @Setter
 @Getter
-public class FreeReply {
+public class FreeRecommend {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE , generator = "free_rno_seq")
-	@SequenceGenerator(sequenceName = "free_rno_seq" , allocationSize = 1 , name = "free_rno_seq")
-	private Long freeRno; // 댓글번호
-	private String freeReplyContent; //댓글내용
-	private String memberId; //댓글 작성자
+	@GeneratedValue(strategy = GenerationType.SEQUENCE , generator = "free_vno_seq")
+	@SequenceGenerator(sequenceName = "free_vno_seq" , allocationSize = 1 , name = "free_vno_seq")
+	private Long freeVno; //추천번호
+	private String memberId; //추천 클리 ID
 	
 	@CreationTimestamp
-	private LocalDateTime freeReplyRegdate;
+	private LocalDateTime freeVoteDate; //추천일
 	
 	@ManyToOne
 	@JoinColumn(name = "free_bno")
 	private FreeBoard freeBoard;
-	
-	
 }
