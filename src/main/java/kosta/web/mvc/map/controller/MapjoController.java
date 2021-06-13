@@ -1,5 +1,7 @@
 package kosta.web.mvc.map.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import kosta.web.mvc.map.domain.Station;
+import kosta.web.mvc.map.dto.Item;
 import kosta.web.mvc.map.service.StationService;
 
 @Controller
@@ -20,6 +23,9 @@ import kosta.web.mvc.map.service.StationService;
 public class MapjoController {
 	@Autowired
 	private StationService stationService;
+	
+	@Autowired
+	private XmlParsingTest parsing;
 	
 	/**
 	 * naver 지도 보여주기 
@@ -41,8 +47,45 @@ public class MapjoController {
 	public void stationList(Model model, @RequestParam(defaultValue = "0")int nowPage) {
 		Pageable pageable = PageRequest.of(nowPage, 10, Direction.ASC, "citycode");
 		Page<Station> stationList = stationService.selectAll(pageable);
+		//List<Item> infoList = parsing.test();
 		model.addAttribute("stationList",stationList); // view -> ${stationList.메서드이름}
+		//model.addAttribute("infoList",infoList); // view -> ${stationList.메서드이름}
 	}
+	
+	
+	/**
+	 * 열차정보 보여주기  
+	 * */
+	@RequestMapping("/infoList")
+	public void infoList(Model model) {
+		List<Item> infoList = parsing.test();
+		
+		model.addAttribute("infoList",infoList); 
+	}
+	
+	/**
+	 * search by keyword
+	 * */
+	@RequestMapping("/searchkakao")
+	public void searchkakao() {
+		
+	}
+	
+	/**
+	 * search by keyword
+	 * */
+	@RequestMapping("/myro")
+	public void myro() {
+		
+	}
+	/**
+	 * search by keyword
+	 * */
+	@RequestMapping("/myro2")
+	public void myro2() {
+		
+	}
+	
 	
 //	/**
 //	 * 역전체 지도에 마커로 표시 

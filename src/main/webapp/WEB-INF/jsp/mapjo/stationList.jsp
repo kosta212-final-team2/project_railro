@@ -12,23 +12,19 @@
 <title>간단한 지도 표시하기</title>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
-<script type="text/javascript"
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1ede33f5c81efd47fccd6dc5201a8a50"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1ede33f5c81efd47fccd6dc5201a8a50&libraries=services,clusterer,drawing"></script>
 <style>
  a {text-decoration: none}
 </style>
 
-
 <table align="center" border="0" cellpadding="5" cellspacing="2" width="100%" bordercolordark="white" bordercolorlight="black">
 <caption>Station LIST</caption>
 	<colgroup>
-		<col width="15%"/>
-		<col width="30%"/>
+		<col width="5%"/>
+		<col width="10%"/>
 		<col width="16%"/>
 		<col width="16%"/>
-		<col width="7%"/>
-		<col width="7%"/>
-		<col width="7%"/>
+		<col width="16%"/>
 	</colgroup>
 	<tr>
         <td bgcolor="#00cc00">

@@ -3,6 +3,7 @@ package kosta.web.mvc.map.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,6 +30,16 @@ public class MapjoAjaxController {
 //			System.out.println(station.getLat()+","+station.getLng());
 //		}
 		return list;
+	}
+	
+	
+	
+	@RequestMapping(value= "/searchByKeyword")
+	public String searchByKeyword(String keyword) {
+		
+		
+		System.out.println(keyword);
+		return "right?";
 	}
 
 }
