@@ -2,6 +2,7 @@ package kosta.web.mvc.member.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kosta.web.mvc.member.domain.Member;
@@ -29,5 +30,12 @@ public class MemberController {
 		memberService.insert(member);
 		
 		return "page/member/login";
+	}
+	
+	@RequestMapping("/profile")
+	public String profilePage(String memberId, Model model) {
+		Member member = memberService.findByMemberId(memberId);
+		model.addAttribute("member", member);
+		return "page/member/profile";
 	}
 }

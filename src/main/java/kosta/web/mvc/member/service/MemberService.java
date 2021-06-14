@@ -19,4 +19,9 @@ public interface MemberService {
 	 * 전체회원조회
 	 * */
 	List<Member> findAll();
+	
+	/**
+	 * id로 해당회원 조회
+	 * */
+	Member findByMemberId(String memberId);
 }

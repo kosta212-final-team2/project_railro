@@ -32,8 +32,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.usernameParameter("memberId")
 		.passwordParameter("pwd")
 		.loginProcessingUrl("/login")
-		.defaultSuccessUrl("/loginSuccess")
+		.defaultSuccessUrl("/")
 		.failureHandler(memberAuthenticationFailureHandler);
+		
+		http.logout()
+			.logoutUrl("/logout")
+			.logoutSuccessUrl("/")
+			.deleteCookies("JESSIONID")
+			.invalidateHttpSession(true)
+			.permitAll();
 	}
 	
 	@Bean
