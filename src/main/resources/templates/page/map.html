@@ -6,9 +6,34 @@
 
 <head>
 <meta charset="utf-8">
+
 <title>지도 생성하기</title>
 <!--     <link rel="stylesheet" th:href="@{css/style.css}">
  -->
+<link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+	rel="stylesheet" type="text/css" />
+<script type="text/javascript"
+	src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<style>
+.itemBox {
+	border: solid 1px black;
+	width: 150px;
+	height: 50px;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+
+.itemBoxHighlight {
+	border: solid 1px black;
+	width: 150px;
+	height: 50px;
+	padding: 10px;
+	margin-bottom: 10px;
+	background-color: yellow;
+}
+</style>
+
+
 </head>
 <body>
 
@@ -18,7 +43,11 @@
 		<table>
 			<tr height="650">
 				<td width="10%">
-				<div id="plan"></div>
+				<form name="plan" action="/detailSave" method="get">
+						<div id="plan"></div>
+						<input id="savePlan" type="submit" value="일정 저장" />
+
+					</form>
 				</td>
 				<td width="1500">
 					<div class="map_wrap">
@@ -88,13 +117,66 @@
 						target.attachEvent('on' + type, callback);
 					}
 				}
+				//드래그로 순서를 바꿀 수 있게 하는 함수.
+				$("#plan").sortable({
+					placeholder : "itemBoxHighlight",
+
+					start : function(event, ui) {
+
+						ui.item.data('start_pos', ui.item.index());
+
+					},
+
+					stop : function(event, ui) {
+
+						var spos = ui.item.data('start_pos');
+
+						var epos = ui.item.index();
+
+						reorder();
+
+					}
+
+				});
+	
+				//순서가 바꼈을 때 새로 순서를 지정
+				function reorder() {
+
+					$(".itemBox").each(function(i, box) {
+
+						$(box).find("input[name=itemNum]").val(i + 1);
+
+					});
+
+				}
+				
+				
+
 				//일정 추가를 요청하는 클릭이벤트를 등록합니다.
 				$(document).on('click', 'div[name=place]', function() {
-					
-					
+
 					addPlan(this);
 				});
+				
+				$(document).on('click', 'input[name=deletePlan]', function() {
 
+					var delCheck=confirm('삭제하시겠습니까?');
+					if(delCheck){
+						$(this).parent().parent().remove();
+						reorder();
+					}
+					
+				});
+				
+				//일정 저장 함수 등록
+				/* $(document).on('click', '#savePlan', function() {
+
+					renameForModelAttribute();
+				}); */
+				
+				$("form[name=plan]").bind('submit',function(){
+					renameForModelAttribute();
+				});
 				//카테고리 검색을 요청하는 함수입니다
 				function searchPlaces() {
 					if (!currCategory) {
@@ -129,10 +211,33 @@
 
 				//일정에 추가하는 함수입니다.
 				function addPlan(ele) {
+					var contents 
+
+			        = "<div class='itemBox'>"
+
+			        + "<div style='float:left;'>"
+
+			        + "<input type='text' name='itemNum' style='width:15px' readonly></input> "
+			        + "<span>" + ele.innerHTML + "</span>"
+			       +"<input type='button' value='삭제' name='deletePlan'></input>"
+
+			        + "</div>"
+
+			        + "</div>";
 					
-					var str="";
-					str+="<div>"+ele.id+"</div><p>"
-					$("#plan").append(str);
+					$("#plan").append(contents);
+					reorder();
+				}
+				
+				//form 전달 전에 리네임 하는 함수
+				function renameForModelAttribute() {
+				    $(".itemBox").each( function (index) {
+				        $(this).find("input[name=itemNum]").attr("name", "detailedPlans[" + index + "].detailedOrder");
+				        $(this).find("input[name=placeName]").attr("name", "detailedPlans[" + index + "].placeName");
+				        $(this).find("input[name=placeAddr]").attr("name", "detailedPlans[" + index + "].placeAddr");
+				        $(this).find("input[name=placeType]").attr("name", "detailedPlans[" + index + "].placeType");
+				      //  $(this).find("input[name=targetName]").attr("name", "targets[" + index + "].targetName");
+				    })
 				}
 
 				//지도에 마커를 표출하는 함수입니다
@@ -145,6 +250,9 @@
 						var marker = addMarker(new kakao.maps.LatLng(
 								places[i].y, places[i].x));
 						plan += "<div id="+places[i].id+" name='place'>"
+								+"<input type='hidden' name='placeName' value='"+places[i].place_name+"'/>"
+								+"<input type='hidden' name='placeAddr' value='"+places[i].road_address_name+"'/>"
+								+"<input type='hidden' name='placeType' value='"+places[i].category_group_name+"'/>"
 								+ places[i].place_name + "</div><p>";
 
 						// 마커와 검색결과 항목을 클릭 했을 때
