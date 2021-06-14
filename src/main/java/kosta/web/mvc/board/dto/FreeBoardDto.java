@@ -6,8 +6,8 @@ import java.util.List;
 import kosta.web.mvc.board.domain.FreeBoard;
 import kosta.web.mvc.board.domain.FreeReply;
 import lombok.Getter;
+import lombok.Setter;
 
-@Getter
 public class FreeBoardDto {
 	
 	private Long freeBno; // 글번호
@@ -27,6 +27,6 @@ public class FreeBoardDto {
 		freeReadnum = freeBoard.getFreeReadnum();
 		freeVote = freeBoard.getFreeVote();
 		freeRegdate = freeBoard.getFreeRegdate();
-		freeReplyList = freeBoard.getFreeReplyList(); //map(OrderLineItemDto::new).collect(Collectors.toList());
+		freeReplyList = freeBoard.getFreeReplyList(); //map(OrderLineItemDto::new).collect(Collectors.toList());	
 	}
 }
