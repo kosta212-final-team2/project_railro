@@ -13495,11 +13495,7 @@ be a descendant of the grid when it is being dragged.
   transition: margin-left 0.3s ease;
 }
 
-@media (min-width: 768px) {
-  .app-content {
-    margin-left: 230px;
-  }
-}
+
 
 @media (max-width: 767px) {
   .app-content {
@@ -15122,9 +15118,7 @@ be a descendant of the grid when it is being dragged.
   min-height: 300px;
 }
 
-.user .user-tabs {
-  margin-top: 20px;
-}
+
 
 .user .user-tabs .nav-link {
   border-left: 3px solid transparent;
@@ -15166,9 +15160,6 @@ be a descendant of the grid when it is being dragged.
   margin-bottom: 15px;
 }
 
-.user .timeline-post .post-media img {
-  margin-right: 10px;
-}
 
 .user .timeline-post .post-media h5 {
   margin-top: 0;
