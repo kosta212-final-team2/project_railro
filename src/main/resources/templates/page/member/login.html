@@ -162,7 +162,7 @@ ul{list-style:none; }
                 
                 
                 <div th:unless="${isTodoAssignNaver}">
-                    <a th:href="${naverApiURL}"><img height="50" src="http://static.nid.naver.com/oauth/small_g_in.PNG" /></a>
+                    <a href="/member/naver"><img height="50" src="http://static.nid.naver.com/oauth/small_g_in.PNG" /></a>
                 </div>
                 
                 <input type="hidden" th:value="${isTodoAssignNaver ne null and isTodoAssignNaver ? 'naver' : 'none'}" name="oauth-handler">
