@@ -155,15 +155,23 @@ ul{list-style:none; }
             		<a th:href="@{/signup?isTodoAssignNaver=true}" th:if="${isTodoAssignNaver}">회원가입 (isTodoAssignNaver)</a>
             	</p>
                 
-                <div class="form-actions">
+                <div align="center"  class="form-actions">
                     <button type="submit" id="submit_button" class="btn">Log in</button>
                 </div>
                 
                 
                 
-                <div th:unless="${isTodoAssignNaver}">
+                <div align="center" th:unless="${isTodoAssignNaver}">
                     <a href="/member/naver"><img height="50" src="http://static.nid.naver.com/oauth/small_g_in.PNG" /></a>
                 </div>
+                <div th:if="${session.currentUser ne null}">
+    <h3>이 부분은 로그인한 사용자한테만 보임</h3>
+    <pre th:text="${session.currentUser}"></pre>
+    <a th:href="${'/naver/getProfile?accessToken=' + session.currentAT}">Get User's Profile</a>
+    <a th:href="${'/naver/refreshToken?refreshToken=' + session.currentRT}">Refresh Token</a>
+    <a th:href="${'/naver/deleteToken?accessToken=' + session.currentAT}">Delete Token</a>
+    <a href="/naver/invalidate">로그아웃 (Invalidate Session)</a>
+  </div>
                 
                 <input type="hidden" th:value="${isTodoAssignNaver ne null and isTodoAssignNaver ? 'naver' : 'none'}" name="oauth-handler">
         </form>
