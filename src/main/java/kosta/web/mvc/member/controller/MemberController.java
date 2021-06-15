@@ -32,10 +32,10 @@ public class MemberController {
 		return "page/member/login";
 	}
 	
-	@RequestMapping("/profile")
+	@RequestMapping("/mypage")
 	public String profilePage(String memberId, Model model) {
 		Member member = memberService.findByMemberId(memberId);
 		model.addAttribute("member", member);
-		return "page/member/profile";
+		return "page/member/mypage";
 	}
 }

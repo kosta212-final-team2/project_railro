@@ -21,25 +21,7 @@
     <link rel="stylesheet" th:href="@{/css/profile.css}">
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style type="text/css">
 
-#follow-button {
-  color: white;
-  font-family: "Helvetica";
-  font-size: 10pt;
-  background-color: #dc3545;
-  border: 1px solid;
-  border-color: #dc3545;
-  border-radius: 3px;
-  width: 85px;
-  height: 30px;
-  position: absolute;	 
-  top: 20px;
-  left: 1100px;	
-  cursor: hand;		  
-}
-    	
-    </style>
   </head>
   <body class="app sidebar-mini rtl">
     <th:block th:replace="fragment/header :: headerFragment"></th:block>
@@ -48,8 +30,8 @@
       <div class="row user">
         <div class="col-md-12">
           <div class="profile">
-            <button id="follow-button">+ Follow</button>
-            <div class="info"><img class="user-img" src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/128.jpg">
+
+            <div class="info"><img class="user-img" th:src="@{/images/defaultImg.jpg}">
               <p th:text="${member.name}">NAME</p>
               
             </div>

@@ -29,4 +29,5 @@ public interface MemberService {
 	/**
 	 * id로 해당회원의 권한 조회
 	 * */
+	List<Authorities> findAllByMemberId(String memberId);
 }
