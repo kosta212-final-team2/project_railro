@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,15 +45,13 @@ public class FreeBoardController {
 	}
 	
 	/**
-	 * 전체 목록 가져오기
-	 * */
-	@RequestMapping("/freelist")
-	public void list(Model model, @RequestParam(defaultValue = "0") int nowPage) {
-		Pageable pageable = PageRequest.of(nowPage, 10, Direction.DESC, "freeBno");
-		
-		Page<FreeBoard> pageList = freeService.selectAll(pageable);
-		
-		model.addAttribute("pageList", pageList); //뷰페이지에서 ${pageList.메소드이름}
+	 * 글 목록 조회
+	 */
+	@RequestMapping("/free")
+	public String list(@PageableDefault Pageable pageable, Model model) {
+		System.out.println("call selectAll");
+    model.addAttribute("freeList", freeService.selectAll(pageable));
+		return "page/board/free/list"; 
 	}
 	
 	/**
@@ -86,20 +85,20 @@ public class FreeBoardController {
 	 * 수정 완료
 	 * */
 	@RequestMapping("/update")
-	public ModelAndView update(FreeBoard board) {//내용 비번, 제목, 글번호
-		FreeBoard dbBoard = freeService.update(board);
+	public ModelAndView update(FreeBoard freeBoard) {//내용 비번, 제목, 글번호
+		FreeBoard dbBoard = freeService.update(freeBoard);
 		
-		return new ModelAndView("board/read", "board", dbBoard);
+		return new ModelAndView("free/read", "freeBoard", dbBoard);
 	}
 	
 	/**
 	 * 삭제하기 
 	 * */
 	@RequestMapping("/delete")
-	public String delete(Long freeBno) {
-		 freeService.delete(freeBno);
+	public String delete(Long bno) {
+		 freeService.delete(bno);
 		 
-		 return "redirect:/board/list";
+		 return "redirect:/free/list";
 	}
 }
 

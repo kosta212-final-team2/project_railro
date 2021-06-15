@@ -10,7 +10,7 @@ public interface FreeBoardRepository extends JpaRepository<FreeBoard, Long> {
    /**
     * 조회수 증가 (JPQL문법)
     * */
-	@Query("update FreeBoard b set b.readnum=b.readnum+1 where b.bno=?1")
+	@Query("update FreeBoard b set b.freeReadnum=b.freeReadnum+1 where b.freeBno=?1")
 	@Modifying // DDL , DML할때 필수 
 	void readnumUpdate(Long freeBno);
 }
