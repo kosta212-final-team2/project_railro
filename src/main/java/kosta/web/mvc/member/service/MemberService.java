@@ -2,6 +2,7 @@ package kosta.web.mvc.member.service;
 
 import java.util.List;
 
+import kosta.web.mvc.member.domain.Authorities;
 import kosta.web.mvc.member.domain.Member;
 
 public interface MemberService {
@@ -24,4 +25,8 @@ public interface MemberService {
 	 * id로 해당회원 조회
 	 * */
 	Member findByMemberId(String memberId);
+	
+	/**
+	 * id로 해당회원의 권한 조회
+	 * */
 }

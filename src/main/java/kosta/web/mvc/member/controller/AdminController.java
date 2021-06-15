@@ -24,8 +24,14 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/member")
-	public ModelAndView adminMemberPage(Model model) {
+	public ModelAndView adminMemberPage() {
 		List<Member> list = memberService.findAll();
 		return new ModelAndView("page/admin/memberAdmin", "list", list);
+	}
+	
+	@RequestMapping("/read")
+	public ModelAndView readMemberPage(String memberId) {
+		Member member = memberService.findByMemberId(memberId);
+		return new ModelAndView("page/admin/read", "member", member);
 	}
 }

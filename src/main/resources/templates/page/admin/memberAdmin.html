@@ -48,17 +48,15 @@
                     <th>PHONE</th>
                     <th>EMAIL</th>
                     <th>ADDRESS</th>
-                    <th>*</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr th:each="member : ${list}">
-                    <td th:text="${member.memberId}">아이디</td>
+                    <td><a th:href="@{/admin/read(memberId=${member.memberId})}" th:text="${member.memberId}">아이디</a></td>
                     <td th:text="${member.name}">이름</td>
                     <td th:text="${member.phone}">연락처</td>
                     <td th:text="${member.email}">이메일</td>
                     <td th:text="${member.addr}">주소</td>
-                    <td><button type="submit">삭제</button></td>
                   </tr>
                 </tbody>
               </table>
@@ -82,4 +80,12 @@
     <script type="text/javascript">$('#sampleTable').DataTable();</script>
     
 </body>
+	<script type="text/javascript">
+		$(function () {
+			$("#delete_btn").click(function () {
+				alert(1);
+			})	
+		})
+	</script>
+
 </html>
