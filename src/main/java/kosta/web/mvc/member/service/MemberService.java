@@ -30,4 +30,9 @@ public interface MemberService {
 	 * id로 해당회원의 권한 조회
 	 * */
 	List<Authorities> findAllByMemberId(String memberId);
+	
+	/**
+	 * id로 해당회원 삭제
+	 * */
+	void deletebyMemberId(String memberId);
 }

@@ -12,4 +12,9 @@ public interface MemberRepository extends JpaRepository<Member, String>{
 	
 	@Query(value = "SELECT * FROM MEMBER m WHERE m.MEMBER_ID = ?1", nativeQuery = true)
 	Member findByMemberId(String memberId);
+	
+	/*
+	 * @Query(value = "DELETE FROM MEMBER m WHERE m.MEMBER_ID = ?1", nativeQuery =
+	 * false) void deleteByMemberId(String memberId);
+	 */
 }

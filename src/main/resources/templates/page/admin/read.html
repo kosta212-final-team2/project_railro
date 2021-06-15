@@ -83,6 +83,10 @@
                 </div>
                 
                 	<button class="btn btn-info" type="button">권한수정</button>
+                	<form method="get" action="/admin/member/read/delete">
+                	<input class="form-control" name="memberId" th:value="${member.memberId}" type="hidden" readonly="readonly">
+                	<button class="btn btn-info" id="kick_out" type="submit">강제탈퇴</button>
+                	</form>
             </div>
           </div>
         </div>
@@ -97,7 +101,13 @@
     <script th:src="@{/js/main.js}"></script>
     <!-- The javascript plugin to display page loading on top-->
     <script th:src="@{/js/plugins/pace.min.js}"></script>
-	
+    <script type="text/javascript">
+    	$(function() {
+			$("#kick_out").click(function() {
+				alert(1)
+			})
+		})
+    </script>
 </body>
 	
 </html>

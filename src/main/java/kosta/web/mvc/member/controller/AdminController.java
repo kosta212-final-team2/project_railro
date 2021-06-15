@@ -39,4 +39,10 @@ public class AdminController {
 		
 		return "page/admin/read";
 	}
+	@RequestMapping("/member/read/delete")
+	public String delete(String memberId) {
+		
+		
+		return "/member";
+	}
 }
