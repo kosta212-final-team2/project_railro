@@ -6,7 +6,7 @@
 	<title>railro</title>
 	
 	<!-- config fragment -->
-	<th:block th:replace="fragment/config :: configFragment"></th:block>
+	<th:block th:replace="fragment/config :: configCssFragment"></th:block>
 </head>
 
 <body>
@@ -14,11 +14,15 @@
 	<!-- header fragment -->
 	<th:block th:replace="fragment/header :: headerFragment"></th:block>
 	
+	
 	<!-- content fragment : page -->
 	<th:block layout:fragment="content"></th:block>
 	
+	
 	<!-- footer fragment -->
 	<th:block th:replace="fragment/footer :: footerFragment"></th:block>
+	
+	<th:block th:replace="fragment/config :: configScriptFragment"></th:block>
 
 </body>
 </html>
