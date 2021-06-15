@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/default_layout}">
+<head>
+<title>free list</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Alex+Brush" rel="stylesheet">
+
+</head>
+<body>
+
+<div layout:fragment="content">
+	<!-- 사진 영역 -->
+	<div class="hero-wrap js-fullheight" th:style="'background: url('+@{/images/bg_3.jpg}+');'">
+	  <div class="overlay"></div>
+	  <div class="container">
+	    <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center" data-scrollax-parent="true">
+	      <div class="col-md-9 ftco-animate text-center" data-scrollax=" properties: { translateY: '70%' }">
+	        <p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-2"><a href="index.html">Home</a></span> <span>Blog</span></p>
+	        <h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Tips &amp; Articles</h1>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+<h3>글 목록</h3>
+    <table border=1>
+        <tr>
+            <th>글번호</th>
+            <th>제목</th>
+            <th>내용</th>
+            <th>등록일</th>
+            <th>조회수</th>
+            <th>추천수</th>
+        </tr>
+        <tr th:each="content : ${infoList}">
+            <td th:text="${content.infoBno}"></td>
+            <td th:text="${content.infoSubject}"></td>
+            <td th:text="${content.infoContent}"></td>
+            <td th:text="${content.infoReadnum}"></td>
+            <td th:text="${content.infoVote}"></td>
+            <td th:text="${content.memberId}"></td>
+        </tr>
+    </table>
+    <br><br><br><br><br><br><br><br><br><br><br><br>
+</div>
+
+<!-- loader -->
+<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+
+</body>
+</html>
