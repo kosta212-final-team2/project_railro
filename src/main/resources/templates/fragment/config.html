@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-	<th:block th:fragment="configFragment">
+	<th:block th:fragment="configCssFragment">
 	
 		<!-- 라이브러리 추가 -->		
 		<link rel="stylesheet" th:href="@{/css/open-iconic-bootstrap.min.css}">
@@ -21,6 +21,16 @@
 		<link rel="stylesheet" th:href="@{/css/icomoon.css}">
 		<link rel="stylesheet" th:href="@{/css/style.css}">
 		
+	 
+		
+		<!-- page의 css, script 요소 추가 -->
+		<th:block layout:fragment="css"></th:block>
+		
+		
+	
+	</th:block>
+	
+	<th:block th:fragment="configScriptFragment">
 		<script th:src="@{/js/jquery.min.js}"  ></script>
 	  <script th:src="@{/js/jquery-migrate-3.0.1.min.js}"  ></script>
 	  <script th:src="@{/js/popper.min.js}"  ></script>
@@ -39,14 +49,7 @@
 	  <!-- <script th:src="@{/}" src="js/google-map.js"></script> -->
 	  <script th:src="@{/js/main.js}"></script>
 	  
-	  
-	  
-		
-		<!-- page의 css, script 요소 추가 -->
-		<th:block layout:fragment="css"></th:block>
-		
-		<th:block layout:fragment="script"></th:block>
-	
+	  <th:block layout:fragment="script"></th:block>
 	</th:block>
 
 </html>
