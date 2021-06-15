@@ -37,4 +37,6 @@ public class DetailedPlan {
 	private int detailedOrder;
 	private String placeType;
 	private int travelTime;
+	private double placeLat;
+	private double placeLng;
 }
