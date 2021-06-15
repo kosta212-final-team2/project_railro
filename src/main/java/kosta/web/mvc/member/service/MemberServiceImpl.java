@@ -55,6 +55,15 @@ public class MemberServiceImpl implements MemberService {
 		return memberRepository.findByMemberId(memberId);
 	}
 
+	@Override
+	public Member update(Member member) {
+		member.setPwd(passwordEncoder.encode(member.getPwd()));
+		
+		return memberRepository.updateMember(member);
+	}
+	
+	
+
 	
 
 }

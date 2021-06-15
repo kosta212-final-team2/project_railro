@@ -29,4 +29,9 @@ public interface MemberService {
 	/**
 	 * id로 해당회원의 권한 조회
 	 * */
+	
+	/**
+	 * 회원정보 수정
+	 */
+	Member update(Member member);
 }

@@ -41,7 +41,7 @@ public class NaverLoginController {
   @RequestMapping("/naver")
   public String testNaver(HttpSession session, Model model) throws UnsupportedEncodingException, UnknownHostException {
 
-    String redirectURI = URLEncoder.encode("http://localhost:8000/naver/callback1", "UTF-8");
+    String redirectURI = URLEncoder.encode("http://localhost:8000/member/naver/callback1", "UTF-8");
 
     SecureRandom random = new SecureRandom();
     String state = new BigInteger(130, random).toString();
@@ -63,12 +63,12 @@ public class NaverLoginController {
    * @throws IOException
    * @throws ParseException
    */
-  @RequestMapping("/naver/callback")
+  @RequestMapping("/naver/callback1")
   public String naverCallback1(HttpSession session, HttpServletRequest request, Model model) throws IOException, ParseException {
 
     String code = request.getParameter("code");
     String state = request.getParameter("state");
-    String redirectURI = URLEncoder.encode("http://localhost:8000/naver/callback1", "UTF-8");
+    String redirectURI = URLEncoder.encode("http://localhost:8000/member/naver/callback1", "UTF-8");
 
     String apiURL;
     apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&";
@@ -90,6 +90,8 @@ public class NaverLoginController {
     } else {
       model.addAttribute("res", "Login failed!");
     }
+    
+    System.out.println("---------------------------");
     return "page/member/callback";
   }
 

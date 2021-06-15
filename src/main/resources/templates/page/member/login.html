@@ -119,6 +119,8 @@ ul{list-style:none; }
         <div th:if="${isTodoAssignNaver}">
         	<h3>네이버 연동이 되지 않았습니다. 로그인하면 네이버와 연동하는 메뉴가 나오고, 회원가입을 누르고 완료하면 연동 메뉴가 나타납니다.</h3>
         </div>
+        
+        
         <div style="font-size: 40; font-style: oblique; color: navy;" align="center" >Welcome to Railo</div>
         
         <h2 class="sub_tit_txt" style="margin-top: 20">로그인</h2>
@@ -169,10 +171,10 @@ ul{list-style:none; }
                 <div th:if="${session.currentUser ne null}">
     <h3>이 부분은 로그인한 사용자한테만 보임</h3>
     <pre th:text="${session.currentUser}"></pre>
-    <a th:href="${'/naver/getProfile?accessToken=' + session.currentAT}">Get User's Profile</a>
-    <a th:href="${'/naver/refreshToken?refreshToken=' + session.currentRT}">Refresh Token</a>
-    <a th:href="${'/naver/deleteToken?accessToken=' + session.currentAT}">Delete Token</a>
-    <a href="/naver/invalidate">로그아웃 (Invalidate Session)</a>
+    <a th:href="${'/member/naver/getProfile?accessToken=' + session.currentAT}">Get User's Profile</a>
+    <a th:href="${'/member/naver/refreshToken?refreshToken=' + session.currentRT}">Refresh Token</a>
+    <a th:href="${'/member/naver/deleteToken?accessToken=' + session.currentAT}">Delete Token</a>
+    <a href="/member/naver/invalidate">로그아웃 (Invalidate Session)</a>
   </div>
                 
                 <input type="hidden" th:value="${isTodoAssignNaver ne null and isTodoAssignNaver ? 'naver' : 'none'}" name="oauth-handler">

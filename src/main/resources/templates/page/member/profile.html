@@ -107,11 +107,7 @@
                 <form>
                   <div class="row mb-4">
                     <div class="col-md-4">
-                      <label>First Name</label>
-                      <input class="form-control" type="text">
-                    </div>
-                    <div class="col-md-4">
-                      <label>Last Name</label>
+                      <label>Name</label>
                       <input class="form-control" type="text">
                     </div>
                   </div>
@@ -122,24 +118,47 @@
                     </div>
                     <div class="clearfix"></div>
                     <div class="col-md-8 mb-4">
-                      <label>Mobile No</label>
+                      <label>Address</label>
                       <input class="form-control" type="text">
                     </div>
                     <div class="clearfix"></div>
                     <div class="col-md-8 mb-4">
-                      <label>Office Phone</label>
+                      <label>Phone</label>
                       <input class="form-control" type="text">
                     </div>
                     <div class="clearfix"></div>
                     <div class="col-md-8 mb-4">
-                      <label>Home Phone</label>
+                      <label>Password</label>
                       <input class="form-control" type="text">
                     </div>
+            <div class="tm-bg-primary-dark tm-block tm-block-avatar" style="position: absolute; top : 50px; right: 100px;">
+              <h2  class="tm-block-title">Change Avatar</h2>
+              <div class="tm-avatar-container">
+                <img
+                  src="/avatar.png"
+                  alt="Avatar"
+                  class="tm-avatar img-fluid mb-4"
+                />
+                <a href="#" class="tm-avatar-delete-link">
+                  <i class="far fa-trash-alt tm-product-delete-icon"></i>
+                </a>
+              </div>
+              <button class="btn btn-primary btn-block text-uppercase">
+                Upload New Photo
+              </button>
+            </div>
                   </div>
                   <div class="row mb-10">
                     <div class="col-md-12">
                       <button class="btn btn-primary" type="button"><i class="fa fa-fw fa-lg fa-check-circle"></i> Save</button>
+                    <button onclick="history.back;return"
+                    type="submit" style="float: right;size: 50"
+                    class="btn btn-primary text-uppercase"
+                  >
+                    Delete Your Account
+                  </button>
                     </div>
+                    
                   </div>
                 </form>
               </div>
