@@ -17,7 +17,7 @@ public class MemberAuthenticationFailureHandler implements AuthenticationFailure
 			AuthenticationException exception) throws IOException, ServletException {
 		System.out.println("MemberAuthenticationFailureHandler 호출");
 		request.setAttribute("errorMessage", exception.getMessage());
-		request.getRequestDispatcher("/").forward(request, response);
+		request.getRequestDispatcher("/member/loginForm").forward(request, response);
 	}
 
 }
