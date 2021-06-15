@@ -22,5 +22,7 @@ public interface StationService {
 	
 	
 	Station selectById(int id);
+	
+	List<Station> selectByKeyword(String keyword);
 
 }

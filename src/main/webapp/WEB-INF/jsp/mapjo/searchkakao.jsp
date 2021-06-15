@@ -1,34 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-<title>간단한 지도 표시하기</title>
-<script type="text/javascript"
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1ede33f5c81efd47fccd6dc5201a8a50"></script>
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1ede33f5c81efd47fccd6dc5201a8a50&libraries=services,clusterer,drawing"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
-<style type="text/css">
-body {
-	margin: 0px
-}
+<title>키워드로 장소검색하고 목록으로 표출하기</title>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1ede33f5c81efd47fccd6dc5201a8a50&libraries=services,clusterer,drawing"></script>
 
-#map {
-	width: 100%;
-	height: 500px
-}
-</style>
-
-<style>
+ <style>
 .map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
 .map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
 .map_wrap {position:relative;width:100%;height:500px;}
@@ -69,14 +52,9 @@ body {
 		body{margin: 0px}
 	
 </style>
-
 </head>
 <body>
-	
-	station : ${stationDetail.station}
-	<br> lat : ${stationDetail.lat}
-	<br> lng : ${stationDetail.lng}
-		<div class="map_wrap">
+	<div class="map_wrap">
 		<div id="map"
 			style="width: 100vm; height:100vh; position: relative; overflow: hidden;"></div>
 
@@ -94,14 +72,16 @@ body {
 			<div id="pagination"></div>
 		</div>
 </div>
-	    
-<script>
+
+
+
+	<script>
 		// 마커를 담을 배열입니다
 		var markers = [];
 
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		mapOption = {
-			center : new kakao.maps.LatLng(${stationDetail.lat}, ${stationDetail.lng}), // 지도의 중심좌표
+			center : new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
 			level : 3
 		// 지도의 확대 레벨
 		};
@@ -318,28 +298,12 @@ body {
 			}
 		}
 	</script>
-	
+
+
+
+
+
+
+
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

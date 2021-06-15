@@ -32,4 +32,11 @@ public class StationServiceImpl implements StationService {
 		return stationRepository.findById(id).orElse(null);
 	}
 
+	@Override
+	public List<Station> selectByKeyword(String keyword) {
+		
+		
+		return stationRepository.findByStationContaining(keyword);
+	}
+
 }

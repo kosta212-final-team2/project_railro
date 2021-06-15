@@ -33,6 +33,18 @@ public class MapjoAjaxController {
 	}
 	
 	
+	/**
+	 * 역검색해서 리스트로 보여주기 
+	 * */
+	@RequestMapping(value = "/stationMarker")
+	public List<Station> stationMarker(String keyword) {
+		
+		List<Station> list = stationService.selectByKeyword(keyword);
+
+		return list;
+	}
+	
+	
 	
 	@RequestMapping(value= "/searchByKeyword")
 	public String searchByKeyword(String keyword) {

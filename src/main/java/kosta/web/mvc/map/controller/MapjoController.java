@@ -35,7 +35,7 @@ public class MapjoController {
 		
 		Station stationDetail = stationService.selectById(id);
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("mapjo/read");
+		mv.setViewName("mapjo/read2");
 		mv.addObject("stationDetail", stationDetail);
 		return mv;
 		
@@ -74,15 +74,30 @@ public class MapjoController {
 	/**
 	 * search by keyword
 	 * */
+	@RequestMapping("/search")
+	public void search() {
+		
+	}
+	
+	/**
+	 * search by keyword
+	 * */
 	@RequestMapping("/myro")
 	public void myro() {
 		
 	}
 	/**
-	 * search by keyword
+	 * kakao test
 	 * */
-	@RequestMapping("/myro2")
-	public void myro2() {
+	@RequestMapping("/myro3")
+	public void myro3() {
+		
+	}
+	/**
+	 * kakao test
+	 * */
+	@RequestMapping("/stationMarker")
+	public void stationMarker() {
 		
 	}
 	
