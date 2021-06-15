@@ -42,7 +42,7 @@
     </style>
   </head>
   <body class="app sidebar-mini rtl">
-    
+    <th:block th:replace="fragment/header :: headerFragment"></th:block>
     
     <main class="app-content">
       <div class="row user">
@@ -152,5 +152,7 @@
     <script th:src="@{/js/popper.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <script th:src="@{/js/main.js}"></script>
+    
+    <th:block th:replace="fragment/footer :: footerFragment"></th:block>
 </body>
 </html>

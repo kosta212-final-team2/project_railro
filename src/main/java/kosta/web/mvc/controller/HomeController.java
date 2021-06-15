@@ -14,8 +14,8 @@ public class HomeController {
 	@RequestMapping("/")
 	public String index() {
 		System.out.println("call testpage");
-		
-		return "page/index"; // WEB-INF/views/testpage.jsp
+
+		return "page/index"; // resources/templates/page/index.html
 	}
 	
 	@RequestMapping("/loginSuccess")

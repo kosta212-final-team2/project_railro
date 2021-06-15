@@ -54,6 +54,7 @@ public class MemberServiceImpl implements MemberService {
 		
 		return memberRepository.findByMemberId(memberId);
 	}
+
 	
 
 }
