@@ -33,238 +33,240 @@ import kosta.web.mvc.member.domain.OauthId;
 @RequestMapping("/member")
 public class NaverLoginController {
 
-  private String CLIENT_ID = "9SxeotjOrDqv6uYd3S9c"; //애플리케이션 클라이언트 아이디값";
-  private String CLI_SECRET = "WMfFi6q5um"; //애플리케이션 클라이언트 시크릿값";
-  
-  
-  /**
-   * 로그인 화면이 있는 페이지 컨트롤
-   * @param session
-   * @param model
-   * @return
-   * @throws UnsupportedEncodingException
-   * @throws UnknownHostException 
-   */
-  @RequestMapping("/naver")
-  public String testNaver(HttpSession session, Model model) throws UnsupportedEncodingException, UnknownHostException {
+	private String CLIENT_ID = "9SxeotjOrDqv6uYd3S9c"; // 애플리케이션 클라이언트 아이디값";
+	private String CLI_SECRET = "WMfFi6q5um"; // 애플리케이션 클라이언트 시크릿값";
 
-    String redirectURI = URLEncoder.encode("http://localhost:8000/member/naver/callback1", "UTF-8");
+	/**
+	 * 로그인 화면이 있는 페이지 컨트롤
+	 * 
+	 * @param session
+	 * @param model
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 * @throws UnknownHostException
+	 */
+	@RequestMapping("/naver")
+	public String testNaver(HttpSession session, Model model)
+			throws UnsupportedEncodingException, UnknownHostException {
 
-    SecureRandom random = new SecureRandom();
-    String state = new BigInteger(130, random).toString();
-    String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
-    apiURL += String.format("&client_id=%s&redirect_uri=%s&state=%s",
-        CLIENT_ID, redirectURI, state);
-    session.setAttribute("state", state);
+		String redirectURI = URLEncoder.encode("http://localhost:8000/member/naver/callback1", "UTF-8");
 
-    model.addAttribute("apiURL", apiURL);
-    return "page/member/naverlogin";
-  }
+		SecureRandom random = new SecureRandom();
+		String state = new BigInteger(130, random).toString();
+		String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
+		apiURL += String.format("&client_id=%s&redirect_uri=%s&state=%s", CLIENT_ID, redirectURI, state);
+		session.setAttribute("state", state);
 
-  /**
-   * 콜백 페이지 컨트롤러
-   * @param session
-   * @param request
-   * @param model
-   * @return
-   * @throws IOException
-   * @throws ParseException
-   */
-  @RequestMapping("/naver/callback1")
-  public String naverCallback1(HttpSession session, HttpServletRequest request, Model model) throws IOException, ParseException {
+		model.addAttribute("apiURL", apiURL);
+		return "page/member/naverlogin";
+	}
 
-    String code = request.getParameter("code");
-    String state = request.getParameter("state");
-    String redirectURI = URLEncoder.encode("http://localhost:8000/member/naver/callback1", "UTF-8");
+	/**
+	 * 콜백 페이지 컨트롤러
+	 * 
+	 * @param session
+	 * @param request
+	 * @param model
+	 * @return
+	 * @throws IOException
+	 * @throws ParseException
+	 */
+	@RequestMapping("/naver/callback1")
+	public String naverCallback1(HttpSession session, HttpServletRequest request, Model model)
+			throws IOException, ParseException {
 
-    String apiURL;
-    apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&";
-    apiURL += "client_id=" + CLIENT_ID;
-    apiURL += "&client_secret=" + CLI_SECRET;
-    apiURL += "&redirect_uri=" + redirectURI;
-    apiURL += "&code=" + code;
-    apiURL += "&state=" + state;
-    System.out.println("apiURL=" + apiURL);
+		String code = request.getParameter("code");
+		String state = request.getParameter("state");
+		String redirectURI = URLEncoder.encode("http://localhost:8000/member/naver/callback1", "UTF-8");
 
-    String res = requestToServer(apiURL);
-    if(res != null && !res.equals("")) {
-      model.addAttribute("res", res);
-      Map<String, Object> parsedJson = new JSONParser(res).parseObject();
-      System.out.println(parsedJson);
-      session.setAttribute("currentUser", res);
-      session.setAttribute("currentAT", parsedJson.get("access_token"));
-      session.setAttribute("currentRT", parsedJson.get("refresh_token"));
-      
-    } else {
-      model.addAttribute("res", "Login failed!");
-    }
-    
-    System.out.println("---------------------------");
-    return "page/member/callback";
-  }
+		String apiURL;
+		apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&";
+		apiURL += "client_id=" + CLIENT_ID;
+		apiURL += "&client_secret=" + CLI_SECRET;
+		apiURL += "&redirect_uri=" + redirectURI;
+		apiURL += "&code=" + code;
+		apiURL += "&state=" + state;
+		System.out.println("apiURL=" + apiURL);
 
-  /**
-   * 토큰 갱신 요청 페이지 컨트롤러
-   * @param session
-   * @param request
-   * @param model
-   * @param refreshToken
-   * @return
-   * @throws IOException
-   * @throws ParseException
-   */
-  @RequestMapping("/naver/refreshToken")
-  public String refreshToken(HttpSession session, HttpServletRequest request, Model model, String refreshToken) throws IOException, ParseException {
+		String res = requestToServer(apiURL);
+		if (res != null && !res.equals("")) {
+			model.addAttribute("res", res);
+			Map<String, Object> parsedJson = new JSONParser(res).parseObject();
+			System.out.println(parsedJson);
+			session.setAttribute("currentUser", res);
+			session.setAttribute("currentAT", parsedJson.get("access_token"));
+			session.setAttribute("currentRT", parsedJson.get("refresh_token"));
 
-    String apiURL;
+		} else {
+			model.addAttribute("res", "Login failed!");
+		}
 
-    apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=refresh_token&";
-    apiURL += "client_id=" + CLIENT_ID;
-    apiURL += "&client_secret=" + CLI_SECRET;
-    apiURL += "&refresh_token=" + refreshToken;
+		System.out.println("---------------------------");
+		return "page/member/callback";
+	}
 
-    System.out.println("apiURL=" + apiURL);
+	/**
+	 * 토큰 갱신 요청 페이지 컨트롤러
+	 * 
+	 * @param session
+	 * @param request
+	 * @param model
+	 * @param refreshToken
+	 * @return
+	 * @throws IOException
+	 * @throws ParseException
+	 */
+	@RequestMapping("/naver/refreshToken")
+	public String refreshToken(HttpSession session, HttpServletRequest request, Model model, String refreshToken)
+			throws IOException, ParseException {
 
-    String res = requestToServer(apiURL);
-    model.addAttribute("res", res);
-    session.invalidate();
-    return "page/member/callback";
-  }
+		String apiURL;
 
-  /**
-   * 토큰 삭제 컨트롤러
-   * @param session
-   * @param request
-   * @param model
-   * @param accessToken
-   * @return
-   * @throws IOException
-   */
-  @RequestMapping("/naver/deleteToken")
-  public String deleteToken(HttpSession session, HttpServletRequest request, Model model, String accessToken) throws IOException {
+		apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=refresh_token&";
+		apiURL += "client_id=" + CLIENT_ID;
+		apiURL += "&client_secret=" + CLI_SECRET;
+		apiURL += "&refresh_token=" + refreshToken;
 
-    String apiURL;
+		System.out.println("apiURL=" + apiURL);
 
-    apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=delete&";
-    apiURL += "client_id=" + CLIENT_ID;
-    apiURL += "&client_secret=" + CLI_SECRET;
-    apiURL += "&access_token=" + accessToken;
-    apiURL += "&service_provider=NAVER";
+		String res = requestToServer(apiURL);
+		model.addAttribute("res", res);
+		session.invalidate();
+		return "page/member/callback";
+	}
 
-    System.out.println("apiURL=" + apiURL);
+	/**
+	 * 토큰 삭제 컨트롤러
+	 * 
+	 * @param session
+	 * @param request
+	 * @param model
+	 * @param accessToken
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping("/naver/deleteToken")
+	public String deleteToken(HttpSession session, HttpServletRequest request, Model model, String accessToken)
+			throws IOException {
 
-    String res = requestToServer(apiURL);
-    model.addAttribute("res", res);
-    session.invalidate();
-    return "page/member/callback";
-  }
+		String apiURL;
 
-  /**
-   * 액세스 토큰으로 네이버에서 프로필 받기
-   * @param accessToken
-   * @return
-   * @throws IOException
-   */
-  @ResponseBody
-  @RequestMapping("/naver/getProfile")
-  public String getProfileFromNaver(String accessToken) throws IOException {
+		apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=delete&";
+		apiURL += "client_id=" + CLIENT_ID;
+		apiURL += "&client_secret=" + CLI_SECRET;
+		apiURL += "&access_token=" + accessToken;
+		apiURL += "&service_provider=NAVER";
 
-    // 네이버 로그인 접근 토큰;
-    String apiURL = "https://openapi.naver.com/v1/nid/me";
-    String headerStr = "Bearer " + accessToken; // Bearer 다음에 공백 추가
-    String res = requestToServer(apiURL, headerStr);
-    return res;
-  }
+		System.out.println("apiURL=" + apiURL);
 
-  /**
-   * 세션 무효화(로그아웃)
-   * @param session
-   * @return
-   */
-  @RequestMapping("/naver/invalidate")
-  public String invalidateSession(HttpSession session) {
-    session.invalidate();
-    return "redirect:/naver";
-  }
+		String res = requestToServer(apiURL);
+		model.addAttribute("res", res);
+		session.invalidate();
+		return "page/member/callback";
+	}
 
-  /**
-   * 서버 통신 메소드
-   * @param apiURL
-   * @return
-   * @throws IOException
-   */
-  private String requestToServer(String apiURL) throws IOException {
-    return requestToServer(apiURL, "");
-  }
+	/**
+	 * 액세스 토큰으로 네이버에서 프로필 받기
+	 * 
+	 * @param accessToken
+	 * @return
+	 * @throws IOException
+	 */
+	@ResponseBody
+	@RequestMapping("/naver/getProfile")
+	public String getProfileFromNaver(String accessToken) throws IOException {
 
-  /**
-   * 서버 통신 메소드
-   * @param apiURL
-   * @param headerStr
-   * @return
-   * @throws IOException
-   */
-  private String requestToServer(String apiURL, String headerStr) throws IOException {
-    URL url = new URL(apiURL);
-    HttpURLConnection con = (HttpURLConnection)url.openConnection();
-    con.setRequestMethod("GET");
+		// 네이버 로그인 접근 토큰;
+		String apiURL = "https://openapi.naver.com/v1/nid/me";
+		String headerStr = "Bearer " + accessToken; // Bearer 다음에 공백 추가
+		String res = requestToServer(apiURL, headerStr);
+		return res;
+	}
 
-    System.out.println("header Str: " + headerStr);
-    if(headerStr != null && !headerStr.equals("") ) {
-      con.setRequestProperty("Authorization", headerStr);
-    }
+	/**
+	 * 세션 무효화(로그아웃)
+	 * 
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping("/naver/invalidate")
+	public String invalidateSession(HttpSession session) {
+		session.invalidate();
+		return "redirect:/naver";
+	}
 
-    int responseCode = con.getResponseCode();
-    BufferedReader br;
+	/**
+	 * 서버 통신 메소드
+	 * 
+	 * @param apiURL
+	 * @return
+	 * @throws IOException
+	 */
+	private String requestToServer(String apiURL) throws IOException {
+		return requestToServer(apiURL, "");
+	}
 
-    System.out.println("responseCode="+responseCode);
+	/**
+	 * 서버 통신 메소드
+	 * 
+	 * @param apiURL
+	 * @param headerStr
+	 * @return
+	 * @throws IOException
+	 */
+	private String requestToServer(String apiURL, String headerStr) throws IOException {
+		URL url = new URL(apiURL);
+		HttpURLConnection con = (HttpURLConnection) url.openConnection();
+		con.setRequestMethod("GET");
 
-    if(responseCode == 200) { // 정상 호출
-      br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-    } else {  // 에러 발생
-      br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-    }
-    String inputLine;
-    StringBuffer res = new StringBuffer();
-    while ((inputLine = br.readLine()) != null) {
-      res.append(inputLine);
-    }
-    br.close();
-    if(responseCode==200) {
-      return res.toString();
-    } else {
-      return null;
-    }
+		System.out.println("header Str: " + headerStr);
+		if (headerStr != null && !headerStr.equals("")) {
+			con.setRequestProperty("Authorization", headerStr);
+		}
 
-  }
-  /**
-   * 네이버 계정을 oauth_id 테이블에 할당
-   */
-  @PostMapping("/oauth/assign/naver")
-  public String addRowToOAuthTableForNaver(HttpSession session, Authentication auth, Model model, String uniqueId) {
-    String username = auth.getName();
-    String provider = "naver";
-    OauthId infoOAuth = sud.getOAuthInfoByProviderAndUniqueId(uniqueId);
-    int resultCode = 0;
-    if(infoOAuth.size() == 0) {
-      Map<String, String> aRow = new HashMap<>();
-      aRow.put("username", username);
-      aRow.put("provider", provider);
-      aRow.put("unique_id", uniqueId);
-      resultCode = sud.insertAnUserOAuth(aRow);
-      if(resultCode <= 0) {
-        session.setAttribute("currentNaverUser", null);
-      }
-      model.addAttribute("task", "assign-naver");
-      model.addAttribute("resultCode", resultCode);
-    }
-    return "redirect:/";
-  }
+		int responseCode = con.getResponseCode();
+		BufferedReader br;
 
-  
-  @RequestMapping("/naverRegister")
-  public String naverRegister() {
-	  
-	  return "page/member/naverRegister";
-  }
+		System.out.println("responseCode=" + responseCode);
+
+		if (responseCode == 200) { // 정상 호출
+			br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		} else { // 에러 발생
+			br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+		}
+		String inputLine;
+		StringBuffer res = new StringBuffer();
+		while ((inputLine = br.readLine()) != null) {
+			res.append(inputLine);
+		}
+		br.close();
+		if (responseCode == 200) {
+			return res.toString();
+		} else {
+			return null;
+		}
+
+	}
+
+	/**
+	 * 네이버 계정을 oauth_id 테이블에 할당
+	 *//*
+		 * @PostMapping("/oauth/assign/naver") public String
+		 * addRowToOAuthTableForNaver(HttpSession session, Authentication auth, Model
+		 * model, String uniqueId) { String username = auth.getName(); String provider =
+		 * "naver"; OauthId infoOAuth = sud.getOAuthInfoByProviderAndUniqueId(uniqueId);
+		 * int resultCode = 0; if(infoOAuth.size() == 0) { Map<String, String> aRow =
+		 * new HashMap<>(); aRow.put("username", username); aRow.put("provider",
+		 * provider); aRow.put("unique_id", uniqueId); resultCode =
+		 * sud.insertAnUserOAuth(aRow); if(resultCode <= 0) {
+		 * session.setAttribute("currentNaverUser", null); } model.addAttribute("task",
+		 * "assign-naver"); model.addAttribute("resultCode", resultCode); } return
+		 * "redirect:/"; }
+		 */
+
+	@RequestMapping("/naverRegister")
+	public String naverRegister() {
+
+		return "page/member/naverRegister";
+	}
 }

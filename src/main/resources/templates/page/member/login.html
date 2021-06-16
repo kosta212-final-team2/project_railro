@@ -157,8 +157,6 @@ ul{list-style:none; }
             	<div align="right">
             		<a th:href="@{/member/registerForm}" th:unless="${isTodoAssignNaver}">회원가입</a>
             	<br>
-            		<span class="register_t"><a th:href="@{/member/registerForm}" th:unless="${isTodoAssignNaver}">회원가입</a></span>
-            		<a th:href="@{/signup?isTodoAssignNaver=true}" th:if="${isTodoAssignNaver}">회원가입 (isTodoAssignNaver)</a>
             	</div>
                 
                 <div align="right" class="form-actions">

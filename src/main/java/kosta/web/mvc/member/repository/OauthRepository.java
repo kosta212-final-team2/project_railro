@@ -8,7 +8,7 @@ import kosta.web.mvc.member.domain.OauthId;
 public interface OauthRepository extends JpaRepository<OauthId, String> {
 
 	
-	@Query(value= "select * from oauth_id where naver_id=?1")
+	@Query(value= "select * from oauth_id where naver_id=?1", nativeQuery = true)
 	OauthId login(String oauthId);
 	
 }
