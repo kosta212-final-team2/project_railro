@@ -52,7 +52,7 @@ public class InfoBoardController {
 		
 		infoService.insert(board);
 		
-		return "redirect://page/board/info/list";
+		return "redirect:/board/info/list";
 		
 	}
 }
