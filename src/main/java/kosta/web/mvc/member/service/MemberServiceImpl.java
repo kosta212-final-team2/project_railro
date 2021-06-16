@@ -55,8 +55,6 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public Member findByMemberId(String memberId) {
-	
-		
 		return memberRepository.findByMemberId(memberId);
 	}
 
@@ -81,7 +79,15 @@ public class MemberServiceImpl implements MemberService {
 	
 	
 	
-	
+	public List<Authorities> findAllByMemberId(String memberId) {
+		return authoritiesRepository.findAllByMemberId(memberId);
+	}
+
+	@Override
+	public void deletebyMemberId(String memberId) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	
 

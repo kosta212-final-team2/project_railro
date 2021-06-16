@@ -39,4 +39,10 @@ public interface MemberService {
 	void naverMemberInsert(Member member);
 	
 	void naverOauthInsert(OauthId oauthId);
+	List<Authorities> findAllByMemberId(String memberId);
+	
+	/**
+	 * id로 해당회원 삭제
+	 * */
+	void deletebyMemberId(String memberId);
 }

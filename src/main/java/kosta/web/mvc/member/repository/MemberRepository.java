@@ -15,4 +15,9 @@ public interface MemberRepository extends JpaRepository<Member, String>{
 	
 	@Query(value = "UPDATE * FROM MEMBER m WHERE m.MEMBER_ID = ?1", nativeQuery = true)
 	Member updateMember(Member member);
+	
+	/*
+	 * @Query(value = "DELETE FROM MEMBER m WHERE m.MEMBER_ID = ?1", nativeQuery =
+	 * false) void deleteByMemberId(String memberId);
+	 */
 }

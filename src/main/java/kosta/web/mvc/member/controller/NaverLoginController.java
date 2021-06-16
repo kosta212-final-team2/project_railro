@@ -244,7 +244,7 @@ public class NaverLoginController {
   public String addRowToOAuthTableForNaver(HttpSession session, Authentication auth, Model model, String uniqueId) {
     String username = auth.getName();
     String provider = "naver";
-    List<Map<String, String>> infoOAuth = sud.getOAuthInfoByProviderAndUniqueId(provider, uniqueId);
+    OauthId infoOAuth = sud.getOAuthInfoByProviderAndUniqueId(uniqueId);
     int resultCode = 0;
     if(infoOAuth.size() == 0) {
       Map<String, String> aRow = new HashMap<>();
