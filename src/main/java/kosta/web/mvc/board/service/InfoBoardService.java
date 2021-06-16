@@ -18,4 +18,9 @@ public interface InfoBoardService {
 	 * 전체검색 - Page처리
 	 * */
 	Page<InfoBoard> selectAll(Pageable pageable);
+	
+	/**
+	 * 등록
+	 */
+	void insert(InfoBoard board);
 }

@@ -30,10 +30,14 @@ public class InfoBoard {
 	private Long infoBno; // 글번호
 	private String infoSubject; // 제목
 	private String infoContent; // 내용
-	private int infoReadnum; // 조회수
-	private int infoVote; // 추천수
 	private String memberId; // 작성자 아이디
 	
 	@CreationTimestamp
 	private LocalDateTime infoRegdate; // 등록일
+	private int infoReadnum; // 조회수
+	private int infoVote; // 추천수
+	
+	public InfoBoard(Long infoBno) {
+		this.infoBno = infoBno;
+	}
 }
