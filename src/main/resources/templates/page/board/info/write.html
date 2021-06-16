@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/layout/default_layout}">
 <head>
-<title>info list</title>
+<title>info write</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -12,16 +12,27 @@
 <link href="https://fonts.googleapis.com/css?family=Alex+Brush" rel="stylesheet">
 
 <style type="text/css">
-	table {
-		table-layout: fixed;
-	}
-	th, td {
+	#aa {
 		text-align: center;
 	}
 </style>
 
+<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<script th:inline="javascript">
+	$(function() {
+		//alert(1);
+		$('#cancelBtn').click(function() {
+			if(confirm("정말 취소하시겠습니까?\n작성하신 내용은 저장되지 않습니다")) {
+				// 취소버튼 누르고, 예를 누름
+				location.href=/*[[@{/board/info/list}]]*/;
+			};
+		});
+	});
+</script>
 </head>
 <body>
+
+
 
 <div layout:fragment="content">
 	<!-- 사진 영역 -->
@@ -37,50 +48,26 @@
 	  </div>
 	</div>
 
-		<section class="ftco-section bg-light">
+		<section class="ftco-section">
 			<div class="container">
 				<div class="row d-flex">
-					<table class="table thead-dark">
-						<colgroup>
-							<col width="6%">
-							<col width="15%">
-							<col width="52%">
-							<col width="15%">
-							<col width="6%">
-							<col width="6%">
-						</colgroup>
-						<tr>
-							<th>글번호</th>
-							<th>작성자</th>
-							<th>제목</th>
-							<th>등록일</th>
-							<th>조회수</th>
-							<th>추천수</th>
-						</tr>
-						<tr th:each="content : ${infoList}">
-							<td th:text="${content.infoBno}"></td>
-							<td th:text="${content.memberId}"></td>
-							<td style="text-align: left;" th:text="${content.infoSubject}"></td>
-							<td th:text="${#strings.substring(content.infoRegdate, 0, 10)}"></td>
-							<td th:text="${content.infoReadnum}"></td>
-							<td th:text="${content.infoVote}"></td>
-						</tr>
-					</table>
-					<a th:href="@{/board/info/write}" class="btn">글쓰기</a>
-				</div>
-				<div class="row mt-5">
-					<div class="col text-center">
-						<div class="block-27">
-							<ul>
-								<li><a href="#">&lt;</a></li>
-								<li class="active"><span>1</span></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-								<li><a href="#">&gt;</a></li>
-							</ul>
-						</div>
+					<div class="col-md-12">
+						<form name="writeForm" method="post" th:action="@{/board/info/insert}">
+							<input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+							
+							<!-- <input type="hidden" name="memberId" value="${session.memberId}"> -->
+							<input type="hidden" name="memberId" value="test1">
+							<div class="form-group">
+									<input type="text" name="infoSubject" class="form-control" placeholder="글 제목">
+						  </div>
+						  <div class="form-group">
+						    <textarea name="infoContent" cols="30" rows="7" class="form-control" placeholder="내용"></textarea>
+						  </div>
+						  <div id="aa">
+						  	<input type="submit" class="btn btn-primary py-3 px-5" value="등록">
+						    <a id="cancelBtn" class="btn btn-light py-3 px-5">취소</a>
+						  </div>
+						</form>
 					</div>
 				</div>
 			</div>

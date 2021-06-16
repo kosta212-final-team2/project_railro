@@ -29,4 +29,9 @@ public class InfoBoardServiceImpl implements InfoBoardService {
 		return infoRepository.findAll(pageable);
 	}
 
+	@Override
+	public void insert(InfoBoard board) {
+		infoRepository.save(board);
+	}
+
 }
