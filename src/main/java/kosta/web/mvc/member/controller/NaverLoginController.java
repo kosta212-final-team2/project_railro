@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.tomcat.util.json.JSONParser;
 import org.apache.tomcat.util.json.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import kosta.web.mvc.member.domain.Member;
 import kosta.web.mvc.member.domain.OauthId;
+import kosta.web.mvc.member.service.OauthIdService;
 
 @Controller
 @RequestMapping("/member")
@@ -36,6 +38,8 @@ public class NaverLoginController {
 	private String CLIENT_ID = "9SxeotjOrDqv6uYd3S9c"; // 애플리케이션 클라이언트 아이디값";
 	private String CLI_SECRET = "WMfFi6q5um"; // 애플리케이션 클라이언트 시크릿값";
 
+	@Autowired
+	OauthIdService oauthIdService;
 	/**
 	 * 로그인 화면이 있는 페이지 컨트롤
 	 * 
@@ -90,13 +94,36 @@ public class NaverLoginController {
 
 		String res = requestToServer(apiURL);
 		if (res != null && !res.equals("")) {
+			
 			model.addAttribute("res", res);
 			Map<String, Object> parsedJson = new JSONParser(res).parseObject();
 			System.out.println(parsedJson);
+			
+			if(parsedJson.get("access_token") != null) {
+				String infoStr = getProfileFromNaver(parsedJson.get("access_token").toString());
+				Map<String, Object> infoMap = new JSONParser(infoStr).parseObject();
+				if(infoMap.get("message").equals("success")) {
+					Map<String, Object> infoResp = (Map<String, Object>) infoMap.get("response");
+					String uniqueId = infoResp.get("id").toString();
+					System.out.println(uniqueId);
+					OauthId oauthId= oauthIdService.findOauthIdByNaverId(uniqueId);
+					
+					if(oauthId == null) {
+						System.out.println("네이버 연동정보 없음");
+						model.addAttribute("isConnectedToNaver", false);
+						model.addAttribute("uniqueIdOfNaver", uniqueId);
+					}else {
+						System.out.println(oauthId);
+						model.addAttribute("isConnectedToNaver", true);
+					}
+					
+				}
+			}
 			session.setAttribute("currentUser", res);
 			session.setAttribute("currentAT", parsedJson.get("access_token"));
 			session.setAttribute("currentRT", parsedJson.get("refresh_token"));
-
+			
+			model.addAttribute("res", res);
 		} else {
 			model.addAttribute("res", "Login failed!");
 		}
@@ -253,8 +280,10 @@ public class NaverLoginController {
 	 *//*
 		 * @PostMapping("/oauth/assign/naver") public String
 		 * addRowToOAuthTableForNaver(HttpSession session, Authentication auth, Model
-		 * model, String uniqueId) { String username = auth.getName(); String provider =
-		 * "naver"; OauthId infoOAuth = sud.getOAuthInfoByProviderAndUniqueId(uniqueId);
+		 * model, String uniqueId) { 
+		 * String username = auth.getName(); 
+		 * String provider = "naver"; 
+		 * OauthId infoOAuth = sud.getOAuthInfoByProviderAndUniqueId(uniqueId);
 		 * int resultCode = 0; if(infoOAuth.size() == 0) { Map<String, String> aRow =
 		 * new HashMap<>(); aRow.put("username", username); aRow.put("provider",
 		 * provider); aRow.put("unique_id", uniqueId); resultCode =
