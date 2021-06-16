@@ -13,5 +13,7 @@ public interface DetailedPlanService {
 	public void update(DetailedPlan dplan);
 	
 	public List<DetailedPlan> findByStaionPlan(int i);
+	
+	public void updateAll(DetailedPlanList list,int stationPlanNum);
 
 }

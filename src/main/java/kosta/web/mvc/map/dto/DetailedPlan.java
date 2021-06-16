@@ -26,10 +26,10 @@ public class DetailedPlan {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "detailed_plan_sequence")
 	@SequenceGenerator(sequenceName = "detailed_plan_sequence",allocationSize = 1,name = "detailed_plan_sequence")
-	private int detatiledPlanId;
+	private int detailedPlanId;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "stationPlanNum" )
+	@ManyToOne
+	@JoinColumn(name = "station_plan_num" )
 	private StationPlan stationPlan;
 	
 	private String placeName;

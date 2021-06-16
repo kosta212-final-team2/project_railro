@@ -14,9 +14,10 @@ import kosta.web.mvc.map.repository.DetailedPlanRepository;
 @Service
 @Transactional
 public class DetailedServiceImpl implements DetailedPlanService {
-	
+
 	@Autowired
 	DetailedPlanRepository detailRepository;
+
 	@Override
 	public void insertAll(DetailedPlanList list) {
 		// TODO Auto-generated method stub
@@ -27,7 +28,7 @@ public class DetailedServiceImpl implements DetailedPlanService {
 	@Override
 	public void insert(DetailedPlan dplan) {
 		// TODO Auto-generated method stub
-	detailRepository.save(dplan);
+		detailRepository.save(dplan);
 
 	}
 
@@ -40,14 +41,19 @@ public class DetailedServiceImpl implements DetailedPlanService {
 	@Override
 	public List<DetailedPlan> findByStaionPlan(int i) {
 		// TODO Auto-generated method stub
-		System.out.println("다다다");
-		List<DetailedPlan> list= detailRepository.findByStationPlan_stationPlanId(i);
-		System.out.println("다다다2");
 
-		System.out.println(list);
-		System.out.println("다다다3");
-
-		return null;
+		List<DetailedPlan> list = detailRepository.findByStationPlan_stationPlanIdOrderByDetailedOrder(i);
+		return list;
 	}
-	
+
+	@Override
+	public void updateAll(DetailedPlanList list, int stationPlanNum) {
+		// TODO Auto-generated method stub
+		if (list.getDetailedPlans().size() > 0) {
+			
+			detailRepository.deleteByStationNum(stationPlanNum);
+			detailRepository.saveAll(list.getDetailedPlans());
+		}
+	}
+
 }

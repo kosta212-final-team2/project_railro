@@ -45,7 +45,10 @@
 		<table>
 			<tr height="650">
 				<td width="10%">
-					<form name="plan" action="/detailSave" method="get">
+					<form name="plan" action="/detailSave" method="post">
+					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+
 						<div id="plan"></div>
 						<input id="savePlan" type="submit" value="일정 저장" />
 
@@ -421,7 +424,7 @@
 								+ "<input type='hidden' name='placeType' value='"+places[i].category_group_name+"'/>"
 								+ "<input type='hidden' name='placeLat' value='"+places[i].y+"'/>"
 								+ "<input type='hidden' name='placeLng' value='"+places[i].x+"'/>"
-								+ "<input type='hidden' name='detailedOrder' value=3/>"
+								+ "<input type='hidden' name='stationPlan' value=3/>"
 								+ places[i].place_name + "</div><p>";
 
 						// 마커와 검색결과 항목을 클릭 했을 때

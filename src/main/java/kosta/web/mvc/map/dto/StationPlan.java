@@ -1,6 +1,7 @@
 package kosta.web.mvc.map.dto;
 
 import java.time.LocalDate;
+
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -14,23 +15,28 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class StationPlan {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "station_plan_sequence")
 	@SequenceGenerator(sequenceName = "station_plan_sequence",allocationSize = 1,name = "station_plan_sequence")
 	private int stationPlanId;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "planNum")
 	private TravelPlan travelPlan;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="stationNum")
 	private TrainStation trainStation;
 	private LocalDate travelDate;
@@ -38,4 +44,8 @@ public class StationPlan {
 	
 	@OneToMany(mappedBy = "stationPlan", cascade = CascadeType.ALL)
 	private List<DetailedPlan> detailedPlanList;
+	
+	public StationPlan(int spid) {
+		this.stationPlanId=spid;
+	}
 }
