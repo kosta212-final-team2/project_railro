@@ -6,6 +6,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kosta.web.mvc.board.service.InfoBoardService;
@@ -52,7 +53,7 @@ public class InfoBoardController {
 		
 		infoService.insert(board);
 		
-		return "redirect://page/board/info/list";
+		return "redirect:/page/board/info/list";
 		
 	}
 }
