@@ -37,7 +37,7 @@
 					<input type="text" name="keyword" id="keyword" size="15">
 					<button type="button" id="search">search</button>
 					<input type='button' value="delete markers" id="deleteList">
-					<input type='hidden' value="delete markers" >
+					<input type='hidden' value="delete markers" > 
 					
 				</div>
 			</div>
