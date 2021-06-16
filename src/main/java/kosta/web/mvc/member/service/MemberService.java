@@ -4,6 +4,7 @@ import java.util.List;
 
 import kosta.web.mvc.member.domain.Authorities;
 import kosta.web.mvc.member.domain.Member;
+import kosta.web.mvc.member.domain.OauthId;
 
 public interface MemberService {
 	/**
@@ -34,4 +35,8 @@ public interface MemberService {
 	 * 회원정보 수정
 	 */
 	Member update(Member member);
+	
+	void naverMemberInsert(Member member);
+	
+	void naverOauthInsert(OauthId oauthId);
 }

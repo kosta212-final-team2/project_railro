@@ -53,7 +53,7 @@ public class MemberController {
 	 * */
 	@RequestMapping("/updateMember")
 	public ModelAndView updateMember(HttpServletRequest request, Member vo) {
-		System.out.println("1. MemberVO  :: "+vo);
+		System.out.println("1. Member :: "+vo);
 		
 		//회원정보 수정위해 Spring Security 세션 회원정보를 반환받는다
 		Member pvo=(Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();

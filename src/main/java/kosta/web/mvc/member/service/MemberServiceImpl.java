@@ -10,13 +10,18 @@ import org.springframework.stereotype.Service;
 
 import kosta.web.mvc.member.domain.Authorities;
 import kosta.web.mvc.member.domain.Member;
+import kosta.web.mvc.member.domain.OauthId;
 import kosta.web.mvc.member.repository.AuthoritiesRepository;
 import kosta.web.mvc.member.repository.MemberRepository;
+import kosta.web.mvc.member.repository.OauthRepository;
 
 @Service
 @Transactional
 public class MemberServiceImpl implements MemberService {
 
+	@Autowired
+	OauthRepository oauthRepository;
+	
 	@Autowired
 	MemberRepository memberRepository;
 	
@@ -61,6 +66,20 @@ public class MemberServiceImpl implements MemberService {
 		
 		return memberRepository.updateMember(member);
 	}
+
+	@Override
+	public void naverMemberInsert(Member member) {
+		memberRepository.save(member);
+		
+	}
+
+	@Override
+	public void naverOauthInsert(OauthId oauthId) {
+		oauthRepository.save(oauthId);
+		
+	}
+	
+	
 	
 	
 

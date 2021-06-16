@@ -10,6 +10,8 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.security.SecureRandom;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,10 +19,15 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.tomcat.util.json.JSONParser;
 import org.apache.tomcat.util.json.ParseException;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import kosta.web.mvc.member.domain.Member;
+import kosta.web.mvc.member.domain.OauthId;
 
 @Controller
 @RequestMapping("/member")
@@ -87,6 +94,7 @@ public class NaverLoginController {
       session.setAttribute("currentUser", res);
       session.setAttribute("currentAT", parsedJson.get("access_token"));
       session.setAttribute("currentRT", parsedJson.get("refresh_token"));
+      
     } else {
       model.addAttribute("res", "Login failed!");
     }
@@ -229,5 +237,34 @@ public class NaverLoginController {
     }
 
   }
+  /**
+   * 네이버 계정을 oauth_id 테이블에 할당
+   */
+  @PostMapping("/oauth/assign/naver")
+  public String addRowToOAuthTableForNaver(HttpSession session, Authentication auth, Model model, String uniqueId) {
+    String username = auth.getName();
+    String provider = "naver";
+    List<Map<String, String>> infoOAuth = sud.getOAuthInfoByProviderAndUniqueId(provider, uniqueId);
+    int resultCode = 0;
+    if(infoOAuth.size() == 0) {
+      Map<String, String> aRow = new HashMap<>();
+      aRow.put("username", username);
+      aRow.put("provider", provider);
+      aRow.put("unique_id", uniqueId);
+      resultCode = sud.insertAnUserOAuth(aRow);
+      if(resultCode <= 0) {
+        session.setAttribute("currentNaverUser", null);
+      }
+      model.addAttribute("task", "assign-naver");
+      model.addAttribute("resultCode", resultCode);
+    }
+    return "redirect:/";
+  }
 
+  
+  @RequestMapping("/naverRegister")
+  public String naverRegister() {
+	  
+	  return "page/member/naverRegister";
+  }
 }
