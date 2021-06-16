@@ -7,11 +7,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 @Entity
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Station {
 	@Id
 	private int id;
@@ -19,7 +21,7 @@ public class Station {
 	private double lat;
 	private double lng;
 	private String addr;
-	private int citycode;
+	private String stationNodeId;
 	
 	
 

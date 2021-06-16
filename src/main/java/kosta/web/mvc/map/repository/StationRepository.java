@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import kosta.web.mvc.map.domain.Station;
+import kosta.web.mvc.map.dto.StationPlan;
 
 public interface StationRepository extends JpaRepository<Station, Integer>{
 
@@ -14,5 +15,6 @@ public interface StationRepository extends JpaRepository<Station, Integer>{
 	//@Query("select s from Station s where s.station like %:keyword%")
 	List<Station> findByStationContaining(String keyword);
 	//List<Station> findByStationLike(String keyword);
+
 
 }

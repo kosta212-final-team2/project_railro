@@ -1,6 +1,5 @@
 package kosta.web.mvc.map.dto;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,9 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
+import kosta.web.mvc.map.domain.Station;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,9 +31,9 @@ public class StationPlan {
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="stationNum")
-	private TrainStation trainStation;
-	private LocalDate travelDate;
-	private int travelOrder;
+	private Station trainStation;
+	private String travelDate;
+	private int travelOrder;// 한 여행계획에서의 여행순서 
 	
 	@OneToMany(mappedBy = "stationPlan", cascade = CascadeType.ALL)
 	private List<DetailedPlan> detailedPlanList;

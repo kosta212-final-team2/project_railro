@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import kosta.web.mvc.map.domain.Station;
+import kosta.web.mvc.map.dto.StationList;
+import kosta.web.mvc.map.dto.StationPlan;
 
 public interface StationService {
 	
@@ -24,5 +26,8 @@ public interface StationService {
 	Station selectById(int id);
 	
 	List<Station> selectByKeyword(String keyword);
+	
+	
+	void insertAll(StationList list);
 
 }

@@ -16,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kosta.web.mvc.map.domain.Station;
 import kosta.web.mvc.map.dto.Item;
+import kosta.web.mvc.map.dto.StationList;
+import kosta.web.mvc.map.dto.StationPlan;
 import kosta.web.mvc.map.service.StationService;
 
 @Controller
@@ -45,7 +47,7 @@ public class MapjoController {
 	 * */
 	@RequestMapping("/stationList")
 	public void stationList(Model model, @RequestParam(defaultValue = "0")int nowPage) {
-		Pageable pageable = PageRequest.of(nowPage, 10, Direction.ASC, "citycode");
+		Pageable pageable = PageRequest.of(nowPage, 10, Direction.ASC, "id");
 		Page<Station> stationList = stationService.selectAll(pageable);
 		//List<Item> infoList = parsing.test();
 		model.addAttribute("stationList",stationList); // view -> ${stationList.메서드이름}
@@ -98,6 +100,21 @@ public class MapjoController {
 	 * */
 	@RequestMapping("/stationMarker")
 	public void stationMarker() {
+		
+	}
+	
+	/**
+	 * save city plan
+	 * */
+	@RequestMapping("/citySave")
+	public void citySave (StationList station) {
+		System.out.println("나와");
+		System.out.println(station.getList());
+//		for(StationPlan s:station.getList()) {
+//			System.out.println(s.getStationPlanId()+" , " + s.getTrainStation()+","+ s.getTravelDate());
+//		}
+		
+		stationService.insertAll(station);
 		
 	}
 	

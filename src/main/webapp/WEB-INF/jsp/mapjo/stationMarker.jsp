@@ -6,64 +6,39 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>마커 클러스터러 사용하기</title>
+    <title>주요역 마커 생성 및 일정생성</title>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1ede33f5c81efd47fccd6dc5201a8a50&libraries=clusterer"></script>
-<style type="text/css">
-.map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
-.map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
-.map_wrap {position:relative;width:100%;height:500px;}
-#menu_wrap {position:absolute;top:0;left:0;bottom:0;width:250px;height:100vh; margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
-.bg_white {background:#fff;}
-#menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
-#menu_wrap .option{text-align: center;}
-#menu_wrap .option p {margin:10px 0;}  
-#menu_wrap .option button {margin-left:5px;}
-#placesList li {list-style: none;}
-#placesList .item {position:relative;border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 65px;}
-#placesList .item span {display: block;margin-top:4px;}
-#placesList .item h5, #placesList .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
-#placesList .item .info{padding:10px 0 10px 55px;}
-#placesList .info .gray {color:#8a8a8a;}
-#placesList .info .jibun {padding-left:26px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
-#placesList .info .tel {color:#009900;}
-#placesList .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
-#placesList .item .marker_1 {background-position: 0 -10px;}
-#placesList .item .marker_2 {background-position: 0 -56px;}
-#placesList .item .marker_3 {background-position: 0 -102px}
-#placesList .item .marker_4 {background-position: 0 -148px;}
-#placesList .item .marker_5 {background-position: 0 -194px;}
-#placesList .item .marker_6 {background-position: 0 -240px;}
-#placesList .item .marker_7 {background-position: 0 -286px;}
-#placesList .item .marker_8 {background-position: 0 -332px;}
-#placesList .item .marker_9 {background-position: 0 -378px;}
-#placesList .item .marker_10 {background-position: 0 -423px;}
-#placesList .item .marker_11 {background-position: 0 -470px;}
-#placesList .item .marker_12 {background-position: 0 -516px;}
-#placesList .item .marker_13 {background-position: 0 -562px;}
-#placesList .item .marker_14 {background-position: 0 -608px;}
-#placesList .item .marker_15 {background-position: 0 -654px;}
-#pagination {margin:10px auto;text-align: center;}
-#pagination a {display:inline-block;margin-right:10px;}
-#pagination .on {font-weight: bold; cursor: default;color:#777;}
-
-
-</style>   
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" ></script>
+<link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+<link href="${pageContext.request.contextPath}/css/stationMarkerCSS.css" rel="stylesheet" type="text/css" />
+ <script>
+  $( function() {
+    $( "#datepicker" ).datepicker();
+    $( "#datepicker2" ).datepicker();
+  } );
+  </script>
 </head>
 <body>
 <p style="margin-top:-12px">
 </p>
+<p>StartDate: <input type="text" id="datepicker"></p>
+<p>EndDate: <input type="text" id="datepicker2"></p>
 	<div class="map_wrap">
 		<div id="map"
-			style="width: 100vm; height: 100vh; position: relative; overflow: hidden;"></div>
+			style="width: 100vm; height: 800px; position: relative; overflow: hidden;"></div>
 
-
+		<!-- 역 검색하기  -->
 		<div id="menu_wrap" class="bg_white">
 			<div class="option">
 				<div>
-						<input type="text" name="keyword" id="keyword" size="15">
-						<button type="button" id="search">search</button>
+					<input type="text" name="keyword" id="keyword" size="15">
+					<button type="button" id="search">search</button>
+					<input type='button' value="delete markers" id="deleteList">
+					<input type='hidden' value="delete markers" >
+					
 				</div>
 			</div>
 			<hr>
@@ -71,13 +46,39 @@
 			<ul id="placesList"></ul>
 			<div id="pagination"></div>
 		</div>
+
+
+		<!-- add list  -->
+	<form name="plan" action="${pageContext.request.contextPath}/mapjo/citySave" method="post">
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+	
+		<div id="menu_wrap2" class="bg_white">
+			<div class="option">
+					<div id="cityplan">
+						<h2>LIST</h2>
+						<input id="savePlan" type="submit" value="save plan"/>
+					</div>	
+			</div>
+			<hr>
+			<!-- 추가한 장소가 저장되는 곳  -->
+			
+			<ul id="placesList2"></ul>
+			<div id="pagination"></div>
+		</div>
+		</form>
+
 	</div>
 
-<script type="text/javascript">
+
+	<script type="text/javascript">
 
 
 	$(function () {
 		//alert(1)
+		//var itemList=[];
+		var markers=[];
+		
+		
 		
 		$("#search").click(function() {
 			$.ajax({
@@ -90,19 +91,20 @@
 					 var str="";
 					$.each(result, function (index, item) {
 						//alert(item.lat)
-						alert(index)
+						//alert(index)
 						//마커모양 변경요 !!
 						str+=	"<li class='item'><span class='markerbg marker_"+(index+1) +"'></span>";
-						str+=	"<div class='info'><h5>"+item.station+"</h5>";
-						str+=	"<span class='jibun gray'>"+item.addr+"</span>";
+						str+=	"<div class='info'><h5>"+item.station +"</h5>";
+						str+=	"<h5>"+item.id+"</h5>";
+						str+=	"<span class='jibun gray' name=''>"+item.addr+"</span>";
 						str+=	"<span class='tel'>"+item.lat+"</span><span class='tel'>"+item.lng+"</span></div>"; 
-						str+=	"<input type='button' value='추가' id='addList'><input type='button' value='삭제' id='deleteList'></li>"; 
+						str+=	"<input type='button' value='추가' id='addList' name='"+item.lat+","+item.lng+"'></li>"; 
 						
+					//itemList.push(item);
 					
 						
 					})//end of each
 					
-				
 					
 					$("#placesList").html(str); 
 				},
@@ -116,22 +118,256 @@
 		});//end of click
 		
 		
-
+		var city;
+		var stationId;
+		var address;
+		var latitude;
+		var longitude;
+		
 		
 		//리스트에 있는 장소 마커 추가 
 		$(document).on("click","#addList",function () {
-			alert(1)
-		});
+			
+			/* alert($(this).prev().children().eq(0).text())
+			alert($(this).prev().children().eq(1).text())
+			alert($(this).prev().children().eq(2).text())
+			alert($(this).prev().children().eq(3).text())
+			alert($(this).prev().children().eq(4).text())
+			 */
+			city = $(this).prev().children().eq(0).text();
+			stationId = $(this).prev().children().eq(1).text();
+			address = $(this).prev().children().eq(2).text();
+			latitude = $(this).prev().children().eq(3).text();
+			longitude = $(this).prev().children().eq(4).text();
+			
+			
+			
+			//alert($(this).prev().text())
+			/* var t = $(this).prev().children().eq(2);
+			var g = $(this).prev().children().eq(3);
+			alert(t.text())
+			alert(g.text())  */
+			
+			//alert($(this).attr("name"))
+			var a =$(this).attr("name").split(",")
+			
+			var markerPosition  = new kakao.maps.LatLng(a[0], a[1]); 
+			//var markerPosition  = new kakao.maps.LatLng(t.text(), g.text()); 
+
+
+			
+			// 마커를 생성합니다
+			var marker = new kakao.maps.Marker({
+			    position: markerPosition
+			});
+			
+			// 마커가 지도 위에 표시되도록 설정합니다
+			marker.setMap(map);
+			//marker.setMap(null);
+			markers.push(marker);
+			
+			
+			createItem(); 
+	
+	});
+		
+		
+		
 		
 		
 		//리스트에 있는 장소 마커 삭제 
 		$(document).on("click","#deleteList",function () {
-			alert(2)
+	
+			hideMarkers();
 		});
+		
+		
+		
+		function setMarkers(map) {
+		    for (var i = 0; i < markers.length; i++) {
+		        markers[i].setMap(map);
+		    }            
+		}
+		
+
+		// "마커 감추기" 버튼을 클릭하면 호출되어 배열에 추가된 마커를 지도에서 삭제하는 함수입니다
+		function hideMarkers() {
+		    setMarkers(null);  
+		    markers.splice(0);
+		    //markers=[];
+		}
+		
+		
+//. 리스트 생성 코드
+	    $("#placesList2").sortable({
+
+	        placeholder:"itemBoxHighlight",
+
+	        start: function(event, ui) {
+
+	            ui.item.data('start_pos', ui.item.index());
+
+	        },
+
+	        stop: function(event, ui) {
+
+	            var spos = ui.item.data('start_pos');
+
+	            var epos = ui.item.index();
+
+		    reorder();
+
+	        }
+
+	    });
+		
+	    function reorder() {
+
+		    $(".cityItem").each(function(i, box) {
+
+		        $(box).find(".itemNum").html(i + 1);
+
+		    });
+
+		}
+
+		
+		//아이템 추가하기
+		function createItem() {
+
+		    $(createBox())
+
+		    .appendTo("#placesList2")
+
+		    .hover(
+
+		        function() {
+
+		            $(this).css('backgroundColor', '#f9f9f5');
+
+		            $(this).find('.deleteBox').show();
+
+		        },
+
+		        function() {
+
+		            $(this).css('background', 'none');
+
+		            $(this).find('.deleteBox').hide();
+
+		        }
+
+		    )
+
+		    .append("<div class='deleteBox'>[삭제]</div>")
+
+		    .find(".deleteBox").click(function() {
+
+		        var valueCheck = false;
+
+		        $(this).parent().find('input').each(function() {
+
+		            if($(this).attr("name") != "type" && $(this).val() != '') {
+
+		                valueCheck = true;
+
+		            }
+
+		        });
+
+
+
+		        if(valueCheck) {
+
+		            var delCheck = confirm('입력하신 내용이 있습니다.\n삭제하시겠습니까?');
+
+		        }
+
+		        if(!valueCheck || delCheck == true) {
+
+		            $(this).parent().remove();
+
+		            reorder();
+
+		        }
+
+		    });
+
+		    // 숫자를 다시 붙인다.
+
+		    reorder();
+
+		}
+		
+		// 아이템을 구성할 태그를 반환합니다.
+
+		// itemBox 내에 번호를 표시할 itemNum 과 입력필드가 있습니다.
+ var index=0;
+		
+		function createBox() {
+		    var contents 
+
+		        = "<div class='cityItem'>"
+		      + "<div style='float:left;'>"
+
+		      + "<span class='itemNum'></span> "
+					+ "<span>"
+					+	"<div class='info'><h5>"+city+"</h5>"
+					+ "<input type='text' name='travelDay'/>"
+					+ "<input type='hidden' name='list["+index+"].travelPlan' value='1'/>"
+					+ "<input type='hidden' name='list["+index+"].trainStation' value='"+stationId+"'/>"
+					+ "<input type='hidden' name='list["+index+"].travelDate' value='20210801'/>"
+					+ "<input type='hidden' name='list["+index+"].travelOrder' value='1'/>"
+					+ "</span>"
+					+ "</div>"
+					+ "</div>";
+					
+					index++;
+					
+					/* var data= 
+				    + "<div><input type='hidden' name='list["+index+"].id' value='"+stationId+"'/>"
+				    + "<input type='hidden' name='list["+index+"].addr' value='"+address+"'/>"
+				    + "<input  type='hidden' name='list["+index+"].lat' value='"+latitude+"'/>"
+				    + "<input  type='hidden' name='list["+index+"].lng' value='"+longitude+"'/>"
+				    +"<input  type='hidden' name='list["+index+"].planNo' value='"+longitude+"'/><div>";    
+				    
+		        
+					
+					//alert(data +" , " + index)
+					$("#cityplan").append(data); */
+			
+		    return contents;
+
+		}
+		
+		//드래그 가능한 리스트로 만들기
+		$(function() {
+
+		    $("#sortable").sortable();
+
+		    $("#sortable").disableSelection();
+
+		});
+
+		
 
 	});//end of ready
 	
 	
+	
+
+	
+	
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+		
+
+
+
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	
@@ -147,6 +383,15 @@
         minLevel: 10 // 클러스터 할 최소 지도 레벨 
     });
  
+    
+    var imageSrc = '${pageContext.request.contextPath}/images/train.png', // 마커이미지의 주소입니다    
+    imageSize = new kakao.maps.Size(30, 34);
+    //imageOption = {offset: new kakao.maps.Point(25, 32)};// 마커이미지의 크기입니다
+      
+		// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+		var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+    
+    
     // 데이터를 가져오기 위해 jQuery를 사용합니다
     // 데이터를 가져와 마커를 생성하고 클러스터러 객체에 넘겨줍니다
     $.get("${pageContext.request.contextPath}/data/korail.json", function(data) {
@@ -154,13 +399,17 @@
         // 마커 클러스터러로 관리할 마커 객체는 생성할 때 지도 객체를 설정하지 않습니다
         var markers = $(data.positions).map(function(i, position) {
             return new kakao.maps.Marker({
-                position : new kakao.maps.LatLng(position.lat, position.lng)
+                position : new kakao.maps.LatLng(position.lat, position.lng),
+            		image: markerImage
             });
         });
 
         // 클러스터러에 마커들을 추가합니다
         clusterer.addMarkers(markers);
     });
+    
+    
+    
 </script>
 </body>
 </html>
