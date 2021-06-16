@@ -23,7 +23,7 @@ public class InfoBoardController {
 	/**
 	 * 글 목록 조회
 	 */
-	@RequestMapping("/free")
+	@RequestMapping("/info")
 	public String list(@PageableDefault Pageable pageable, Model model) {
 		System.out.println("call selectAll");
     model.addAttribute("infoList", infoService.selectAll(pageable));
