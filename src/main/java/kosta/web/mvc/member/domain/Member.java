@@ -41,4 +41,5 @@ public class Member {
 	public Member(String memberId) {
 		this.memberId = memberId;
 	}
+
 }

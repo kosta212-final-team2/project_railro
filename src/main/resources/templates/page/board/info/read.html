@@ -17,6 +17,15 @@
 	}
 </style>
 
+<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<script type="text/javascript">
+	$(function() {
+		let imgText = $("#img_text").text();
+		alert(imgText);
+		$("#img_src").attr("src", imgText);
+	});
+</script>
+
 </head>
 <body>
 
@@ -63,6 +72,8 @@
                 <p>사용자 설명</p>
               </div>
             </div>
+            
+            
 
 
 						<!-- 댓글 영역 -->
@@ -72,7 +83,8 @@
               	<!-- 댓글 반복문 돌릴 영역 -->
               	<li class="comment" th:each="reply : ${board.infoReplyList}">
                   <div class="vcard bio">
-                    <img src="images/person_1.jpg" alt="Image placeholder">
+            				<span id="img_text" th:text="${reply.member.picture}"></span>
+                    <img id="img_src">
                   </div>
                   <div class="comment-body">
                     <h3 th:text="${reply.member.memberId}"></h3>
