@@ -64,6 +64,15 @@ public class StationServiceImpl implements StationService {
 	public List<StationPlan> selectPlanByPlanNum(int planId) {
 		return stationPlanRepository.findByTravelPlan_planId(planId);
 	}
+
+	
+	/**
+	 * 수정하기 위해서 station_plan_id 로 개별 역 찾기 
+	 * */
+	@Override
+	public StationPlan findByStationPlanId(int planId) {
+		return stationPlanRepository.findByStationPlanId(planId);
+	}
 	
 	
 	

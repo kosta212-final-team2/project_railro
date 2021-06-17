@@ -31,5 +31,6 @@ public interface StationService {
 	void insertAll(StationList list);
 	
 	List<StationPlan> selectPlanByPlanNum(int planId);
-
+	
+	StationPlan findByStationPlanId(int planId);
 }

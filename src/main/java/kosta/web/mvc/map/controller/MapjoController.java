@@ -110,9 +110,9 @@ public class MapjoController {
 	public void citySave (StationList station) {
 		System.out.println("나와");
 		System.out.println(station.getList());
-//		for(StationPlan s:station.getList()) {
-//			System.out.println(s.getStationPlanId()+" , " + s.getTrainStation()+","+ s.getTravelDate());
-//		}
+		for(StationPlan s:station.getList()) {
+			System.out.println(s.getStationPlanId()+" , " + s.getTrainStation()+","+ s.getTravelDate());
+		}
 		
 		stationService.insertAll(station);
 		
@@ -136,8 +136,20 @@ public class MapjoController {
 	public void cityUpdate (StationList station) {
 		System.out.println(station);
 		for(StationPlan s:station.getList()) {
-			System.out.println(s);
+//			System.out.println(s.getStationPlanId());
+//			System.out.println(s.getTravelDate());
+//			System.out.println(s.getTravelOrder());
+//			System.out.println(s.getTravelPlan().getPlanId());
+//			System.out.println(s.getTrainStation().getId());
+			
+			StationPlan plan = stationService.findByStationPlanId(s.getStationPlanId());
+//			System.out.println(plan.getStationPlanId());
+//			System.out.println(plan.getTravelOrder());
+				plan.setTravelDate(s.getTravelDate());
+				plan.setTravelOrder(s.getTravelOrder());
 		}
+		
+		
 
 	}
 	

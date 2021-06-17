@@ -27,8 +27,8 @@ ${stationUpdate}
 <p style="margin-top:-12px">
 </p>
 <p>여행이름 : <input type="text" id="travelPlan"></p>
-<p>StartDate: <input type="text" id="datepicker" readonly="readonly" value="2021-06-17"></p><!-- 수정요 넘겨받을 값  -->
-<p>EndDate: <input type="text" id="datepicker2" readonly="readonly" value="2021-06-18"></p>
+<p>StartDate: <input type="text" id="datepicker" readonly="readonly" value="2021-06-20"></p><!-- 수정요 넘겨받을 값  -->
+<p>EndDate: <input type="text" id="datepicker2" readonly="readonly" value="2021-06-22"></p>
 	<div class="map_wrap">
 		<div id="map"
 			style="width: 100vm; height: 800px; position: relative; overflow: hidden;"></div>
@@ -84,8 +84,9 @@ ${stationUpdate}
 						<div style="float: left;">
 							<span class="itemNum">1</span> <span><div class="info">
 									<h5>${station.trainStation.station}</h5>
-									<input type="hidden" name="travelPlan" value="${station.travelPlan.planId}"><input
-										type="hidden" name="trainStation" value="${station.trainStation.id}"><input
+									<input type="hidden" name="stationPlanId" value="${station.stationPlanId}">
+									<input type="hidden" name="travelPlan" value="${station.travelPlan.planId}">
+									<input type="hidden" name="trainStation" value="${station.trainStation.id}"><input
 										type="hidden" name="travelDate" value="${fn:substring(dateValue,0,10)}"><input
 										type="hidden" name="travelOrder" value="${station.travelOrder}"><input
 										type="button" value="삭제" name="deletePlan">
@@ -367,6 +368,10 @@ ${stationUpdate}
 			function renameForModelAttribute() {
 				$(".info").each(
 						function(index) {
+							$(this).find("input[name=stationPlanId]").attr(
+									"name",
+									"list[" + index
+											+ "].stationPlanId");
 							$(this).find("input[name=travelPlan]").attr(
 									"name",
 									"list[" + index
