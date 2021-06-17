@@ -1,4 +1,4 @@
-package kosta.web.mvc.domain;
+package kosta.web.mvc.board.domain;
 
 import java.time.LocalDateTime;
 

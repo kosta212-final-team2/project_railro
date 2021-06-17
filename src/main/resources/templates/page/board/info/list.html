@@ -57,7 +57,7 @@
 							<th>조회수</th>
 							<th>추천수</th>
 						</tr>
-						<tr th:each="content : ${infoList}">
+						<tr th:each="content : ${pageList}">
 							<td th:text="${content.infoBno}"></td>
 							<td th:text="${content.memberId}"></td>
 							<td style="text-align: left;" th:text="${content.infoSubject}"></td>
@@ -71,14 +71,29 @@
 				<div class="row mt-5">
 					<div class="col text-center">
 						<div class="block-27">
-							<ul>
-								<li><a href="#">&lt;</a></li>
-								<li class="active"><span>1</span></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-								<li><a href="#">&gt;</a></li>
+							<!-- 페이징처리 -->
+  						<ul th:with="start=${(pageList.number/blockCount)*blockCount + 1},
+  														end=${start+(blockCount-1) > pageList.totalPages ? pageList.totalPages : (start+(blockCount-1))}">
+								<!-- 맨 앞으로 -->
+					      <li th:if="${start > 1}">
+				        	<a th:href="@{/board/info/list?(nowPage=1)}" th:text="'<<'"></a>
+				        </li>
+								<!-- 앞으로 -->
+				        <li th:if="${start > 1}">
+				        	<a th:href="@{/board/info/list?(nowPage=${start - blockCount})}" th:text="'<'"></a>
+				        </li>
+								<!-- 페이지 번호 출력 -->
+				        <li th:each="page: ${#numbers.sequence(start, end)}">
+				        	<a th:href="@{/board/info/list?(nowPage=${page})}" th:text="${page}"></a>
+				        </li>
+								<!-- 뒤로 -->
+					      <li th:if="${end < pageList.totalPages}">
+				        	<a th:href="@{/board/info/list?(nowPage=${start + blockCount})}" th:text="'>'"></a>
+				        </li>
+								<!-- 맨 뒤로 -->
+				        <li th:if="${end < pageList.totalPages}">
+				        	<a th:href="@{/board/info/list?(nowPage=${pageList.totalPages})}" th:text="'>>'"></a>
+				        </li>
 							</ul>
 						</div>
 					</div>

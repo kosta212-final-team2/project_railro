@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import kosta.web.mvc.domain.InfoBoard;
+import kosta.web.mvc.board.domain.InfoBoard;
 
 public interface InfoBoardService {
 
