@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import kosta.web.mvc.board.domain.FreeBoard;
 
+
 public interface FreeBoardService {
    /**
     * 전체검색
@@ -19,25 +20,36 @@ public interface FreeBoardService {
 	Page<FreeBoard> selectAll(Pageable pageable);
 	
 	/**
-	 * 등록
+	 * 제목 검색
 	 * */
-	void insert(FreeBoard board);
+	Page<FreeBoard>  freeSubjectSearch(String keyword,Pageable pageable);
 	
 	/**
-	 * 글번호 검색 
-	 *   : 조회수 증가....
-	 *      - state가 true이면 조회수 증가한다.
+	 * 작성자 검색
 	 * */
-	FreeBoard selectBy(Long freeBno , boolean state);
+	Page<FreeBoard>  freeIdSearch(String keyword,Pageable pageable);
+	
+	/**
+	 * 등록
+	 * */
+	//void insert(FreeBoard freeBoard);
 	
 	/**
 	 * 수정하기
 	 * */
-	FreeBoard update(FreeBoard board);
+	//FreeBoard update(FreeBoard freeBoard);
     
     /**
      * 삭제하기
      * */
-    void delete(Long freeBno);
+    //void delete(Long freeBno);
+    
+    /**
+	 * 글번호 검색 
+	 *   : 조회수 증가....
+	 *      - state가 true이면 조회수 증가한다.
+	 * */
+	//FreeBoard selectBy(Long freeBno , boolean state);
+
 }
 
