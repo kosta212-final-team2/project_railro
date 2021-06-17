@@ -110,9 +110,10 @@ public class NaverLoginController {
 				if(infoMap.get("message").equals("success")) {
 					Map<String, Object> infoResp = (Map<String, Object>) infoMap.get("response");
 					String uniqueId = infoResp.get("id").toString();
-					System.out.println(uniqueId);
-					OauthId oauthId= oauthIdService.findOauthIdByNaverId(uniqueId);
-					//Member member = memberService.findByMemberId(uniqueId);
+
+					System.out.println("uniqueId: "+uniqueId);
+					OauthId oauthId = oauthIdService.findOauthIdByNaverId(uniqueId);
+
 					if(oauthId == null) {
 						System.out.println("네이버 연동정보 없음");
 						String naverId = uniqueId;
