@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,13 +32,14 @@ public class DetailedPlan {
 	
 	@ManyToOne
 	@JoinColumn(name = "station_plan_num" )
+	@JsonBackReference
 	private StationPlan stationPlan;
 	
 	private String placeName;
 	private String placeAddr;
 	private int detailedOrder;
 	private String placeType;
-	private int travelTime;
+	private Long travelTime;
 	private double placeLat;
 	private double placeLng;
 }

@@ -13,6 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import kosta.web.mvc.map.domain.Station;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,6 +35,7 @@ public class StationPlan {
 	
 	@ManyToOne
 	@JoinColumn(name = "planNum")
+	@JsonBackReference
 	private TravelPlan travelPlan;
 	
 	@ManyToOne
@@ -41,6 +45,7 @@ public class StationPlan {
 	private int travelOrder;// 한 여행계획에서의 여행순서 
 	
 	@OneToMany(mappedBy = "stationPlan", cascade = CascadeType.ALL)
+	@JsonManagedReference
 	private List<DetailedPlan> detailedPlanList;
 	
 	public StationPlan(int spid) {

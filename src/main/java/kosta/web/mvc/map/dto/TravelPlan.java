@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,10 +29,11 @@ public class TravelPlan {
 	private String userId;
 	private String planName;
 	
-	private LocalDate startDate;
-	private LocalDate endDate;
+	private String startDate;
+	private String endDate;
 	
 	@OneToMany(mappedBy = "travelPlan", cascade = CascadeType.ALL)
+	@JsonManagedReference
 	private List<StationPlan> stationPlanList;
 
 	

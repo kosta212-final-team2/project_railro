@@ -17,6 +17,10 @@ public class HomeController {
 	@Autowired
 	DetailedPlanService detailService;
 	
+	@RequestMapping("/test")
+	public String test() {
+		return "page/test";
+	}
 	@RequestMapping("/")
 	public String index() {
 		System.out.println("call testpage");
