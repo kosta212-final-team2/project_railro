@@ -21,6 +21,7 @@ public class DetailedServiceImpl implements DetailedPlanService {
 	@Override
 	public void insertAll(DetailedPlanList list) {
 		// TODO Auto-generated method stub
+		
 		detailRepository.saveAll(list.getDetailedPlans());
 
 	}
