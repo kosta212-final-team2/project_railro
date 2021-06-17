@@ -24,7 +24,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Autowired
 	MemberRepository memberRepository;
-	
+	 
 	@Autowired
 	AuthoritiesRepository authoritiesRepository;
 	
@@ -67,6 +67,12 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public void naverMemberInsert(Member member) {
+		member.setPwd(passwordEncoder.encode(member.getPwd()));
+		
+		Authorities authorities = new Authorities();
+		authorities.setMember(member);
+		authorities.setRole("ROLE_Member");
+		authoritiesRepository.save(authorities);
 		memberRepository.save(member);
 		
 	}

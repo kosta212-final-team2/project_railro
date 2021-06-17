@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kosta.web.mvc.member.domain.Member;
@@ -12,13 +13,15 @@ import kosta.web.mvc.member.repository.OauthRepository;
 @Service
 public class OauthIdServiceImpl implements OauthIdService {
 
+	
+	@Autowired
 	private OauthRepository oauthRepository;
 	@Override
 	public OauthId getOAuthInfoByUniqueId(String uniqueId) {
 		OauthId oauthId = oauthRepository.login(uniqueId);
 		Map<OauthId, String> aRow = new HashMap<>();
 		
-		return null;
+		return oauthId;
 	}
 	
 	@Override
@@ -37,7 +40,7 @@ public class OauthIdServiceImpl implements OauthIdService {
 	}
 	@Override
 	public void insertOauthId(OauthId oauthId) {
-		// TODO Auto-generated method stub
+		oauthRepository.save(oauthId);
 		
 	}
 

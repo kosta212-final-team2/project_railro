@@ -124,16 +124,17 @@ ul{list-style:none; }
   <th:block sec:authorize="isAnonymous()">
   <p th:text="${isConnectedToNaver}"></p>
     <div th:unless="${isConnectedToNaver}"> <!-- 연동 안된상태 -->
-      
+      <h5>네이버 아이디와 연동하여 가입하시겠습니까?</h5>
+			<form th:action="@{/member/oauth}" method="POST">
+				<input type="hidden" th:value="${uniqueIdOfNaver}" name="uniqueId">
+				<button type="submit" id="submit_button">YES</button></form>
+				<a th:href="${'/member/naver/deleteToken?accessToken=' + session.currentAT}">
+				<button type="submit" id="submit_button">NO</button></a> 
           </div><!-- join_form E  -->
          
-          <div class="btn_wrap">
-            <input type="submit" id="submit_button" value="가입">
-          </div>
-          </form>
-    </div>
+          
     <div th:if="${isConnectedToNaver}"> <!-- 연동 된상태 -->
-	
+	 <a href="/loginForm">login으로 이동</a>
     </div>
   </th:block>
   

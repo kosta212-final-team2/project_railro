@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import kosta.web.mvc.member.domain.Member;
 import kosta.web.mvc.member.domain.OauthId;
+import kosta.web.mvc.member.service.MemberService;
 import kosta.web.mvc.member.service.OauthIdService;
 
 @Controller
@@ -39,7 +40,10 @@ public class NaverLoginController {
 	private String CLI_SECRET = "WMfFi6q5um"; // 애플리케이션 클라이언트 시크릿값";
 
 	@Autowired
-	OauthIdService oauthIdService;
+	private MemberService memberService;
+	
+	@Autowired
+	private OauthIdService oauthIdService;
 	/**
 	 * 로그인 화면이 있는 페이지 컨트롤
 	 * 
@@ -107,9 +111,11 @@ public class NaverLoginController {
 					String uniqueId = infoResp.get("id").toString();
 					System.out.println(uniqueId);
 					OauthId oauthId= oauthIdService.findOauthIdByNaverId(uniqueId);
-					
+					Member member = memberService.findByMemberId(uniqueId);
 					if(oauthId == null) {
 						System.out.println("네이버 연동정보 없음");
+						String naverId = uniqueId;
+						System.out.println(naverId);
 						model.addAttribute("isConnectedToNaver", false);
 						model.addAttribute("uniqueIdOfNaver", uniqueId);
 					}else {
@@ -189,7 +195,7 @@ public class NaverLoginController {
 		String res = requestToServer(apiURL);
 		model.addAttribute("res", res);
 		session.invalidate();
-		return "page/member/callback";
+		return "redirect:/member/loginForm";
 	}
 
 	/**
@@ -203,10 +209,12 @@ public class NaverLoginController {
 	@RequestMapping("/naver/getProfile")
 	public String getProfileFromNaver(String accessToken) throws IOException {
 
+		
 		// 네이버 로그인 접근 토큰;
 		String apiURL = "https://openapi.naver.com/v1/nid/me";
 		String headerStr = "Bearer " + accessToken; // Bearer 다음에 공백 추가
 		String res = requestToServer(apiURL, headerStr);
+		
 		return res;
 	}
 
@@ -219,7 +227,7 @@ public class NaverLoginController {
 	@RequestMapping("/naver/invalidate")
 	public String invalidateSession(HttpSession session) {
 		session.invalidate();
-		return "redirect:/naver";
+		return "redirect:/member/loginForm";
 	}
 
 	/**
@@ -277,25 +285,38 @@ public class NaverLoginController {
 
 	/**
 	 * 네이버 계정을 oauth_id 테이블에 할당
-	 *//*
-		 * @PostMapping("/oauth/assign/naver") public String
-		 * addRowToOAuthTableForNaver(HttpSession session, Authentication auth, Model
-		 * model, String uniqueId) { 
-		 * String username = auth.getName(); 
-		 * String provider = "naver"; 
-		 * OauthId infoOAuth = sud.getOAuthInfoByProviderAndUniqueId(uniqueId);
-		 * int resultCode = 0; if(infoOAuth.size() == 0) { Map<String, String> aRow =
-		 * new HashMap<>(); aRow.put("username", username); aRow.put("provider",
-		 * provider); aRow.put("unique_id", uniqueId); resultCode =
-		 * sud.insertAnUserOAuth(aRow); if(resultCode <= 0) {
-		 * session.setAttribute("currentNaverUser", null); } model.addAttribute("task",
-		 * "assign-naver"); model.addAttribute("resultCode", resultCode); } return
-		 * "redirect:/"; }
-		 */
+	 * @throws IOException 
+	 * @throws ParseException 
+	 */
+	@RequestMapping("/oauth")
+	public String addMemberTable(Member member, Model model, String naverId, String memberId, String refreshToken, String accessToken) throws IOException, ParseException {
+		memberService.naverMemberInsert(member);
+		String apiURL = "https://openapi.naver.com/v1/nid/me";
+
+		String res = requestToServer(apiURL);
+		model.addAttribute("res", res);
+		Map<String, Object> parsedJson = new JSONParser(res).parseObject();
+		System.out.println(parsedJson);
+		
+		String infoStr = getProfileFromNaver(parsedJson.get("access_token").toString());
+		Map<String, Object> infoMap = new JSONParser(infoStr).parseObject();
+
+		infoMap.get("member_id");
+		Object phone = infoMap.get("phone");
+		System.out.println(phone);
+		System.out.println("member_id");
+		
+		return "page/member/naverRegister";
+		
+		
+		
+	}
+	
 
 	@RequestMapping("/naverRegister")
-	public String naverRegister() {
-
-		return "page/member/naverRegister";
+	public String naverRegister(OauthId oauthId) {
+		oauthIdService.insertOauthId(oauthId);
+		
+		return "page/member/login";
 	}
 }
