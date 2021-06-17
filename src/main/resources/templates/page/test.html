@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(function(){
+	$("input[name=test]").click(function(){
+		$.ajax({
+		    url: "/userPlanData",
+		    type: 'GET',
+		    success: function(data) {
+		        console.log(data);
+		    },
+		    error: function (error) {
+		        console.error(error);
+		    }
+		});
+	})
+})
+</script>
+</head>
+<body>
+<input type="button" value="WKs" name="test"/>
+</body>
+</html>

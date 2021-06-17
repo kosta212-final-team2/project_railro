@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,6 +31,7 @@ public class TravelPlan {
 	private String endDate;
 	
 	@OneToMany(mappedBy = "travelPlan", cascade = CascadeType.ALL)
+	@JsonManagedReference
 	private List<StationPlan> stationPlanList;
 
 	
