@@ -116,7 +116,7 @@ ul{list-style:none; }
       <div class="container">
         <div class="form_txtInput">
           <h2 class="sub_tit_txt">회원가입</h2>
-          <form method="post" action="/member/register" id="registerForm" >
+          <form method="post" th:action="@{/member/oauth}" id="registerForm" >
           <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" >
           <div class="join_form">
             <table>

@@ -97,11 +97,12 @@ public class NaverLoginController {
 		System.out.println("apiURL=" + apiURL);
 
 		String res = requestToServer(apiURL);
+		System.out.println("res : "+res);
 		if (res != null && !res.equals("")) {
 			
 			model.addAttribute("res", res);
 			Map<String, Object> parsedJson = new JSONParser(res).parseObject();
-			System.out.println(parsedJson);
+			System.out.println("naverCallback1 - parsedJson : " + parsedJson);
 			
 			if(parsedJson.get("access_token") != null) {
 				String infoStr = getProfileFromNaver(parsedJson.get("access_token").toString());
@@ -111,7 +112,7 @@ public class NaverLoginController {
 					String uniqueId = infoResp.get("id").toString();
 					System.out.println(uniqueId);
 					OauthId oauthId= oauthIdService.findOauthIdByNaverId(uniqueId);
-					Member member = memberService.findByMemberId(uniqueId);
+					//Member member = memberService.findByMemberId(uniqueId);
 					if(oauthId == null) {
 						System.out.println("네이버 연동정보 없음");
 						String naverId = uniqueId;
@@ -282,6 +283,15 @@ public class NaverLoginController {
 		}
 
 	}
+	
+	/**
+	 * 네이버 가입 폼
+	 */
+	@RequestMapping("/naverRegisterForm")
+	public String naverRegisterForm(String accessToken) {
+		
+		return "page/member/naverRegister";
+	}
 
 	/**
 	 * 네이버 계정을 oauth_id 테이블에 할당
@@ -290,10 +300,11 @@ public class NaverLoginController {
 	 */
 	@RequestMapping("/oauth")
 	public String addMemberTable(Member member, Model model, String naverId, String memberId, String refreshToken, String accessToken) throws IOException, ParseException {
-		memberService.naverMemberInsert(member);
+		//memberService.naverMemberInsert(member);
 		String apiURL = "https://openapi.naver.com/v1/nid/me";
 
 		String res = requestToServer(apiURL);
+		System.out.println("addMemberInsert - res : "+res);
 		model.addAttribute("res", res);
 		Map<String, Object> parsedJson = new JSONParser(res).parseObject();
 		System.out.println(parsedJson);
@@ -307,9 +318,6 @@ public class NaverLoginController {
 		System.out.println("member_id");
 		
 		return "page/member/naverRegister";
-		
-		
-		
 	}
 	
 
