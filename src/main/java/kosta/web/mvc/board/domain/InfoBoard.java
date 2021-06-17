@@ -1,11 +1,14 @@
 package kosta.web.mvc.board.domain;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -36,6 +39,9 @@ public class InfoBoard {
 	private LocalDateTime infoRegdate; // 등록일
 	private int infoReadnum; // 조회수
 	private int infoVote; // 추천수
+	
+	@OneToMany(mappedBy = "infoBoard", cascade = CascadeType.ALL) // 지연로딩
+	private List<InfoReply> infoReplyList;
 	
 	public InfoBoard(Long infoBno) {
 		this.infoBno = infoBno;

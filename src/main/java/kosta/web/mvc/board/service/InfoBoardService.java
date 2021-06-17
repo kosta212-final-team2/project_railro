@@ -23,4 +23,10 @@ public interface InfoBoardService {
 	 * 등록
 	 */
 	void insert(InfoBoard board);
+	
+	/**
+	 * 상세보기를 위한 글번호 검색
+	 * 	: 조회수 증가함 state=true일 때.
+	 */
+	InfoBoard selectBy(Long infoBno, boolean state);
 }

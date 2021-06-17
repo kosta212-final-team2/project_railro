@@ -36,4 +36,13 @@ public class InfoBoardServiceImpl implements InfoBoardService {
 		infoRepository.save(board);
 	}
 
+	@Override
+	public InfoBoard selectBy(Long infoBno, boolean state) {
+		//state에 따라 조회수를 증가시킨다
+		if(state) {
+			infoRepository.readnumUpdate(infoBno);
+		}
+		return infoRepository.findById(infoBno).orElse(null);
+	}
+
 }

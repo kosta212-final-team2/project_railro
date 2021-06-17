@@ -25,7 +25,7 @@ class ProjectRailroApplicationTests {
 	@Test
 	void insert() {
 		for(int i=0; i<=100; i++) {
-			rep.save(new InfoBoard(null, "제목"+i, "내용"+i, "sup", null, 0, 0));
+			//rep.save(new InfoBoard(null, "제목"+i, "내용"+i, "sup", null, 0, 0));
 		}
 	}
 

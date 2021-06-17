@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -75,6 +76,21 @@ public class InfoBoardController {
 		infoService.insert(board);
 		
 		return "redirect:/board/info/list";
+	}
+	
+	/**
+	 * 상세보기
+	 */
+	@RequestMapping("/read/{infoBno}")
+	public ModelAndView read(@PathVariable Long infoBno, String flag) {
+		boolean state = flag==null ? true : false;
 		
+		InfoBoard infoBoard = infoService.selectBy(infoBno, state);//state가 true이면 조회수증가, false 조회수 증가안함.
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("page/board/info/read");
+		mv.addObject("board", infoBoard);
+		
+		return mv;
 	}
 }

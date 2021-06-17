@@ -20,6 +20,21 @@
 	}
 </style>
 
+<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+	$(function() {
+		let nowPage = /*[[ ${nowPage} ]]*/;
+		
+		if(nowPage==null) {
+			nowPage = 1;
+		};
+		
+		//alert('#page'+nowPage);
+		$('#page'+nowPage).parent().addClass('active');
+	});
+
+</script>
+
 </head>
 <body>
 
@@ -60,7 +75,7 @@
 						<tr th:each="content : ${pageList}">
 							<td th:text="${content.infoBno}"></td>
 							<td th:text="${content.memberId}"></td>
-							<td style="text-align: left;" th:text="${content.infoSubject}"></td>
+							<td style="text-align: left;"><a th:text="${content.infoSubject}" th:href="@{'/board/info/read/'+${content.infoBno}}"></a></td>
 							<td th:text="${#strings.substring(content.infoRegdate, 0, 10)}"></td>
 							<td th:text="${content.infoReadnum}"></td>
 							<td th:text="${content.infoVote}"></td>
@@ -83,8 +98,8 @@
 				        	<a th:href="@{/board/info/list?(nowPage=${start - blockCount})}" th:text="'<'"></a>
 				        </li>
 								<!-- 페이지 번호 출력 -->
-				        <li th:each="page: ${#numbers.sequence(start, end)}">
-				        	<a th:href="@{/board/info/list?(nowPage=${page})}" th:text="${page}"></a>
+				        <li th:each="page : ${#numbers.sequence(start, end)}">
+				        	<a th:href="@{/board/info/list?(nowPage=${page})}" th:id="page+${page}" th:text="${page}"></a>
 				        </li>
 								<!-- 뒤로 -->
 					      <li th:if="${end < pageList.totalPages}">
