@@ -1,6 +1,5 @@
 package kosta.web.mvc.map.dto;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -8,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
@@ -27,8 +25,8 @@ public class TravelPlan {
 	private String userId;
 	private String planName;
 	
-	private LocalDate startDate;
-	private LocalDate endDate;
+	private String startDate;
+	private String endDate;
 	
 	@OneToMany(mappedBy = "travelPlan", cascade = CascadeType.ALL)
 	private List<StationPlan> stationPlanList;

@@ -2,6 +2,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,12 +23,12 @@
   </script>
 </head>
 <body>
+${stationUpdate}
 <p style="margin-top:-12px">
 </p>
 <p>여행이름 : <input type="text" id="travelPlan"></p>
-<p>StartDate: <input type="text" id="datepicker"></p>
-<p>EndDate: <input type="text" id="datepicker2"></p>
-<button type="button" id="addScheduel">일정생성 </button>
+<p>StartDate: <input type="text" id="datepicker" readonly="readonly" value="2021-06-17"></p><!-- 수정요 넘겨받을 값  -->
+<p>EndDate: <input type="text" id="datepicker2" readonly="readonly" value="2021-06-18"></p>
 	<div class="map_wrap">
 		<div id="map"
 			style="width: 100vm; height: 800px; position: relative; overflow: hidden;"></div>
@@ -51,7 +52,7 @@
 
 
 		<!-- add list  -->
-	<form name="plan" action="${pageContext.request.contextPath}/mapjo/citySave" method="post">
+	<form name="plan" action="${pageContext.request.contextPath}/mapjo/cityUpdate" method="post">
 						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	
 		<div id="menu_wrap2" class="bg_white">
@@ -63,9 +64,39 @@
 			</div>
 			<hr>
 			<!-- 추가한 장소가 저장되는 곳  -->
+
+
+				<!-- 
 			
-			<ul id="placesList2"></ul>
-			<div id="pagination"></div>
+			<c:set var="TextValue" value="010-abcd-1234"/> 사이즈 : ${fn:length(TextValue) }<br> 
+			1번 :${fn:substring(TextValue,0,3) }<br> 
+			2번 :${fn:substring(TextValue,4,8) }<br> 
+			3번 :${fn:substring(TextValue,9,13) }<br>
+			
+			 -->
+
+				<ul id="placesList2">
+				<c:forEach items="${stationUpdate}" var="station">
+									<c:set var="dateValue" value="${station.travelDate}"/>
+				<div id="${fn:substring(dateValue,0,10)}" class="dayschedule ui-sortable">
+					${fn:substring(dateValue,0,10)}
+					<div class="cityItem">
+						<div style="float: left;">
+							<span class="itemNum">1</span> <span><div class="info">
+									<h5>${station.trainStation.station}</h5>
+									<input type="hidden" name="travelPlan" value="${station.travelPlan.planId}"><input
+										type="hidden" name="trainStation" value="${station.trainStation.id}"><input
+										type="hidden" name="travelDate" value="${fn:substring(dateValue,0,10)}"><input
+										type="hidden" name="travelOrder" value="${station.travelOrder}"><input
+										type="button" value="삭제" name="deletePlan">
+								</div></span>
+						</div>
+					</div>
+				</div>
+				</c:forEach>
+				</ul>
+
+				<div id="pagination"></div>
 		</div>
 		</form>
 
@@ -79,26 +110,12 @@
 		//alert(1)
 		//var itemList=[];
 		var markers=[];
-		var startDate,endDate;
+		var startDate=$("#datepicker").val();
+		var endDate = $("#datepicker2").val();
 		var travelPlan;
+		sortable();	
 			
-			
-		//일정 생성 버튼 이벤트 
-		$("#addScheduel").click(function () {
-			//alert(1)
-			var listDate=[];
-				
-			startDate = $("#datepicker").val();
-			endDate = $("#datepicker2").val();
-			getDateRange(startDate, endDate, listDate);
-				console.log(listDate); 
-				
-				totalSchedule(listDate);
-				
-				sortable();
-			
-		})
-			
+
 		
 		
 		//역검색 이벤트 
@@ -261,9 +278,6 @@
 		        $(box).find(".itemNum").html(i + 1);
 		        $(box).find("input[name=travelOrder]").val(i + 1);
 		        $(box).find("input[name=travelDate]").val(redate);
-		        
-		        
-
 		    });
 
 		}
@@ -272,11 +286,8 @@
 		
 		//드래그 가능한 리스트로 만들기
 		$(function() {
-
 		    $("#sortable").sortable();
-
 		    $("#sortable").disableSelection();
-
 		});
 
 		
@@ -284,41 +295,23 @@
 		//시작일과 종료일 사이의 날짜를 구하는 함수 
 		
 		function getDateRange(startDate, endDate, listDate){
-
 				var dateMove = new Date(startDate);
-
 				var strDate = startDate;
-
 				if (startDate == endDate)
-
 				{
-
 					var strDate = dateMove.toISOString().slice(0, 10);
-
 					listDate.push(strDate);
-
 				}
-
 				else
-
 				{
-
 					while (strDate < endDate)
-
 					{
-
 						var strDate = dateMove.toISOString().slice(0, 10);
-
 						listDate.push(strDate);
-
 						dateMove.setDate(dateMove.getDate() + 1);
-
 					}
-
 				}
-
 				return listDate;
-
 			};
 			
 			

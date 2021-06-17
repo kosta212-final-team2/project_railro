@@ -117,6 +117,29 @@ public class MapjoController {
 		stationService.insertAll(station);
 		
 	}
+	/**
+	 * update city plan
+	 * */
+	@RequestMapping("/cityUpdateForm")
+	public ModelAndView cityUpdateForm (int planId) {
+		List<StationPlan> list = stationService.selectPlanByPlanNum(planId);
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("mapjo/cityUpdateForm");
+		mv.addObject("stationUpdate", list);
+		return mv;
+	}
+	
+	/**
+	 * update city plan
+	 * */
+	@RequestMapping("/cityUpdate")
+	public void cityUpdate (StationList station) {
+		System.out.println(station);
+		for(StationPlan s:station.getList()) {
+			System.out.println(s);
+		}
+
+	}
 	
 	
 //	/**
