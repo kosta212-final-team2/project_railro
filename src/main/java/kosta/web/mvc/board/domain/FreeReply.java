@@ -12,6 +12,7 @@ import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import kosta.web.mvc.member.domain.Member;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,8 +32,7 @@ public class FreeReply {
 	
 	@ManyToOne
 	@JoinColumn(name = "member_id")
-	private String memberId; //댓글 작성자
-	//private Member member;
+	private Member member;
 	
 	@ManyToOne
 	@JoinColumn(name = "free_bno")
