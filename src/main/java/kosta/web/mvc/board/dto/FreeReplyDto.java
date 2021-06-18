@@ -18,7 +18,7 @@ public class FreeReplyDto {
 	public FreeReplyDto(FreeReply freeReply) {
 		freeRno = freeReply.getFreeRno();
 		freeReplyContent = freeReply.getFreeReplyContent();
-		memberId = freeReply.getMemberId();
+		memberId = freeReply.getMember().getMemberId();
 		freeReplyRegdate = freeReply.getFreeReplyRegdate();
 		freeBoard = freeReply.getFreeBoard();
 	}
