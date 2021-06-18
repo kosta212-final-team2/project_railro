@@ -6,13 +6,16 @@
 	<title>railro</title>
 	
 	<!-- config fragment -->
-	<th:block th:replace="fragment/config :: configFragment"></th:block>
+	<th:block th:replace="fragment/config :: configCssFragment"></th:block>
+	<th:block th:replace="fragment/config :: configScriptFragment"></th:block>
 </head>
 
 <body>
 
 	<!-- content fragment : page -->
 	<th:block layout:fragment="content"></th:block>
+	
+	
 	
 </body>
 </html>

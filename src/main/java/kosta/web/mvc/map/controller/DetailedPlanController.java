@@ -21,11 +21,6 @@ public class DetailedPlanController {
 	public String test() {
 		return "page/test";
 	}
-	@RequestMapping("/")
-	public String index() {
-		System.out.println("call testpage");
-		return "page/main"; // WEB-INF/views/testpage.jsp
-	}
 	
 	@RequestMapping("/index")
 	public String thymeleafTest() { 
