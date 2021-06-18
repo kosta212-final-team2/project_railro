@@ -84,8 +84,8 @@ public class StationServiceImpl implements StationService {
 				
 				if (s.getStationPlanId() != 0) {
 					StationPlan plan = stationPlanRepository.findByStationPlanId(s.getStationPlanId());
-					System.out.println(plan.getStationPlanId());
-					System.out.println(s.getStationPlanId());
+				//	System.out.println(plan.getStationPlanId());
+				//	System.out.println(s.getStationPlanId());
 //			System.out.println(plan.getTravelOrder());
 					plan.setTravelDate(s.getTravelDate());
 					plan.setTravelOrder(s.getTravelOrder());
@@ -101,12 +101,14 @@ public class StationServiceImpl implements StationService {
 			}
 
 		}//for
-//		List<StationPlan> dbList = stationPlanRepository.findByTravelPlan_planId(list.getList().get(0).getTravelPlan().getPlanId());
-//		for(StationPlan plan :dbList) {
-//			if(!list.getList().contains(plan)) {
-//				stationPlanRepository.delete(plan);
-//			}
-//		}
+		List<StationPlan> dbList = stationPlanRepository.findByTravelPlan_planId(list.getList().get(0).getTravelPlan().getPlanId());
+		System.out.println("planID==="+list.getList().get(0).getTravelPlan().getPlanId());
+		System.out.println(dbList);
+		for(StationPlan plan :dbList) {
+			if(!list.getList().contains(plan)) {
+				stationPlanRepository.delete(plan);
+			}
+	}
 
 	}
 
