@@ -2,12 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layout/default_layout">
+	layout:decorator="layout/map_layout">
 
 <head>
 <meta charset="utf-8">
 <meta name="_csrf" th:content="${_csrf.token}" />
 <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<link href="/css/stationMarkerCSS.css" rel="stylesheet" type="text/css" />
 
 <title>지도 생성하기</title>
 <!--     <link rel="stylesheet" th:href="@{css/style.css}">
@@ -40,12 +41,25 @@
 <body>
 
 	<div layout:fragment="content">
-		<div style="height: 150px; background-color: black;"></div>
 		<!-- <!-- 지도를 표시할 div 입니다 -->
-		<table>
-			<tr height="650">
-				<td width="10%">
-					<form name="plan" action="/update" method="post">
+		
+			
+				
+					<div class="map_wrap">
+						<div id="map"
+							style="width: 100%; height: 100vh; position: relative; overflow: hidden;"></div>
+						<ul id="category">
+							<li id="FD6">음식점</li>
+							<li id="AT4">관광명소</li>
+							<li id="AD5">숙박</li>
+
+
+						</ul>
+					</div>
+					<div id="menu_wrap2" class="bg_white">
+									<h2 style="text-align:center">LIST</h2>
+					
+					<form name="plan" action="/map/update" method="post">
 						<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 					
 						<div id="plan">
@@ -70,25 +84,13 @@
 							</div>
 						</div>
 						<input id="savePlan" type="submit" value="일정 저장" />
-						<input type="hidden" name="stationPlanNum" value="99"/>
+						<input type="hidden" name="stationPlanNum" th:value="${stationPlanNum}"/>
 					</form>
-				</td>
-				<td width="1500">
-					<div class="map_wrap">
-						<div id="map"
-							style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
-						<ul id="category">
-							<li id="FD6">음식점</li>
-							<li id="AT4">관광명소</li>
-							<li id="AD5">숙박</li>
-
-
-						</ul>
-					</div>
-				</td>
-				<td width="10%"><div id="places"></div></td>
-			</tr>
-		</table>
+				</div>
+								<div id="menu_wrap" class="bg_white"><h2 style="text-align:center">검색LIST</h2>
+								
+<div id="places"></div></div>
+		
 		<script type="text/javascript"
 			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=206513eac626482c9050af4d937d257a&libraries=services
 "></script>
@@ -169,9 +171,20 @@
 				reorder();
 
 				// 3. 경로탐색 API 사용요청
-				function route(startX, startY, endX, endY) {
-
+				
+				function route(startX, startY, endX, endY, zindex) {
+					var colorCode;
+					drawInfoArr=[];
 					//기존 맵에 있던 정보들 초기화
+					if (zindex % 4 == 0) {
+						colorCode = "#000000";
+					} else if (zindex % 4 == 1) {
+						colorCode = "#FF0000";
+					} else if (zindex % 4 == 2) {
+						colorCode = "#0100FF";
+					} else {
+						colorCode = "#ABF200";
+					}
 
 					//JSON TYPE EDIT [S]
 					$
@@ -205,7 +218,7 @@
 											+ resultData[0].properties.taxiFare
 											+ "원";
 
-									alert(tTime);
+									//alert(tTime);
 									//교통정보 표출 옵션값을 체크
 
 									for ( var i in resultData) { //for문 [S]
@@ -228,7 +241,8 @@
 												// 배열에 담기
 												drawInfoArr.push(convertChange);
 											}
-											drawLine(drawInfoArr, "0");
+											drawLine(drawInfoArr, "0",
+													colorCode, zindex);
 										} else {
 											if (properties.pointType == "S"
 													|| properties.pointType == "E") { //출발지 마커
@@ -242,11 +256,11 @@
 														latlon);
 
 												// Marker 추가
-												addImgMarker(
-														new kakao.maps.LatLng(
-																convertPoint._lat,
-																convertPoint._lng),
-														icon);
+												/* 	addImgMarker(
+															new kakao.maps.LatLng(
+																	convertPoint._lat,
+																	convertPoint._lng),
+															icon); */
 											}
 										}
 
@@ -262,14 +276,63 @@
 					//JSON TYPE EDIT [E]
 				}
 
-				function drawLine(arrPoint, traffic) {
+				//선택된 장소 값들에 정보창을 추가한다.
+				function addInfoWindow(data,marker) {
+					var iwContent = '<div class="placeinfo">'
+						+ '   <div class="title" target="_blank" title="' + data.placeName + '">'
+						+ data.placeOrder+"."+data.placeName + '</div>';
+
+				
+						iwContent += '    <span title="' + data.placeAddr + '">'
+							+ data.placeAddr + '</span>';
+				
+							+ '</div>'
+							+ '<div class="after"></div>';
+					iwPosition = new kakao.maps.LatLng(data.placeLat, data.placeLng); //인포윈도우 표시 위치입니다
+
+					// 인포윈도우를 생성합니다
+					var infowindow = new kakao.maps.InfoWindow({
+						position : iwPosition,
+						content : iwContent,
+					    removable : true
+
+					});
+					kakao.maps.event.addListener(marker, 'click', function() {
+					      // 마커 위에 인포윈도우를 표시합니다
+					      infowindow.open(map, marker);  
+					});
+
+
+					// 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
+				//	infowindow.open(map, marker);
+
+				}
+				//일정 추가를 요청하는 클릭이벤트를 등록합니다.
+				$(document).on('click', 'div[name=place]', function() {
+
+					addPlan(this);
+				});
+
+				$(document).on('click', 'input[name=deletePlan]', function() {
+
+					var delCheck = confirm('삭제하시겠습니까?');
+					if (delCheck) {
+						$(this).parent().parent().remove();
+						reorder();
+					}
+
+				});
+
+				function drawLine(arrPoint, traffic, color, zindex) {
 					var polyline;
 
 					polyline = new kakao.maps.Polyline({
-						endArrow :true,
+						endArrow : true,
 						path : arrPoint,
-						strokeColor : "#000000",
-						strokeWeight : 3
+						strokeColor : color,
+						strokeWeight : 3,
+						strokeStyle : 'dashed',
+						zIndex : zindex
 
 					});
 					polyline.setMap(map);
@@ -303,24 +366,67 @@
 					var startX;
 					var startY;
 					removeRoute();
-					$(".itemBox").each(function(i, box) {
+					$(".itemBox")
+							.each(
+									function(i, box) {
 
-						$(box).find("input[name=itemNum]").val(i + 1);
-						if (i == 0) {
-							startX = $(box).find("input[name=placeLng]").val();
-							startY = $(box).find("input[name=placeLat]").val();
-						} else {
-							endX = $(box).find("input[name=placeLng]").val();
-							endY = $(box).find("input[name=placeLat]").val();
+										$(box).find("input[name=itemNum]").val(
+												i + 1);
 
-							route(startX, startY, endX, endY);
-							startX = $(box).find("input[name=placeLng]").val();
-							startY = $(box).find("input[name=placeLat]").val();
-						}
+										if (i == 0) {
+											startX = $(box).find(
+													"input[name=placeLng]")
+													.val();
+											startY = $(box).find(
+													"input[name=placeLat]")
+													.val();
+										} else {
+											endX = $(box).find(
+													"input[name=placeLng]")
+													.val();
+											endY = $(box).find(
+													"input[name=placeLat]")
+													.val();
 
-					});
+											route(startX, startY, endX, endY, i);
+											startX = $(box).find(
+													"input[name=placeLng]")
+													.val();
+											startY = $(box).find(
+													"input[name=placeLat]")
+													.val();
+										}
+										var placeInfo = {
+											placeId : $(box).find(
+													"input[name=placeId]")
+													.val(),
+											placeAddr : $(box).find(
+													"input[name=placeAddr]")
+													.val(),
+											placeName : $(box).find(
+													"input[name=placeName]")
+													.val(),
+											placeOrder : $(box).find(
+													"input[name=itemNum]")
+													.val(),
+											placeLng :  $(box).find(
+											"input[name=placeLng]")
+											.val(),
+											placeLat :  $(box).find(
+											"input[name=placeLat]")
+											.val(),
+											placeUrl :  $(box).find(
+											"input[name=placeUrl]")
+											.val()
+
+										}
+										var mac=addImgMarker(new kakao.maps.LatLng(
+												startY, startX), icon);
+										addInfoWindow(placeInfo,mac);
+									});
 
 				}
+				
 
 				//일정 추가를 요청하는 클릭이벤트를 등록합니다.
 				$(document).on('click', 'div[name=place]', function() {
@@ -451,6 +557,7 @@
 								+ "<input type='hidden' name='placeType' value='"+places[i].category_group_name+"'/>"
 								+ "<input type='hidden' name='placeLat' value='"+places[i].y+"'/>"
 								+ "<input type='hidden' name='placeLng' value='"+places[i].x+"'/>"
+								+ "<input type='hidden' name='placeUrl' value='"+places[i].place_url+"'/>"
 								+ places[i].place_name + "</div><p>";
 
 						// 마커와 검색결과 항목을 클릭 했을 때

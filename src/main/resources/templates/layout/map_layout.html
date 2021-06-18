@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<meta charset="UTF-8">
+	<title>railro</title>
+	
+	<!-- config fragment -->
+	<th:block th:replace="fragment/config :: configFragment"></th:block>
+</head>
+
+<body>
+
+	<!-- content fragment : page -->
+	<th:block layout:fragment="content"></th:block>
+	
+</body>
+</html>
