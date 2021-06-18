@@ -105,8 +105,8 @@ public class NaverLoginController {
 			System.out.println("naverCallback1 - parsedJson : " + parsedJson);
 			if(parsedJson.get("access_token") != null) {
 				String infoStr = getProfileFromNaver(parsedJson.get("access_token").toString());
-				
 				Map<String, Object> infoMap = new JSONParser(infoStr).parseObject();
+				System.out.println(infoMap);
 				if(infoMap.get("message").equals("success")) {
 					Map<String, Object> infoResp = (Map<String, Object>) infoMap.get("response");
 					String uniqueId = infoResp.get("id").toString();
@@ -317,9 +317,10 @@ public class NaverLoginController {
 	 * @throws ParseException 
 	 */
 	@RequestMapping("/oauth")
-	public String addMemberTable(Member member, HttpSession session) {
+	public String addMemberTable(Member member, OauthId oauthId, HttpSession session) {
 		session.invalidate();
 		memberService.insert(member);
+		oauthIdService.insertOauthId(oauthId);
 		
 		return "page/member/login";
 	}
