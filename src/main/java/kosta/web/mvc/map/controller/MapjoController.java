@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kosta.web.mvc.map.domain.Station;
@@ -103,13 +104,34 @@ public class MapjoController {
 	 * */
 	@RequestMapping("/cityUpdateForm")
 	public ModelAndView cityUpdateForm (int planId) {
-		List<StationPlan> list = stationService.selectPlanByPlanNum(planId);
+//		List<StationPlan> list = stationService.selectPlanByPlanNum(planId);
+//		ModelAndView mv = new ModelAndView();
+//		mv.setViewName("mapjo/cityUpdateForm");
+//		mv.addObject("stationUpdate", list);
+//		System.out.println(list);
+		
+		
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("mapjo/cityUpdateForm");
-		mv.addObject("stationUpdate", list);
-		System.out.println(list);
+		mv.addObject("planId", planId);
+		//System.out.println(list);
 		return mv;
 	}
+	
+	@RequestMapping("/cityUpdateForm2")
+	@ResponseBody
+	public List<StationPlan> cityUpdateForm2 (int planId) {
+		List<StationPlan> list = stationService.selectPlanByPlanNum(planId);
+//		ModelAndView mv = new ModelAndView();
+//		mv.setViewName("mapjo/cityUpdateForm");
+//		mv.addObject("stationUpdate", list);
+//		System.out.println(list);
+		
+		
+		
+		return list;
+	}
+	
 	
 	/**
 	 * update city plan
@@ -117,14 +139,11 @@ public class MapjoController {
 	@RequestMapping("/cityUpdate")
 	public ModelAndView cityUpdate (StationList list) {
 		//System.out.println(list);
-		List<StationPlan> updateList= new ArrayList<StationPlan>();
+		int planId = list.getList().get(0).getStationPlanId();
 		stationService.updateAll(list);
-		for(StationPlan s:list.getList()) {
-			updateList = stationService.selectPlanByPlanNum(s.getTravelPlan().getPlanId());
-		}
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("mapjo/cityUpdateDone");
-		mv.addObject("updateList", updateList);
+		mv.setViewName("mapjo/cityUpdateForm");
+		mv.addObject("planId", planId);
 		return mv;
 
 	}

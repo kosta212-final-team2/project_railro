@@ -76,25 +76,6 @@ ${stationUpdate}
 			 -->
 
 				<ul id="placesList2">
- 				<%-- <c:forEach items="${stationUpdate}" var="station">
-									<c:set var="dateValue" value="${station.travelDate}"/>
-				<div id="${fn:substring(dateValue,0,10)}" class="dayschedule ui-sortable">
-					${fn:substring(dateValue,0,10)} 
-					<div class="cityItem">
-						<div style="float: left;">
-							<span class="itemNum">1</span> <span><div class="info">
-									<h5>${station.trainStation.station}</h5>
-									<input type="hidden" name="stationPlanId" value="${station.stationPlanId}">
-									<input type="hidden" name="travelPlan" value="${station.travelPlan.planId}">
-									<input type="hidden" name="trainStation" value="${station.trainStation.id}"><input
-										type="hidden" name="travelDate" value="${fn:substring(dateValue,0,10)}"><input
-										type="hidden" name="travelOrder" value="${station.travelOrder}"><input
-										type="button" value="삭제" name="deletePlan">
-								</div></span>
-						</div>
-					</div>
-				</div> 
-				</c:forEach>  --%>
 				</ul>
 
 				<div id="pagination"></div>
@@ -108,237 +89,245 @@ ${stationUpdate}
 
 
 	$(function () {
-		//var itemList=[];
-		var markers=[];
-		var travelPlan;
-		var sList="${stationUpdate}";
-		alert(sList)
-		var startDate=$("#datepicker").val();
-		var endDate = $("#datepicker2").val();
-		alert(startDate)
-		var listDate=[];
 		
-		getDateRange(startDate, endDate, listDate);
-			console.log(listDate); 
-			
+		var planId = "${planId}"
+		alert(planId)
+		
+		$.ajax({
+			url: "${pageContext.request.contextPath}/mapjo/cityUpdateForm2",//서버주소 
+			type: "get",// 요쳥방식 get post put delete
+			dataType: "json",//서버가 보내오는 데이터 타입 -응답 : text, html, xml, json
+			data: {planId : planId },//서버에게 보낼 parameter 정보 
+			success: function (result) {
+				alert(result)
+				$.each(result, function(index, item){
+					alert(index +" , " + item +" , " + item.stationPlanId+","+ item.trainStation.id+","+item.travelDate.toString().substr(0, 10)+","+item.trainStation.station)
+				var contents="";
+									 			contents += "<div class='cityItem'>"
+												contents += "<div style='float:left;'>"
+
+												contents += "<span class='itemNum'></span> "
+												contents += "<span>"
+												contents += "<div class='info' name='cityName'><h5>"
+												contents += item.trainStation.station
+												contents += "</h5>"
+												contents += "<input type='hidden' name='travelPlan' value='"+planId+"'/>"
+												contents += "<input type='hidden' name='trainStation' value='"+item.trainStation.id+"'/>"
+												contents += "<input type='hidden' name='travelDate' value='"+item.travelDate.toString().substr(0, 10)+"'/>"
+												contents += "<input type='hidden' name='travelOrder' value='"+item.travelOrder+"'/>"
+												contents += "<input type='hidden' name='lat' value='"+item.trainStation.lat+"'/>"
+												contents += "<input type='hidden' name='lng' value='"+item.trainStation.lng+"'/>"
+												contents += "<input type='button' value='삭제' name='deletePlan'></input>"
+												contents += "</span></div></div>"; 
+
+											$("#" + item.travelDate.toString().substr(0, 10) + "").append(contents);
+											})
+
+											reorder();
+
+						},
+						error : function(err) {
+							consol.log(err + ": error occured")
+						}
+
+					});//end of ajax
+
+			//var itemList=[];
+			var markers = [];
+			var travelPlan;
+			var sList = "${stationUpdate}";
+			var startDate = $("#datepicker").val();
+			var endDate = $("#datepicker2").val();
+			alert(startDate)
+			var listDate = [];
+
+			getDateRange(startDate, endDate, listDate);
+			console.log(listDate);
+
 			totalSchedule(listDate);
-			
-			getPlanList(sList);
-		sortable();	
-		reorder();
 
-		
-		
-		//역검색 이벤트 
-		$("#search").click(function() {
+			sortable();
+			reorder();
 
-			
-			$.ajax({
-				url: "/stationMarker",//서버주소 
-				type: "get",// 요쳥방식 get post put delete
-				dataType: "json",//서버가 보내오는 데이터 타입 -응답 : text, html, xml, json
-				data: {keyword : $('input[name=keyword]').val()},//서버에게 보낼 parameter 정보 
-				success: function (result) {
-					//alert(result)
-					 var str="";
-					$.each(result, function (index, item) {
-						//alert(item.lat)
-						//alert(index)
-						//마커모양 변경요 !!
-						str+=	"<li class='item'><span class='markerbg marker_"+(index+1) +"'></span>";
-						str+=	"<div class='info'><h5>"+item.station +"</h5>";
-						str+=	"<h5>"+item.id+"</h5>";
-						str+=	"<span class='jibun gray' name=''>"+item.addr+"</span>";
-						str+=	"<span class='tel'>"+item.lat+"</span><span class='tel'>"+item.lng+"</span></div>"; 
-						str+=	"<input type='button' value='추가' id='addList' name='"+item.lat+","+item.lng+"'></li>"; 
-						
-					//itemList.push(item);
-					
-						
-					})//end of each
-					
-					
-					$("#placesList").html(str); 
-				},
-				error: function (err) {
-					consol.log(err+": error occured")
-				}
-					
-			});//end of ajax
-			
+			//역검색 이벤트 
+			$("#search")
+					.click(
+							function() {
 
-		});//end of click
-		
-		
-		var city;
-		var stationId;
-		var address;
-		var latitude;
-		var longitude;
-		
-		
-		//리스트에 있는 장소 마커 추가 
-		$(document).on("click","#addList",function () {
-	
-			city = $(this).prev().children().eq(0).text();
-			stationId = $(this).prev().children().eq(1).text();
-			address = $(this).prev().children().eq(2).text();
-			latitude = $(this).prev().children().eq(3).text();
-			longitude = $(this).prev().children().eq(4).text();
-			
-			//alert($(this).attr("name"))
-			var a =$(this).attr("name").split(",")
-			
-			var markerPosition  = new kakao.maps.LatLng(a[0], a[1]); 
-			//var markerPosition  = new kakao.maps.LatLng(t.text(), g.text()); 
+								$
+										.ajax({
+											url : "/stationMarker",//서버주소 
+											type : "get",// 요쳥방식 get post put delete
+											dataType : "json",//서버가 보내오는 데이터 타입 -응답 : text, html, xml, json
+											data : {
+												keyword : $(
+														'input[name=keyword]')
+														.val()
+											},//서버에게 보낼 parameter 정보 
+											success : function(result) {
+												//alert(result)
+												var str = "";
+												$
+														.each(
+																result,
+																function(index,
+																		item) {
+																	//alert(item.lat)
+																	//alert(index)
+																	//마커모양 변경요 !!
+																	str += "<li class='item'><span class='markerbg marker_"
+																			+ (index + 1)
+																			+ "'></span>";
+																	str += "<div class='info'><h5>"
+																			+ item.station
+																			+ "</h5>";
+																	str += "<h5>"
+																			+ item.id
+																			+ "</h5>";
+																	str += "<span class='jibun gray' name=''>"
+																			+ item.addr
+																			+ "</span>";
+																	str += "<span class='tel'>"
+																			+ item.lat
+																			+ "</span><span class='tel'>"
+																			+ item.lng
+																			+ "</span></div>";
+																	str += "<input type='button' value='추가' id='addList' name='"+item.lat+","+item.lng+"'></li>";
 
-			
-			// 마커를 생성합니다
-			var marker = new kakao.maps.Marker({
-			    position: markerPosition
+																	//itemList.push(item);
+
+																})//end of each
+
+												$("#placesList").html(str);
+											},
+											error : function(err) {
+												consol.log(err
+														+ ": error occured")
+											}
+
+										});//end of ajax
+
+							});//end of click
+
+			var city;
+			var stationId;
+			var address;
+			var latitude;
+			var longitude;
+
+			//리스트에 있는 장소 마커 추가 
+			$(document).on("click", "#addList", function() {
+
+				city = $(this).prev().children().eq(0).text();
+				stationId = $(this).prev().children().eq(1).text();
+				address = $(this).prev().children().eq(2).text();
+				latitude = $(this).prev().children().eq(3).text();
+				longitude = $(this).prev().children().eq(4).text();
+
+				//alert($(this).attr("name"))
+				var a = $(this).attr("name").split(",")
+
+				var markerPosition = new kakao.maps.LatLng(a[0], a[1]);
+				//var markerPosition  = new kakao.maps.LatLng(t.text(), g.text()); 
+
+				// 마커를 생성합니다
+				var marker = new kakao.maps.Marker({
+					position : markerPosition
+				});
+
+				// 마커가 지도 위에 표시되도록 설정합니다
+				marker.setMap(map);
+				//marker.setMap(null);
+				markers.push(marker);
+
+				createDaySchedule(startDate);
+				//createItem(startDate);
+
 			});
-			
-			// 마커가 지도 위에 표시되도록 설정합니다
-			marker.setMap(map);
-			//marker.setMap(null);
-			markers.push(marker);
-			
-			
-			createDaySchedule(startDate);
-			//createItem(startDate);
-	
-	});
-		
-		
-		//리스트 장소 목록 삭제 버튼 이벤트 
-		$(document).on('click', 'input[name=deletePlan]', function() {
 
-			var delCheck = confirm('삭제하시겠습니까?');
-			if (delCheck) {
-				$(this).parent().parent().parent().parent().remove();
-				reorder();
+			//리스트 장소 목록 삭제 버튼 이벤트 
+			$(document).on('click', 'input[name=deletePlan]', function() {
+
+				var delCheck = confirm('삭제하시겠습니까?');
+				if (delCheck) {
+					$(this).parent().parent().parent().parent().remove();
+					reorder();
+				}
+
+			});
+
+			//리스트에 있는 장소 마커 삭제 
+			$(document).on("click", "#deleteList", function() {
+
+				hideMarkers();
+			});
+
+			//submit 전 리네임 
+			$("form[name=plan]").bind('submit', function() {
+				renameForModelAttribute();
+			});
+
+			function setMarkers(map) {
+				for (var i = 0; i < markers.length; i++) {
+					markers[i].setMap(map);
+				}
 			}
 
-		});
-		
-		
-		
-		//리스트에 있는 장소 마커 삭제 
-		$(document).on("click","#deleteList",function () {
-	
-			hideMarkers();
-		});
-		
-		//submit 전 리네임 
-		$("form[name=plan]").bind('submit', function() {
-			renameForModelAttribute();
-		});
-		
-		
-		function setMarkers(map) {
-		    for (var i = 0; i < markers.length; i++) {
-		        markers[i].setMap(map);
-		    }            
-		}
-		
+			// "마커 감추기" 버튼을 클릭하면 호출되어 배열에 추가된 마커를 지도에서 삭제하는 함수입니다
+			function hideMarkers() {
+				setMarkers(null);
+				markers.splice(0);
+				//markers=[];
+			}
 
-		// "마커 감추기" 버튼을 클릭하면 호출되어 배열에 추가된 마커를 지도에서 삭제하는 함수입니다
-		function hideMarkers() {
-		    setMarkers(null);  
-		    markers.splice(0);
-		    //markers=[];
-		}
-		
-		
-//. 리스트 생성 코드
+			//. 리스트 생성 코드
 
-		function sortable() {
-			
-	    $(".dayschedule").sortable({
-	    	
-	    	connectWith: ".dayschedule",
+			function sortable() {
 
-	       placeholder:"itemBoxHighlight",
+				$(".dayschedule").sortable({
 
-	        start: function(event, ui) {
+					connectWith : ".dayschedule",
 
-	            ui.item.data('start_pos', ui.item.index());
+					placeholder : "itemBoxHighlight",
 
-	        },
+					start : function(event, ui) {
 
-	        stop: function(event, ui) {
+						ui.item.data('start_pos', ui.item.index());
 
-	            var spos = ui.item.data('start_pos');
+					},
 
-	            var epos = ui.item.index();
+					stop : function(event, ui) {
 
-		    	reorder();
+						var spos = ui.item.data('start_pos');
 
-	        }
-	        
-	        //$(".dayschedule").disableSelection();
+						var epos = ui.item.index();
 
-	    });
-		}
-		
-	    function reorder() {
+						reorder();
 
-		    $(".cityItem").each(function(i, box) {
-						//alert($(box).parent().attr("id"))
-		        var redate = $(box).parent().attr("id");
-		        $(box).find(".itemNum").html(i + 1);
-		        $(box).find("input[name=travelOrder]").val(i + 1);
-		        $(box).find("input[name=travelDate]").val(redate);
-		    });
+					}
 
-		}
+				//$(".dayschedule").disableSelection();
 
-	
-		
-		//드래그 가능한 리스트로 만들기
-		$(function() {
-		    $("#sortable").sortable();
-		    $("#sortable").disableSelection();
-		});
+				});
+			}
 
-		
-		//날짜
-		function getPlanList(sList) {
-			//alert(Object.keys(sList).length)
-			alert(sList[0].travelDate)
-			 alert(Object.keys(sList).length);
-		
-			/* for(var i = 0; i < sList.length; i++){
-				alert(i)
-				var contents
+			function reorder() {
 
-				= "<div class='cityItem'>"
-						+ "<div style='float:left;'>"
+				$(".cityItem").each(function(i, box) {
+					//alert($(box).parent().attr("id"))
+					var redate = $(box).parent().attr("id");
+					$(box).find(".itemNum").html(i + 1);
+					$(box).find("input[name=travelOrder]").val(i + 1);
+					$(box).find("input[name=travelDate]").val(redate);
+				});
 
-						+ "<span class='itemNum'></span> "
-						+ "<span>"
-						+ "<div class='info' name='cityName'><h5>"
-						//+ city
-						+ "</h5>"
-						+ "<input type='hidden' name='travelPlan' value='3'/>"
-						+ "<input type='hidden' name='trainStation' value='"+sList[i].trainStation+"'/>"
-						+ "<input type='hidden' name='travelDate' value='"+sList[i].travelDate+"'/>"
-						+ "<input type='hidden' name='travelOrder'/>"
-					//+ "<input type='hidden' name='lat' value='"+latitude+"'/>"
-						//+ "<input type='hidden' name='lng' value='"+longitude+"'/>"
-						+ "<input type='button' value='삭제' name='deletePlan'></input>"
-						+ "</span>" + "</div>" + "</div>";
+			}
 
-				$("#" + sList[i].travelDate + "").append(contents);
-				//$("#"+date+"").text();
-
-				reorder();
-				
-			} */
-		}
-			
-			
-		
+			//드래그 가능한 리스트로 만들기
+			$(function() {
+				$("#sortable").sortable();
+				$("#sortable").disableSelection();
+			});
 
 			//시작일과 종료일 사이의 날짜를 구하는 함수 
 
@@ -432,6 +421,14 @@ ${stationUpdate}
 													"name",
 													"list[" + index
 															+ "].travelOrder");
+									$(this).find("input[name=lat]").attr(
+											"name",
+											"list[" + index
+													+ "].trainStation.lat");
+									$(this).find("input[name=lng]").attr(
+											"name",
+											"list[" + index
+													+ "].trainStation.lng");
 
 									//  $(this).find("input[name=targetName]").attr("name", "targets[" + index + "].targetName");
 								})

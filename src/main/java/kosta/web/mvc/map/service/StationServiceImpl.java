@@ -91,9 +91,7 @@ public class StationServiceImpl implements StationService {
 					plan.setTravelOrder(s.getTravelOrder());
 					
 					stationPlanRepository.save(plan);
-				}
-				
-				if(s.getStationPlanId() == 0) {
+				}else {
 					stationPlanRepository.save(s);
 				}
 				
