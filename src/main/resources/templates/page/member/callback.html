@@ -126,10 +126,17 @@ ul{list-style:none; }
     <div th:unless="${isConnectedToNaver}"> <!-- 연동 안된상태 -->
       <h5>네이버 아이디와 연동하여 가입하시겠습니까?</h5>
 			<form th:action="@{/member/naverRegisterForm}" method="POST">
-				<input type="hidden" th:value="${uniqueIdOfNaver}" name="uniqueId">
-				<button type="submit" id="submit_button">YES</button></form>
+				<input type="hidden" th:value="${naverId}" name="naverId">
+				<input type="hidden" th:value="${currentAT}" name="accessToken">
+				<input type="hidden" th:value="${currentRT}" name="refreshToken">
+				<input type="hidden" th:value="${picture}" name="picture">
+				<input type="hidden" th:value="${email}" name="email">
+				<input type="hidden" th:value="${phone}" name="phone">
+				<input type="hidden" th:value="${name}" name="name">
+				<button type="submit" id="submit_button">YES</button>
+			</form>
 				<a th:href="${'/member/naver/deleteToken?accessToken=' + session.currentAT}">
-				<button type="submit" id="submit_button">NO</button></a> 
+				NO</a> 
           </div><!-- join_form E  -->
          
           

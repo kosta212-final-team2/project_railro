@@ -22,7 +22,7 @@ public class OauthId {
 	@Column(nullable = false)
 	private String memberId;
 	@Column(nullable = true)
-	private int refreshToken;
+	private String refreshToken;
 	@Column(nullable = false)
-	private int accessToken;
+	private String accessToken;
 }
