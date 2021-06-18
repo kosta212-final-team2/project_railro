@@ -91,7 +91,9 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public void deletebyMemberId(String memberId) {
-		// TODO Auto-generated method stub
+		
+		authoritiesRepository.deleteByMemberId (memberId);
+		memberRepository.deleteById(memberId);
 		
 	}
 

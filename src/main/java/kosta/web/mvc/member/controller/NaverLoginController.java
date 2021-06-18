@@ -290,7 +290,7 @@ public class NaverLoginController {
 	 */
 	@RequestMapping("/oauth")
 	public String addMemberTable(Member member, Model model, String naverId, String memberId, String refreshToken, String accessToken) throws IOException, ParseException {
-		memberService.naverMemberInsert(member);
+		//memberService.naverMemberInsert(member);
 		String apiURL = "https://openapi.naver.com/v1/nid/me";
 
 		String res = requestToServer(apiURL);

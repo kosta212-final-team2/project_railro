@@ -80,4 +80,16 @@ public class MemberController {
 		return new ModelAndView("page/member/profile");
 	}
 	
+	/**
+	 * 회원탈퇴
+	 */
+	@RequestMapping("/deleteMember")
+	public String deleteMember(String memberId) {
+		
+		memberService.deletebyMemberId(memberId);
+		
+		
+		return "redirect:/member/loginForm";
+	}
+	
 }

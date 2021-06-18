@@ -20,6 +20,6 @@ public interface MemberRepository extends JpaRepository<Member, String>{
 
 	@Modifying
 	@Query("DELETE FROM member m WHERE m.memberId = ?1") 
-	void deleteByMemberId(String memberId);
+	Member deleteByMemberId(Member member);
 
 }
