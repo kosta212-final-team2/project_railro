@@ -20,8 +20,16 @@
 <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
 <script type="text/javascript">
 	$(function() {
+		var memberId = /*[[ ${#authentication.principal.memberId} ]]*/
+		
+		alert(memberId);
+		
+		var test = $("#test").val();
+		
+		alert(test);
+		
 		let imgText = $("#img_text").text();
-		alert(imgText);
+		//alert(imgText);
 		$("#img_src").attr("src", imgText);
 	});
 </script>
@@ -73,24 +81,30 @@
               </div>
             </div>
             
-            
+            <!-- 수정하기, 삭제하기 버튼 -->
+            <div class="tag-widget post-tag-container mb-5 mt-5">
+              <div style="text-align: right;">
+		            <input type="button" value="수정하기"  class="btn py-3 px-4 btn-primary">&nbsp;&nbsp;
+		            <input type="button" value="삭제하기" onclick="" class="btn py-3 px-4 btn-primary">
+              </div>
+            </div>
 
 
 						<!-- 댓글 영역 -->
             <div class="pt-5 mt-5">
-              <h3 class="mb-5">댓글 개수</h3>
+              <h3 class="mb-5">댓글</h3>
               <ul class="comment-list">
               	<!-- 댓글 반복문 돌릴 영역 -->
               	<li class="comment" th:each="reply : ${board.infoReplyList}">
                   <div class="vcard bio">
-            				<span id="img_text" th:text="${reply.member.picture}"></span>
+            				<span id="img_text" th:text="${reply.member.picture}" style="visibility: hidden;"></span>
                     <img id="img_src">
                   </div>
                   <div class="comment-body">
                     <h3 th:text="${reply.member.memberId}"></h3>
                     <div class="meta" th:text="${reply.infoReplyRegdate}"></div>
                     <p><h6 th:text="${reply.infoReplyContent}"></h6></p>
-                    <p><a href="#" class="reply">Reply</a></p>
+                    <!-- <p><a href="#" class="reply">Reply</a></p> -->
                   </div>
                 </li>
               </ul>
@@ -98,17 +112,17 @@
               
               <!-- 댓글 작성 영역 -->
               <div class="comment-form-wrap pt-5">
-                <h3 class="mb-5">댓글</h3>
+                <!-- <h3 class="mb-5">댓글 작성</h3> -->
                  <form name="replyWriteForm" method="post" th:action="@{/board/info/reply/insert}" class="p-5 bg-light">
                 	<input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-                  <input type="hidden" name="memberId" th:value="${#authentication.principal.memberId}">
+                  <input type="hidden" id="test" name="memberId" th:value="${#authentication.principal.memberId}">
                   <input type="hidden" name="infoBno" th:value="${board.infoBno}">
                   
                   <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea name="infoReplyContent" cols="30" rows="10" class="form-control"></textarea>
+                    <!-- <label for="message">Message</label> -->
+                    <textarea name="infoReplyContent" cols="30" rows="5" class="form-control"></textarea>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" style="text-align: center;">
                     <input type="submit" value="댓글 등록하기" class="btn py-3 px-4 btn-primary">
                   </div>
                 </form>
