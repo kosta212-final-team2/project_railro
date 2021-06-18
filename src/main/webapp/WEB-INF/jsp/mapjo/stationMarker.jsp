@@ -351,11 +351,13 @@
 
 					      + "<span class='itemNum'></span> "
 								+ "<span>"
-								+	"<div class='info'><h5>"+city+"</h5>"
+								+	"<div class='info' name='cityName'><h5>"+city+"</h5>"
 								+ "<input type='hidden' name='travelPlan' value='3'/>"
 								+ "<input type='hidden' name='trainStation' value='"+stationId+"'/>"
 								+ "<input type='hidden' name='travelDate' value='"+date+"'/>"
 								+ "<input type='hidden' name='travelOrder'/>"
+								+ "<input type='hidden' name='lat' value='"+latitude+"'/>"
+								+ "<input type='hidden' name='lng' value='"+longitude+"'/>"
 								+ "<input type='button' value='삭제' name='deletePlan'></input>"
 								+ "</span>"
 								+ "</div>"
@@ -372,7 +374,7 @@
 			
 			//form 전달 전에 리네임 하는 함수
 			function renameForModelAttribute() {
-				$(".info").each(
+				$("div[name=cityName]").each(
 						function(index) {
 							$(this).find("input[name=travelPlan]").attr(
 									"name",
@@ -390,6 +392,14 @@
 									"name",
 									"list[" + index
 											+ "].travelOrder");
+							$(this).find("input[name=lat]").attr(
+									"name",
+									"list[" + index
+											+ "].trainStation.lat");
+							$(this).find("input[name=lng]").attr(
+									"name",
+									"list[" + index
+											+ "].trainStation.lng");
 					
 							//  $(this).find("input[name=targetName]").attr("name", "targets[" + index + "].targetName");
 						})

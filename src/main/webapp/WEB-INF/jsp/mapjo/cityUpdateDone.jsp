@@ -23,7 +23,7 @@
   </script>
 </head>
 <body>
-${stationUpdate}
+${updateList}
 <p style="margin-top:-12px">
 </p>
 <p>여행이름 : <input type="text" id="travelPlan"></p>
@@ -76,10 +76,10 @@ ${stationUpdate}
 			 -->
 
 				<ul id="placesList2">
- 				<%-- <c:forEach items="${stationUpdate}" var="station">
+				<c:forEach items="${updateList}" var="station">
 									<c:set var="dateValue" value="${station.travelDate}"/>
 				<div id="${fn:substring(dateValue,0,10)}" class="dayschedule ui-sortable">
-					${fn:substring(dateValue,0,10)} 
+					${fn:substring(dateValue,0,10)}
 					<div class="cityItem">
 						<div style="float: left;">
 							<span class="itemNum">1</span> <span><div class="info">
@@ -93,8 +93,8 @@ ${stationUpdate}
 								</div></span>
 						</div>
 					</div>
-				</div> 
-				</c:forEach>  --%>
+				</div>
+				</c:forEach>
 				</ul>
 
 				<div id="pagination"></div>
@@ -108,24 +108,14 @@ ${stationUpdate}
 
 
 	$(function () {
+		//alert(1)
 		//var itemList=[];
 		var markers=[];
-		var travelPlan;
-		var sList="${stationUpdate}";
-		alert(sList)
 		var startDate=$("#datepicker").val();
 		var endDate = $("#datepicker2").val();
-		alert(startDate)
-		var listDate=[];
-		
-		getDateRange(startDate, endDate, listDate);
-			console.log(listDate); 
-			
-			totalSchedule(listDate);
-			
-			getPlanList(sList);
+		var travelPlan;
 		sortable();	
-		reorder();
+			
 
 		
 		
@@ -302,147 +292,115 @@ ${stationUpdate}
 		});
 
 		
-		//날짜
-		function getPlanList(sList) {
-			//alert(Object.keys(sList).length)
-			alert(sList[0].travelDate)
-			 alert(Object.keys(sList).length);
 		
-			/* for(var i = 0; i < sList.length; i++){
-				alert(i)
-				var contents
-
-				= "<div class='cityItem'>"
-						+ "<div style='float:left;'>"
-
-						+ "<span class='itemNum'></span> "
-						+ "<span>"
-						+ "<div class='info' name='cityName'><h5>"
-						//+ city
-						+ "</h5>"
-						+ "<input type='hidden' name='travelPlan' value='3'/>"
-						+ "<input type='hidden' name='trainStation' value='"+sList[i].trainStation+"'/>"
-						+ "<input type='hidden' name='travelDate' value='"+sList[i].travelDate+"'/>"
-						+ "<input type='hidden' name='travelOrder'/>"
-					//+ "<input type='hidden' name='lat' value='"+latitude+"'/>"
-						//+ "<input type='hidden' name='lng' value='"+longitude+"'/>"
-						+ "<input type='button' value='삭제' name='deletePlan'></input>"
-						+ "</span>" + "</div>" + "</div>";
-
-				$("#" + sList[i].travelDate + "").append(contents);
-				//$("#"+date+"").text();
-
-				reorder();
-				
-			} */
-		}
-			
-			
+		//시작일과 종료일 사이의 날짜를 구하는 함수 
 		
-
-			//시작일과 종료일 사이의 날짜를 구하는 함수 
-
-			function getDateRange(startDate, endDate, listDate) {
+		function getDateRange(startDate, endDate, listDate){
 				var dateMove = new Date(startDate);
 				var strDate = startDate;
-				if (startDate == endDate) {
+				if (startDate == endDate)
+				{
 					var strDate = dateMove.toISOString().slice(0, 10);
 					listDate.push(strDate);
-				} else {
-					while (strDate < endDate) {
+				}
+				else
+				{
+					while (strDate < endDate)
+					{
 						var strDate = dateMove.toISOString().slice(0, 10);
 						listDate.push(strDate);
 						dateMove.setDate(dateMove.getDate() + 1);
 					}
 				}
 				return listDate;
-			}
-			;
-
+			};
+			
+			
+			
 			//날짜가 들어왔을 때  placesList 에 div 를 만드는 함수  
-			function createSchedule(date) {
-
-				var contents
-
-				= "<div id='"+date+"' class='dayschedule'>" + date + "</div>";
-
-				$("#placesList2").append(contents);
+			function createSchedule(date){
+				
+				var contents 
+				
+		        	="<div id='"+date+"' class='dayschedule'>"
+		        	+	date
+							+ "</div>";
+							
+					$("#placesList2").append(contents);
 			}
-
+			
+			
+			
+			
 			//날짜 div안에 생성될 아이템들 만드는 함수 
 			function createDaySchedule(date) {
+				
+					var number = $(".itemNum").innerHTML;
+					travelPlan = $("#travelPlan").val();
+				
+					var contents
 
-				var number = $(".itemNum").innerHTML;
-				travelPlan = $("#travelPlan").val();
+				    = "<div class='cityItem'>"
+					      + "<div style='float:left;'>"
 
-				var contents
+					      + "<span class='itemNum'></span> "
+								+ "<span>"
+								+	"<div class='info'><h5>"+city+"</h5>"
+								+ "<input type='hidden' name='travelPlan' value='2'/>"
+								+ "<input type='hidden' name='trainStation' value='"+stationId+"'/>"
+								+ "<input type='hidden' name='travelDate' value='"+date+"'/>"
+								+ "<input type='hidden' name='travelOrder'/>"
+								+ "<input type='button' value='삭제' name='deletePlan'></input>"
+								+ "</span>"
+								+ "</div>"
+								+ "</div>";
+								
 
-				= "<div class='cityItem'>"
-						+ "<div style='float:left;'>"
-
-						+ "<span class='itemNum'></span> "
-						+ "<span>"
-						+ "<div class='info' name='cityName'><h5>"
-						+ city
-						+ "</h5>"
-						+ "<input type='hidden' name='travelPlan' value='3'/>"
-						+ "<input type='hidden' name='trainStation' value='"+stationId+"'/>"
-						+ "<input type='hidden' name='travelDate' value='"+date+"'/>"
-						+ "<input type='hidden' name='travelOrder'/>"
-						+ "<input type='hidden' name='lat' value='"+latitude+"'/>"
-						+ "<input type='hidden' name='lng' value='"+longitude+"'/>"
-						+ "<input type='button' value='삭제' name='deletePlan'></input>"
-						+ "</span>" + "</div>" + "</div>";
-
-				$("#" + date + "").append(contents);
-				//$("#"+date+"").text();
-
-				reorder();
-
+					$("#"+date+"").append(contents);
+					//$("#"+date+"").text();
+					
+					reorder();
+				
 			}
-
+			
+			
 			//form 전달 전에 리네임 하는 함수
 			function renameForModelAttribute() {
-				$("div[name=cityName]")
-						.each(
-								function(index) {
-									$(this)
-											.find("input[name=stationPlanId]")
-											.attr(
-													"name",
-													"list[" + index
-															+ "].stationPlanId");
-									$(this).find("input[name=travelPlan]")
-											.attr(
-													"name",
-													"list[" + index
-															+ "].travelPlan");
-									$(this).find("input[name=trainStation]")
-											.attr(
-													"name",
-													"list[" + index
-															+ "].trainStation");
-									$(this).find("input[name=travelDate]")
-											.attr(
-													"name",
-													"list[" + index
-															+ "].travelDate");
-									$(this).find("input[name=travelOrder]")
-											.attr(
-													"name",
-													"list[" + index
-															+ "].travelOrder");
-
-									//  $(this).find("input[name=targetName]").attr("name", "targets[" + index + "].targetName");
-								})
+				$(".info").each(
+						function(index) {
+							$(this).find("input[name=stationPlanId]").attr(
+									"name",
+									"list[" + index
+											+ "].stationPlanId");
+							$(this).find("input[name=travelPlan]").attr(
+									"name",
+									"list[" + index
+											+ "].travelPlan");
+							$(this).find("input[name=trainStation]").attr(
+									"name",
+									"list[" + index
+											+ "].trainStation");
+							$(this).find("input[name=travelDate]").attr(
+									"name",
+									"list[" + index
+											+ "].travelDate");
+							$(this).find("input[name=travelOrder]").attr(
+									"name",
+									"list[" + index
+											+ "].travelOrder");
+					
+							//  $(this).find("input[name=targetName]").attr("name", "targets[" + index + "].targetName");
+						})
 			}
-
+			
+			
+	
 			function totalSchedule(listDate) {
-
-				for (var i = 0; i < listDate.length; i++) {
+				
+				for(var i=0; i < listDate.length;i++){
 					createSchedule(listDate[i]);
 				}
-
+				
 			}
 
 		});//end of ready

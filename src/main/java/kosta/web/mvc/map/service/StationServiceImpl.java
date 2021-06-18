@@ -73,19 +73,45 @@ public class StationServiceImpl implements StationService {
 	public StationPlan findByStationPlanId(int planId) {
 		return stationPlanRepository.findByStationPlanId(planId);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	/**
+	 * 역 일정 수정하기 
+	 * */
+	@Override
+	public void updateAll(StationList list) {
+		for (StationPlan s : list.getList()) {
+			if(s.getTravelDate() != null) {
+				
+				if (s.getStationPlanId() != 0) {
+					StationPlan plan = stationPlanRepository.findByStationPlanId(s.getStationPlanId());
+					System.out.println(plan.getStationPlanId());
+					System.out.println(s.getStationPlanId());
+//			System.out.println(plan.getTravelOrder());
+					plan.setTravelDate(s.getTravelDate());
+					plan.setTravelOrder(s.getTravelOrder());
+					
+					stationPlanRepository.save(plan);
+				}
+				
+				if(s.getStationPlanId() == 0) {
+					stationPlanRepository.save(s);
+				}
+				
+				
+				
+				
+			}
+
+		}//for
+//		List<StationPlan> dbList = stationPlanRepository.findByTravelPlan_planId(list.getList().get(0).getTravelPlan().getPlanId());
+//		for(StationPlan plan :dbList) {
+//			if(!list.getList().contains(plan)) {
+//				stationPlanRepository.delete(plan);
+//			}
+//		}
+
+	}
+
 	
 	
 	

@@ -1,5 +1,6 @@
 package kosta.web.mvc.map.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class MapjoController {
 	private XmlParsingTest parsing;
 	
 	/**
-	 * naver 지도 보여주기 
+	 * naver 지도 보여주기 / test 용 
 	 * */
 	@RequestMapping("/list/{id}")
 	public ModelAndView list(@PathVariable int id) {
@@ -43,7 +44,7 @@ public class MapjoController {
 		
 	}
 	/**
-	 * 역리스트 보여주기 
+	 * 역리스트 보여주기 / test 용 
 	 * */
 	@RequestMapping("/stationList")
 	public void stationList(Model model, @RequestParam(defaultValue = "0")int nowPage) {
@@ -56,7 +57,7 @@ public class MapjoController {
 	
 	
 	/**
-	 * 열차정보 보여주기  
+	 * 열차정보 보여주기  / test 용 
 	 * */
 	@RequestMapping("/infoList")
 	public void infoList(Model model) {
@@ -66,37 +67,17 @@ public class MapjoController {
 	}
 	
 	/**
-	 * search by keyword
+	 * search by keyword / test 용 
 	 * */
 	@RequestMapping("/searchkakao")
 	public void searchkakao() {
 		
 	}
 	
-	/**
-	 * search by keyword
-	 * */
-	@RequestMapping("/search")
-	public void search() {
-		
-	}
+	///////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
-	 * search by keyword
-	 * */
-	@RequestMapping("/myro")
-	public void myro() {
-		
-	}
-	/**
-	 * kakao test
-	 * */
-	@RequestMapping("/myro3")
-	public void myro3() {
-		
-	}
-	/**
-	 * kakao test
+	 * kakao 지도 역 검색 및 마커 찍기 
 	 * */
 	@RequestMapping("/stationMarker")
 	public void stationMarker() {
@@ -126,6 +107,7 @@ public class MapjoController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("mapjo/cityUpdateForm");
 		mv.addObject("stationUpdate", list);
+		System.out.println(list);
 		return mv;
 	}
 	
@@ -133,35 +115,20 @@ public class MapjoController {
 	 * update city plan
 	 * */
 	@RequestMapping("/cityUpdate")
-	public void cityUpdate (StationList station) {
-		System.out.println(station);
-		for(StationPlan s:station.getList()) {
-//			System.out.println(s.getStationPlanId());
-//			System.out.println(s.getTravelDate());
-//			System.out.println(s.getTravelOrder());
-//			System.out.println(s.getTravelPlan().getPlanId());
-//			System.out.println(s.getTrainStation().getId());
-			
-			StationPlan plan = stationService.findByStationPlanId(s.getStationPlanId());
-//			System.out.println(plan.getStationPlanId());
-//			System.out.println(plan.getTravelOrder());
-				plan.setTravelDate(s.getTravelDate());
-				plan.setTravelOrder(s.getTravelOrder());
+	public ModelAndView cityUpdate (StationList list) {
+		//System.out.println(list);
+		List<StationPlan> updateList= new ArrayList<StationPlan>();
+		stationService.updateAll(list);
+		for(StationPlan s:list.getList()) {
+			updateList = stationService.selectPlanByPlanNum(s.getTravelPlan().getPlanId());
 		}
-		
-		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("mapjo/cityUpdateDone");
+		mv.addObject("updateList", updateList);
+		return mv;
 
 	}
 	
-	
-//	/**
-//	 * 역전체 지도에 마커로 표시 
-//	 * */
-//	@RequestMapping("/mapTotal")
-//	public void mapTotal(Model model) {
-//		List<Station> list = stationService.selectAll();
-//		model.addAttribute("list",list); // view -> ${list.메서드이름}
-//	}
-//	
+
 
 }

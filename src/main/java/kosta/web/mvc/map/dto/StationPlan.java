@@ -21,12 +21,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class StationPlan {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "station_plan_sequence")
@@ -51,4 +53,17 @@ public class StationPlan {
 	public StationPlan(int spid) {
 		this.stationPlanId=spid;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		StationPlan plan = (StationPlan)obj;
+		//if(this.stationPlanId == plan.getStationPlanId()) 
+			return true; 
+		//else return false;
+	}
+	
+	
+	
+	
 }
