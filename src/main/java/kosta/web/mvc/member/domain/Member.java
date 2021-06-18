@@ -38,4 +38,8 @@ public class Member {
 	@Column(nullable = false)
 	private String phone;
 	
+	public Member(String memberId) {
+		this.memberId = memberId;
+	}
+
 }

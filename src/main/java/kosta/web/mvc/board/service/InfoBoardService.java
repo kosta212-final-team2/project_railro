@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import kosta.web.mvc.domain.InfoBoard;
+import kosta.web.mvc.board.domain.InfoBoard;
 
 public interface InfoBoardService {
 
@@ -18,4 +18,15 @@ public interface InfoBoardService {
 	 * 전체검색 - Page처리
 	 * */
 	Page<InfoBoard> selectAll(Pageable pageable);
+	
+	/**
+	 * 등록
+	 */
+	void insert(InfoBoard board);
+	
+	/**
+	 * 상세보기를 위한 글번호 검색
+	 * 	: 조회수 증가함 state=true일 때.
+	 */
+	InfoBoard selectBy(Long infoBno, boolean state);
 }
