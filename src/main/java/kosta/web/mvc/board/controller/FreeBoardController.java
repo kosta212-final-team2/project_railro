@@ -61,7 +61,7 @@ public class FreeBoardController {
 	/**
 	 * 전체검색 또는 조건 검색
 	 */
-	@RequestMapping("/free")
+	@RequestMapping("/list")
 	public String freeIdSearch(String keyword, String type, Model model, @RequestParam(defaultValue = "1") int nowPage) {
 
 		Pageable pageable = PageRequest.of((nowPage - 1), 10, Direction.DESC, "freeBno");
