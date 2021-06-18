@@ -29,10 +29,9 @@ public class FollowingController {
 	@RequestMapping("/unfollow")
 	public void unfollowing(String toId, String fromId) {
 		
-		System.out.println("unfollowing 호출");
-		
-		Following following = new Following(null, fromId, toId, null);
-			
+		System.out.println("unfollowing222222 호출");
+		System.out.println(toId);
+		System.out.println(fromId);
 		followingService.deleteByFromIdAndToId(fromId, toId);
 			
 	}

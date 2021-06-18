@@ -1,11 +1,14 @@
 package kosta.web.mvc.member.service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kosta.web.mvc.member.domain.Following;
 import kosta.web.mvc.member.repository.FollowingRepository;
 @Service
+@Transactional
 public class FollowingServiceImpl implements FollowingService {
 
 	@Autowired
@@ -18,7 +21,9 @@ public class FollowingServiceImpl implements FollowingService {
 
 	@Override
 	public void deleteByFromIdAndToId(String toId, String fromId) {
-		followingRepository.deleteByFromIdAndToId(fromId, toId);
+		System.out.println(toId);
+		System.out.println(fromId);
+		followingRepository.deleteByFromIdAndToId(toId, fromId);
 		
 	}
 

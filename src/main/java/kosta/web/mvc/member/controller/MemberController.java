@@ -54,6 +54,7 @@ public class MemberController {
 		Member loginMember = (Member) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String fromId = loginMember.getMemberId();
 		Following following = followingService.findByFromIdAndToId(fromId, memberId);
+		model.addAttribute("fromId", fromId);
 		model.addAttribute("following", following);
 		model.addAttribute("member", member);
 		return "page/member/mypage";

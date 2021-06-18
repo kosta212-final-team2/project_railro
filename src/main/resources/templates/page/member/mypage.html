@@ -25,19 +25,14 @@
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <style type="text/css">
 
-#follow-button {
+#follow_btn, #unfollow_btn {
   color: white;
   font-family: "Helvetica";
   font-size: 10pt;
-  background-color: #dc3545;
+  background-color: #20c997;
   border: 1px solid;
-  border-color: #dc3545;
+  border-color: #20c997;
   border-radius: 3px;
-  width: 85px;
-  height: 30px;
-  position: absolute;	 
-  top: 20px;
-  left: 1100px;	
   cursor: hand;		  
 }
 
@@ -70,9 +65,11 @@
               		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
               		<input type="hidden" id="toId" name="toId" th:value="${member.memberId}">
           			<span id="fromId" sec:authentication="principal.memberId"></span>
-              
-              		<button th:if="!${following}" id="follow_btn" type="button">팔로우</button>
-              		<button th:if="${following}" id="unfollow_btn" type="button">언팔로우</button>
+              		
+              		<div th:if="${fromId} != ${member.memberId}">
+              			<button th:if="!${following}" id="follow_btn" type="button">팔로우</button>
+              			<button th:if="${following}" id="unfollow_btn" type="button">언팔로우</button>
+              		</div>
               </div>
             </div>
             <div class="cover-image"></div>
@@ -210,8 +207,7 @@
 					type:"get",
 					url:"/follow?toId="+$('#toId').val()+"&fromId="+fromId,
 					success:function(result){
-						$("#follow_btn").hide();
-						$("#unfollow_btn").show();
+						location.reload();
 					},
 					error:function(err){
 						alert("fail")
@@ -224,11 +220,10 @@
 					type:"get",
 					url:"/unfollow?toId="+$('#toId').val()+"&fromId="+fromId,
 					success:function(result){
-						$("#unfollow_btn").hide();
-						$("#follow_btn").show();
+						location.reload();
 					},
 					error:function(err){
-						alert("fail")
+						alert("faaaail")
 					}
 				});
 			});
