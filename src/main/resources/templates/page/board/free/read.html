@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/layout/default_layout}">
 <head>
-<title>info read</title>
+<title>free read</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -20,10 +20,17 @@
 <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
 <script type="text/javascript">
 	$(function() {
+		var memberId = /*[[ ${#authentication.principal.memberId} ]]*/
+		
+		alert(memberId);
+		
+		var test = $("#test").val();
+		
+		alert(test);
+		
 		let imgText = $("#img_text").text();
 		//alert(imgText);
 		$("#img_src").attr("src", imgText);
-		
 	});
 </script>
 
@@ -32,7 +39,7 @@
 
 <div layout:fragment="content">
 	<!-- 사진 영역 -->
-	<div class="hero-wrap js-fullheight" th:style="'background: url('+@{/images/bg_4.jpg}+');'">
+	<div class="hero-wrap js-fullheight" th:style="'background: url('+@{/images/bg_2.jpg}+');'">
 	  <div class="overlay"></div>
 	  <div class="container">
 	    <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center" data-scrollax-parent="true">
@@ -49,9 +56,9 @@
 				<div class="row">
 					<div class="col-md-12">
 						<!-- 제목 -->
-            <h2 class="mb-3" th:text="${board.infoSubject}"></h2>
+            <h2 class="mb-3" th:text="${board.freeSubject}"></h2>
             	<!-- 내용 영역 -->
-            	<th:block th:text="${board.infoContent}">
+            	<th:block th:text="${board.freeContent}">
             	
             	</th:block>
 
@@ -77,21 +84,9 @@
             <!-- 수정하기, 삭제하기 버튼 -->
             <div class="tag-widget post-tag-container mb-5 mt-5">
               <div style="text-align: right;">
-              	<!-- 수정시 필요한 데이터를 폼으로 전송 -->
-              	<div style="float:right;margin-left: 10px">
-	              	<form name="deleteinfoForm" th:action="@{/board/info/delete}" method="post">
-		              	<input type="hidden" th:name="infoBno" th:value="${board.infoBno}">
-				            <input type="submit" value="삭제하기" class="btn py-3 px-4 btn-primary">
-		            	</form>
-		            </div>
-	            	<!-- 삭제시 필요한 데이터를 폼으로 전송 -->
-	            	<div>
-	              	<form name="updateinfoForm" th:action="@{/board/info/updateForm}" method="post">
-		              	<input type="hidden" th:name="infoBno" th:value="${board.infoBno}">
-				            <input type="submit" value="수정하기" class="btn py-3 px-4 btn-primary">
-		            	</form>
-		            </div>
-	            </div>
+		            <input type="button" value="수정하기"  class="btn py-3 px-4 btn-primary">&nbsp;&nbsp;
+		            <input type="button" value="삭제하기" onclick="" class="btn py-3 px-4 btn-primary">
+              </div>
             </div>
 
 
@@ -100,15 +95,15 @@
               <h3 class="mb-5">댓글</h3>
               <ul class="comment-list">
               	<!-- 댓글 반복문 돌릴 영역 -->
-              	<li class="comment" th:each="reply : ${board.infoReplyList}">
+              	<li class="comment" th:each="reply : ${board.freeReplyList}">
                   <div class="vcard bio">
             				<span id="img_text" th:text="${reply.member.picture}" style="visibility: hidden;"></span>
                     <img id="img_src">
                   </div>
                   <div class="comment-body">
                     <h3 th:text="${reply.member.memberId}"></h3>
-                    <div class="meta" th:text="${reply.infoReplyRegdate}"></div>
-                    <p><h6 th:text="${reply.infoReplyContent}"></h6></p>
+                    <div class="meta" th:text="${reply.freeReplyRegdate}"></div>
+                    <p><h6 th:text="${reply.freeReplyContent}"></h6></p>
                     <!-- <p><a href="#" class="reply">Reply</a></p> -->
                   </div>
                 </li>
@@ -118,14 +113,14 @@
               <!-- 댓글 작성 영역 -->
               <div class="comment-form-wrap pt-5">
                 <!-- <h3 class="mb-5">댓글 작성</h3> -->
-                 <form name="replyWriteForm" method="post" th:action="@{/board/info/reply/insert}" class="p-5 bg-light">
+                 <form name="replyWriteForm" method="post" th:action="@{/board/free/reply/insert}" class="p-5 bg-light">
                 	<input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                   <input type="hidden" id="test" name="memberId" th:value="${#authentication.principal.memberId}">
                   <input type="hidden" name="infoBno" th:value="${board.infoBno}">
                   
                   <div class="form-group">
                     <!-- <label for="message">Message</label> -->
-                    <textarea name="infoReplyContent" cols="30" rows="5" class="form-control"></textarea>
+                    <textarea name="freeReplyContent" cols="30" rows="5" class="form-control"></textarea>
                   </div>
                   <div class="form-group" style="text-align: center;">
                     <input type="submit" value="댓글 등록하기" class="btn py-3 px-4 btn-primary">

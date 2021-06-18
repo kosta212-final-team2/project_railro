@@ -45,4 +45,30 @@ public class InfoBoardServiceImpl implements InfoBoardService {
 		return infoRepository.findById(infoBno).orElse(null);
 	}
 
+	@Override
+	public InfoBoard update(InfoBoard infoBoard) {
+		InfoBoard dbBoard = infoRepository.findById(infoBoard.getInfoBno()).orElse(null);
+		
+		if(dbBoard==null) {
+			throw new RuntimeException("글이 수정되지 않았습니다");
+		}
+		
+		// 정보 수정
+		dbBoard.setInfoContent(infoBoard.getInfoContent().replace("<", "&lt;"));
+		dbBoard.setInfoSubject(infoBoard.getInfoSubject());
+		
+		return dbBoard;
+	}
+
+	@Override
+	public void delete(Long infoBno) {
+		InfoBoard dbBoard = infoRepository.findById(infoBno).orElse(null);
+		
+		if(dbBoard==null) {
+			throw new RuntimeException("글이 삭제되지 않았습니다");
+		}
+		
+		infoRepository.deleteById(infoBno);
+	}
+
 }
