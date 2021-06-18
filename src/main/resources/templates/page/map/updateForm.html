@@ -74,6 +74,7 @@
 								<input type='hidden' name='placeType' th:value="${planData.placeType}"/>
 								<input type='hidden' name='placeLat' th:value="${planData.placeLat}"/>
 								<input type='hidden' name='placeLng' th:value="${planData.placeLng}"/>
+								<input type='hidden' name='travleTime' th:value="${planData.travelTime}"/>
 								<input type='hidden' name='stationPlanNum' th:value="${planData.stationPlan.stationPlanId}"/>
 								<th:block th:text="${planData.placeName}"></th:block>
 							</span>
@@ -172,7 +173,7 @@
 
 				// 3. 경로탐색 API 사용요청
 				
-				function route(startX, startY, endX, endY, zindex) {
+				function route(startX, startY, endX, endY, zindex,box) {
 					var colorCode;
 					drawInfoArr=[];
 					//기존 맵에 있던 정보들 초기화
@@ -219,6 +220,9 @@
 											+ "원";
 
 									//alert(tTime);
+									$(box).find("input[name=travelTime]")
+									.val((resultData[0].properties.totalTime / 60)
+											.toFixed(0));
 									//교통정보 표출 옵션값을 체크
 
 									for ( var i in resultData) { //for문 [S]
@@ -388,7 +392,7 @@
 													"input[name=placeLat]")
 													.val();
 
-											route(startX, startY, endX, endY, i);
+											route(startX, startY, endX, endY, i,box);
 											startX = $(box).find(
 													"input[name=placeLng]")
 													.val();
@@ -537,6 +541,11 @@
 												"name",
 												"detailedPlans[" + index
 														+ "].placeLng");
+								$(this).find("input[name=travelTime]")
+								.attr(
+										"name",
+										"detailedPlans[" + index
+												+ "].travelTime");
 								//  $(this).find("input[name=targetName]").attr("name", "targets[" + index + "].targetName");
 							})
 				}
@@ -558,6 +567,8 @@
 								+ "<input type='hidden' name='placeLat' value='"+places[i].y+"'/>"
 								+ "<input type='hidden' name='placeLng' value='"+places[i].x+"'/>"
 								+ "<input type='hidden' name='placeUrl' value='"+places[i].place_url+"'/>"
+								+ "<input type='hidden' name='travelTime' value='0'/>"
+
 								+ places[i].place_name + "</div><p>";
 
 						// 마커와 검색결과 항목을 클릭 했을 때

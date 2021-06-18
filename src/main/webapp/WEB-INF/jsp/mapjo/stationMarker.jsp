@@ -252,12 +252,27 @@
 
 	    });
 		}
-		
+		var resultdrawArr=[];
+		var drawInfoArr=[];
 	    function reorder() {
-
+			drawInfoArr=[];
+			removeRoute();
 		    $(".cityItem").each(function(i, box) {
 						//alert($(box).parent().attr("id"))
 		        var redate = $(box).parent().attr("id");
+		    		startX = $(box).find(
+							"input[name=lng]")
+							.val();
+					startY = $(box).find(
+							"input[name=lat]")
+							.val();
+					var convertChange = new kakao.maps.LatLng(
+							startY,
+							startX);
+					// 배열에 담기
+					drawInfoArr.push(convertChange);
+				
+				
 		        $(box).find(".itemNum").html(i + 1);
 		        $(box).find("input[name=travelOrder]").val(i + 1);
 		        $(box).find("input[name=travelDate]").val(redate);
@@ -265,10 +280,12 @@
 		        
 
 		    });
+		    drawLine(drawInfoArr, "0",
+					"#000000", 0);
 
 		}
 
-	
+		
 		
 		//드래그 가능한 리스트로 만들기
 		$(function() {
@@ -278,11 +295,31 @@
 		    $("#sortable").disableSelection();
 
 		});
+		//선 긋기
+		function drawLine(arrPoint, traffic, color, zindex) {
+			var polyline;
 
-		
+			polyline = new kakao.maps.Polyline({
+				endArrow : false,
+				path : arrPoint,
+				strokeColor : color,
+				strokeWeight : 3,
+				strokeStyle : 'dashed',
+				zIndex : zindex
+
+			});
+			polyline.setMap(map);
+			resultdrawArr.push(polyline);
+		}
 		
 		//시작일과 종료일 사이의 날짜를 구하는 함수 
-		
+		function removeRoute(){
+			if (resultdrawArr.length > 0) {
+				for (var i = 0; i < resultdrawArr.length; i++) {
+					resultdrawArr[i].setMap(null);
+				}
+			}
+		}
 		function getDateRange(startDate, endDate, listDate){
 
 				var dateMove = new Date(startDate);
