@@ -23,6 +23,7 @@ public class MemberController {
 	//회원정보수정시 비밀번호 암호화처리를 위한 객체를 주입받는다
 		@Autowired
 		private BCryptPasswordEncoder passwordEncoder;
+		
 	
 	@RequestMapping("/loginForm")
 	public String loginFormPage() {
@@ -51,33 +52,65 @@ public class MemberController {
 	/**
 	 * 회원정보 수정하기 
 	 * */
+//	@RequestMapping("/updateMember")
+//	public ModelAndView updateMember(HttpServletRequest request, Member vo) {
+//		System.out.println("1. Member :: "+vo);
+//		
+//		//회원정보 수정위해 Spring Security 세션 회원정보를 반환받는다
+//		Member pvo=(Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		
+//		System.out.println("2. Spring Security 세션 수정 전 회원정보:" + vo);
+//		
+//		//변경할 비밀번호를 암호화한다 
+////		String encodePassword=passwordEncoder.encode(vo.getPwd());
+////		vo.setPwd(encodePassword);
+//		
+//		memberService.update(vo.getMemberId());
+//		
+//		System.out.println("**********************************************");
+//		// 수정한 회원정보로 Spring Security 세션 회원정보를 업데이트한다
+//		
+//		pvo.setName(vo.getName());
+//		pvo.setEmail(vo.getEmail());
+//		pvo.setAddr(vo.getAddr());
+//		pvo.setPhone(vo.getPhone());
+//		pvo.setPwd(vo.getPwd());
+//		pvo.setPicture(vo.getPicture());
+//		System.out.println("3. Spring Security 세션 수정 후 회원정보:" + pvo);
+//				
+//		
+//		return new ModelAndView("page/member/profile");
+//	}
+	
+	/**
+	 * 회원정보 수정
+	 */
+	/*
+	 * @RequestMapping("/updateMemberForm") public ModelAndView
+	 * updateMemberForm(String memberId) { Member member =
+	 * memberService.findByMemberId(memberId); return new
+	 * ModelAndView("page/member/profile", "member",member); }
+	 */
+	
+	/**
+	 * 회원정보 수정 완료
+	 */
 	@RequestMapping("/updateMember")
-	public ModelAndView updateMember(HttpServletRequest request, Member vo) {
-		System.out.println("1. Member :: "+vo);
+	public ModelAndView updateMember(Member member , String savePwd) {
+		Member updateMember = memberService.update(member , savePwd);
 		
-		//회원정보 수정위해 Spring Security 세션 회원정보를 반환받는다
-		Member pvo=(Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		//수정이 완료된후에 로그인할대 저장되어 있늠 Authentication정보를 변경해준다.
+		Member authMember = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
-		System.out.println("2. Spring Security 세션 수정 전 회원정보:" + vo);
+		authMember.setName(updateMember.getName());
+		authMember.setEmail(updateMember.getEmail());
+		authMember.setAddr(updateMember.getAddr());
+		authMember.setPhone(updateMember.getPhone());
+		authMember.setPwd(updateMember.getPwd());
+		authMember.setPicture(updateMember.getPicture());
 		
-		//변경할 비밀번호를 암호화한다 
-		String encodePassword=passwordEncoder.encode(vo.getPwd());
-		vo.setPwd(encodePassword);
 		
-		memberService.update(vo);
-		
-		System.out.println("**********************************************");
-		// 수정한 회원정보로 Spring Security 세션 회원정보를 업데이트한다
-		
-		pvo.setName(vo.getName());
-		pvo.setEmail(vo.getEmail());
-		pvo.setAddr(vo.getAddr());
-		pvo.setPhone(vo.getPhone());
-		pvo.setPwd(encodePassword);
-		System.out.println("3. Spring Security 세션 수정 후 회원정보:" + pvo);
-				
-		
-		return new ModelAndView("page/member/profile");
+		return new ModelAndView("page/member/mypage","member", updateMember);
 	}
 	
 	/**
@@ -85,7 +118,6 @@ public class MemberController {
 	 */
 	@RequestMapping("/deleteMember")
 	public String deleteMember(String memberId) {
-		
 		memberService.deletebyMemberId(memberId);
 		
 		

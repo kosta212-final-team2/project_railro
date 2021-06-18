@@ -1,3 +1,4 @@
+  
 package kosta.web.mvc.member.service;
 
 import java.util.List;
@@ -59,10 +60,29 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Member update(Member member) {
-		member.setPwd(passwordEncoder.encode(member.getPwd()));
+	public Member update(Member member, String savePwd) {
+		 //비밀번호가 맞느지 체크!!!
+		Member dbM = memberRepository.findByMemberId(member.getMemberId());
 		
-		return memberRepository.updateMember(member);
+		if(dbM ==null) {
+		   throw new RuntimeException("존재하지 않는 id이므로 다시 로그인하고 이용해주세요 수정실패...");
+		}
+		
+		if(!passwordEncoder.matches(savePwd, dbM.getPwd())) {
+			throw new RuntimeException("비번 오류... 수정실패...");
+		}
+		
+		//수정전에 비밀번호 암호화 해서 넣는다.
+		dbM.setPwd(passwordEncoder.encode(member.getPwd()));
+		
+		dbM.setName(member.getName());
+		dbM.setEmail(member.getEmail());
+		dbM.setAddr(member.getAddr());
+		dbM.setPhone(member.getPhone());
+		dbM.setPicture(member.getPicture());
+		
+		
+		return dbM;
 	}
 
 	@Override
@@ -91,8 +111,8 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public void deletebyMemberId(String memberId) {
-		
-		authoritiesRepository.deleteByMemberId (memberId);
+		oauthRepository.deleteByMemberId(memberId);
+		authoritiesRepository.deleteByMemberId(memberId);
 		memberRepository.deleteById(memberId);
 		
 	}

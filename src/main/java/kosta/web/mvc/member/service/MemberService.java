@@ -34,7 +34,7 @@ public interface MemberService {
 	/**
 	 * 회원정보 수정
 	 */
-	Member update(Member member);
+	Member update(Member member , String savePwd);
 	
 	void naverMemberInsert(Member member);
 	

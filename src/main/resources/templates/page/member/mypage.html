@@ -45,8 +45,6 @@
     <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
     <script type="text/javascript">
     var test = $("#test").val();
-	
-
 
     </script>
   </head>
@@ -120,34 +118,42 @@
             <div class="tab-pane fade" id="user-settings">
               <div class="tile user-settings">
                 <h4 class="line-head">Settings</h4>
-                <form th:action="@{/member/updateMember}">
+                <form th:action="@{/member/updateMember}" method="post">
                 <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                <input type="hidden" name="memberId" th:value="${#authentication.principal.memberId}">
                   <div class="row mb-4">
                     <div class="col-md-4">
                       <label>Name</label>
-                      <input class="form-control" type="text">
+                      <input class="form-control" name="name" type="text" th:value="${member.name}">
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-8 mb-4">
                       <label>Email</label>
-                      <input class="form-control" type="text">
+                      <input class="form-control" name="email" type="text" th:value="${member.email}">
                     </div>
                     <div class="clearfix"></div>
                     <div class="col-md-8 mb-4">
                       <label>Address</label>
-                      <input class="form-control" type="text">
+                      <input class="form-control" name="addr" type="text" th:value="${member.addr}">
                     </div>
                     <div class="clearfix"></div>
                     <div class="col-md-8 mb-4">
                       <label>Phone</label>
-                      <input class="form-control" type="text">
+                      <input class="form-control" name="phone" type="text" th:value="${member.phone}">
                     </div>
                     <div class="clearfix"></div>
                     <div class="col-md-8 mb-4">
                       <label>Password</label>
-                      <input class="form-control" type="text">
+                      <input class="form-control" type="password" name="pwd">
                     </div>
+                    
+                    <div class="clearfix"></div>
+                    <div class="col-md-8 mb-4">
+                      <label>Password(수정하기이ㅟ해 기존 비번 넣기)</label>
+                      <input class="form-control" type="password" name="savePwd">
+                    </div>
+                    
             <div class="tm-bg-primary-dark tm-block tm-block-avatar" style="position: absolute; top : 50px; right: 100px;">
               <h2  class="tm-block-title">Change Avatar</h2>
               <div class="tm-avatar-container">

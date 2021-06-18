@@ -15,11 +15,11 @@ public interface MemberRepository extends JpaRepository<Member, String>{
 	Member findByMemberId(String memberId);
 	
 	@Modifying
-	@Query(value = "UPDATE * FROM MEMBER m WHERE m.MEMBER_ID = ?1", nativeQuery =true) 
-	Member updateMember(Member member);
+	@Query(value = "UPDATE MEMBER set(member_id, email, addr, phone, pwd, picture)=(,,,,,,) m WHERE m.MEMBER_ID = ?1", nativeQuery =true) 
+	void updateMember(String memberId);
 
 	@Modifying
 	@Query("DELETE FROM member m WHERE m.memberId = ?1") 
-	Member deleteByMemberId(Member member);
+	void deleteByMemberId(String memberId);
 
 }
