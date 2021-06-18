@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div>[[${#authentication.principal.memberId}]]</div>
+	<div>[[${#authentication.principal.name}]]</div>
+	<div>[[${#authentication.principal.addr}]]</div>
+	<div>[[${#authentication.principal.phone}]]</div>
+	<h2 th:text="${#authentication.principal.phone}"></h2>
+</body>
+</html>

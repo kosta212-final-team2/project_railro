@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta name="description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
+    <!-- Twitter meta-->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:site" content="@pratikborsadiya">
+    <meta property="twitter:creator" content="@pratikborsadiya">
+    <!-- Open Graph Meta-->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Vali Admin">
+    <meta property="og:title" content="Vali - Free Bootstrap 4 admin theme">
+    <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin">
+    <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
+    <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
+    <title>User Profile - Vali Admin</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Main CSS-->
+    <link rel="stylesheet" th:href="@{/css/profile.css}">
+    <!-- Font-icon css-->
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<style type="text/css">
+		.user-img{
+			height: 100px;
+			border-radius: 50%;
+ 			max-width: 100px;
+  			margin-bottom: 20px;
+ 			margin-top: 10px;
+ 			
+		}
+	</style>
+	
+  </head>
+  <body class="app sidebar-mini rtl">
+    
+	<main class="app-content">
+      <div class="app-title">
+        <div>
+          <h1><i class="fa fa-th-list"></i>회원 관리</h1>
+        </div>
+        <ul class="app-breadcrumb breadcrumb side">
+          <li class="breadcrumb-item"><i class="fa fa-home fa-lg"><a href="/">home</a></i></li>
+          <li class="breadcrumb-item">Tables</li>
+          <li class="breadcrumb-item active"><a href="/admin/member">회원 관리</a></li>
+        </ul>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="tile">
+            <div class="tile-body">
+            	<div class="form-group">
+                  <label class="control-label">프로필사진</label>
+                  <div><img class="user-img" th:src="@{/images/defaultImg.jpg}"></div>
+                </div>
+              <div class="form-group">
+                  <label class="control-label">ID</label>
+                  <input class="form-control" th:value="${member.memberId}" type="text"  readonly="readonly">
+                </div>
+                <div class="form-group">
+                <label class="control-label">NAME</label>
+                  <input class="form-control" th:value="${member.name}" type="text" readonly="readonly">
+                </div>
+                <div class="form-group">
+                <label class="control-label">PHONE</label>
+                  <input class="form-control" th:value="${member.phone}" type="text" readonly="readonly">
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Email</label>
+                  <input class="form-control" th:value="${member.email}" type="email" readonly="readonly">
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Address</label>
+                  <input class="form-control" th:value="${member.addr}" type="text" readonly="readonly">
+                </div>
+                <div class="form-group">
+                  <label class="control-label">회원권한</label><p>
+                  	<select class="form-control" id="exampleSelect2" multiple="">
+       				 	<option th:each="au : ${auth}" th:value="${au.role}" th:text="${au.role}">${au.role}</option>
+    				</select>
+                </div>
+                
+                	<button class="btn btn-info" type="button">권한수정</button>
+                	<form method="get" action="/admin/member/read/delete">
+                	<input class="form-control" name="memberId" th:value="${member.memberId}" type="hidden" readonly="readonly">
+                	<button class="btn btn-info" id="kick_out" type="submit">강제탈퇴</button>
+                	</form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    
+    
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/popper.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+    <!-- The javascript plugin to display page loading on top-->
+    <script th:src="@{/js/plugins/pace.min.js}"></script>
+    <script type="text/javascript">
+    	$(function() {
+			$("#kick_out").click(function() {
+				alert(1)
+			})
+		})
+    </script>
+</body>
+	
+</html>
