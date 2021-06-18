@@ -60,4 +60,15 @@ public class InfoBoardServiceImpl implements InfoBoardService {
 		return dbBoard;
 	}
 
+	@Override
+	public void delete(Long infoBno) {
+		InfoBoard dbBoard = infoRepository.findById(infoBno).orElse(null);
+		
+		if(dbBoard==null) {
+			throw new RuntimeException("글이 삭제되지 않았습니다");
+		}
+		
+		infoRepository.deleteById(infoBno);
+	}
+
 }

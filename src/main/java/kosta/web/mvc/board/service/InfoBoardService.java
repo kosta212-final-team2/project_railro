@@ -34,4 +34,9 @@ public interface InfoBoardService {
 	 * 수정하기
 	 */
 	InfoBoard update(InfoBoard infoBoard);
+	
+	/**
+	 * 삭제하기
+	 */
+	void delete(Long infoBno);
 }

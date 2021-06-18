@@ -95,7 +95,7 @@ public class InfoBoardController {
 	}
 	
 	/**
-	 * 수정하기 폼
+	 * 글 수정하기 폼
 	 */
 	@RequestMapping("/updateForm")
 	public ModelAndView updateForm(Long infoBno) {
@@ -104,11 +104,20 @@ public class InfoBoardController {
 	}
 	
 	/**
-	 * 수정 후 저장
+	 * 글 수정 후 저장
 	 */
 	@RequestMapping("/update")
 	public ModelAndView update(InfoBoard infoBoard) {
 		InfoBoard dbBoard = infoService.update(infoBoard);
 		return new ModelAndView("page/board/info/read", "board", dbBoard);
+	}
+	
+	/**
+	 * 글 삭제하기
+	 */
+	@RequestMapping("/delete")
+	public String delete(Long infoBno) {
+		infoService.delete(infoBno);
+		return "redirect:/board/info/list";
 	}
 }
