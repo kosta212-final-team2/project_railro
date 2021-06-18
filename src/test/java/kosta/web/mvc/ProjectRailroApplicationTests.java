@@ -9,6 +9,11 @@ import org.springframework.test.annotation.Commit;
 
 import kosta.web.mvc.board.domain.InfoBoard;
 import kosta.web.mvc.board.repository.InfoBoardRepository;
+import org.springframework.security.test.context.support.WithMockUser;
+
+import kosta.web.mvc.map.service.DetailedPlanService;
+import kosta.web.mvc.map.service.DetailedServiceImpl;
+
 
 @SpringBootTest
 @Transactional
@@ -19,7 +24,10 @@ class ProjectRailroApplicationTests {
 	private InfoBoardRepository rep;
 	
 	@Test
+	@WithMockUser(roles = "USER")
 	void contextLoads() {
+		DetailedPlanService service=new DetailedServiceImpl();
+		service.findByStaionPlan(99);
 	}
 	
 	@Test
