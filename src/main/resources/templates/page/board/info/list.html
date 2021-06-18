@@ -11,6 +11,30 @@
 <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Alex+Brush" rel="stylesheet">
 
+<style type="text/css">
+	table {
+		table-layout: fixed;
+	}
+	th, td {
+		text-align: center;
+	}
+</style>
+
+<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+	$(function() {
+		let nowPage = /*[[ ${nowPage} ]]*/;
+		
+		if(nowPage==null) {
+			nowPage = 1;
+		};
+		
+		//alert('#page'+nowPage);
+		$('#page'+nowPage).parent().addClass('active');
+	});
+
+</script>
+
 </head>
 <body>
 
@@ -28,26 +52,69 @@
 	  </div>
 	</div>
 
-<h3>글 목록</h3>
-    <table border=1>
-        <tr>
-            <th>글번호</th>
-            <th>제목</th>
-            <th>내용</th>
-            <th>등록일</th>
-            <th>조회수</th>
-            <th>추천수</th>
-        </tr>
-        <tr th:each="content : ${infoList}">
-            <td th:text="${content.infoBno}"></td>
-            <td th:text="${content.infoSubject}"></td>
-            <td th:text="${content.infoContent}"></td>
-            <td th:text="${content.infoReadnum}"></td>
-            <td th:text="${content.infoVote}"></td>
-            <td th:text="${content.memberId}"></td>
-        </tr>
-    </table>
-    <br><br><br><br><br><br><br><br><br><br><br><br>
+		<section class="ftco-section bg-light">
+			<div class="container">
+				<div class="row d-flex">
+					<table class="table thead-dark">
+						<colgroup>
+							<col width="6%">
+							<col width="15%">
+							<col width="52%">
+							<col width="15%">
+							<col width="6%">
+							<col width="6%">
+						</colgroup>
+						<tr>
+							<th>글번호</th>
+							<th>작성자</th>
+							<th>제목</th>
+							<th>등록일</th>
+							<th>조회수</th>
+							<th>추천수</th>
+						</tr>
+						<tr th:each="content : ${pageList}">
+							<td th:text="${content.infoBno}"></td>
+							<td th:text="${content.memberId}"></td>
+							<td style="text-align: left;"><a th:text="${content.infoSubject}" th:href="@{'/board/info/read/'+${content.infoBno}}"></a></td>
+							<td th:text="${#strings.substring(content.infoRegdate, 0, 10)}"></td>
+							<td th:text="${content.infoReadnum}"></td>
+							<td th:text="${content.infoVote}"></td>
+						</tr>
+					</table>
+					<a th:href="@{/board/info/write}" class="btn">글쓰기</a>
+				</div>
+				<div class="row mt-5">
+					<div class="col text-center">
+						<div class="block-27">
+							<!-- 페이징처리 -->
+  						<ul th:with="start=${(pageList.number/blockCount)*blockCount + 1},
+  														end=${start+(blockCount-1) > pageList.totalPages ? pageList.totalPages : (start+(blockCount-1))}">
+								<!-- 맨 앞으로 -->
+					      <li th:if="${start > 1}">
+				        	<a th:href="@{/board/info/list?(nowPage=1)}" th:text="'<<'"></a>
+				        </li>
+								<!-- 앞으로 -->
+				        <li th:if="${start > 1}">
+				        	<a th:href="@{/board/info/list?(nowPage=${start - blockCount})}" th:text="'<'"></a>
+				        </li>
+								<!-- 페이지 번호 출력 -->
+				        <li th:each="page : ${#numbers.sequence(start, end)}">
+				        	<a th:href="@{/board/info/list?(nowPage=${page})}" th:id="page+${page}" th:text="${page}"></a>
+				        </li>
+								<!-- 뒤로 -->
+					      <li th:if="${end < pageList.totalPages}">
+				        	<a th:href="@{/board/info/list?(nowPage=${start + blockCount})}" th:text="'>'"></a>
+				        </li>
+								<!-- 맨 뒤로 -->
+				        <li th:if="${end < pageList.totalPages}">
+				        	<a th:href="@{/board/info/list?(nowPage=${pageList.totalPages})}" th:text="'>>'"></a>
+				        </li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
 </div>
 
 <!-- loader -->

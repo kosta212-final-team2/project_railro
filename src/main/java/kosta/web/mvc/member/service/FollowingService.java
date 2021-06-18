@@ -7,4 +7,6 @@ public interface FollowingService {
 	void insert(Following following);
 	
 	void deleteByFromIdAndToId(String fromId, String toId);
+	
+	Following findByFromIdAndToId(String fromId, String toId);
 }

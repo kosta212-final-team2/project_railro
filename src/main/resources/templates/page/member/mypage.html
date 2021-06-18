@@ -25,20 +25,19 @@
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <style type="text/css">
 
-#follow-button {
+#follow_btn, #unfollow_btn {
   color: white;
   font-family: "Helvetica";
   font-size: 10pt;
-  background-color: #dc3545;
+  background-color: #20c997;
   border: 1px solid;
-  border-color: #dc3545;
+  border-color: #20c997;
   border-radius: 3px;
-  width: 85px;
-  height: 30px;
-  position: absolute;	 
-  top: 20px;
-  left: 1100px;	
   cursor: hand;		  
+}
+
+#fromId{
+	visibility: hidden;
 }
     	
     </style>
@@ -64,7 +63,11 @@
               		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
               		<input type="hidden" id="toId" name="toId" th:value="${member.memberId}">
           			<span id="fromId" sec:authentication="principal.memberId"></span>
-              		<button id="follow_btn" type="button">팔로우</button>
+              		
+              		<div th:if="${fromId} != ${member.memberId}">
+              			<button th:if="!${following}" id="follow_btn" type="button">팔로우</button>
+              			<button th:if="${following}" id="unfollow_btn" type="button">언팔로우</button>
+              		</div>
               </div>
             </div>
             <div class="cover-image"></div>
@@ -204,21 +207,29 @@
     		$("#img_src").attr("src", imgText);
 			
     		let fromId = $("#fromId").text();
-    		
 
 			$("#follow_btn").click(function () {
 				$.ajax({
 					type:"get",
 					url:"/follow?toId="+$('#toId').val()+"&fromId="+fromId,
 					success:function(result){
-						if(result==true){
-							$("#follow_btn").text("팔로우 취소");
-						}else if(result==false){
-							$("#follow_btn").text("팔로우");
-						}
+						location.reload();
 					},
 					error:function(err){
 						alert("fail")
+					}
+				});
+			});
+			
+			$("#unfollow_btn").click(function () {
+				$.ajax({
+					type:"get",
+					url:"/unfollow?toId="+$('#toId').val()+"&fromId="+fromId,
+					success:function(result){
+						location.reload();
+					},
+					error:function(err){
+						alert("faaaail")
 					}
 				});
 			});
