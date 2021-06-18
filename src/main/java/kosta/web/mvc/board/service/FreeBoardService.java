@@ -32,7 +32,15 @@ public interface FreeBoardService {
 	/**
 	 * 등록
 	 * */
-	//void insert(FreeBoard freeBoard);
+	void insert(FreeBoard freeBoard);
+	
+	/**
+	 * 글번호 검색 
+	 *   : 조회수 증가....
+	 *      - state가 true이면 조회수 증가한다.
+	 * */
+	FreeBoard selectBy(Long freeBno , boolean state);
+
 	
 	/**
 	 * 수정하기
@@ -44,12 +52,5 @@ public interface FreeBoardService {
      * */
     //void delete(Long freeBno);
     
-    /**
-	 * 글번호 검색 
-	 *   : 조회수 증가....
-	 *      - state가 true이면 조회수 증가한다.
-	 * */
-	//FreeBoard selectBy(Long freeBno , boolean state);
-
 }
 

@@ -1,6 +1,5 @@
 package kosta.web.mvc.board.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -31,7 +30,22 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 		
 		return freeRepository.findAll(pageable);
 	}
+	
+	@Override
+	public void insert(FreeBoard freeBoard) {
+		freeRepository.save(freeBoard);
+	}
 
+	@Override
+	public FreeBoard selectBy(Long freeBno, boolean state) {
+		//state에 따라 조회수 증가여부...
+		if(state) {
+			freeRepository.readnumUpdate(freeBno);
+		}
+		
+		return freeRepository.findById(freeBno).orElse(null);
+	}
+	
 	@Override
 	public Page<FreeBoard>  freeSubjectSearch(String keyword, Pageable pageable) {
 		System.out.println("keyword = " + keyword);
@@ -47,8 +61,6 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 		Page<FreeBoard> freeBoardList = freeRepository.findByMemberIdContaining(keyword ,pageable);
 		return freeBoardList;
 	}
-	
-	
 	
 	/*@Override
 	public void insert(FreeBoard freeBoard) {

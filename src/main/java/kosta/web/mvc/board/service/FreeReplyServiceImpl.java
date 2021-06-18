@@ -21,8 +21,8 @@ public class FreeReplyServiceImpl implements FreeReplyService {
 	}
 
 	@Override
-	public void delete(Long id) {//id는 댓글 글번호
-		freeReplyRepository.deleteById(id);
+	public void delete(Long freeRno) {//id는 댓글 글번호
+		freeReplyRepository.deleteById(freeRno);
 	}
 
 }

@@ -11,12 +11,36 @@
 <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Alex+Brush" rel="stylesheet">
 
+<style type="text/css">
+	table {
+		table-layout: fixed;
+	}
+	th, td {
+		text-align: center;
+	}
+</style>
+
+<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+	$(function() {
+		let nowPage = /*[[ ${nowPage} ]]*/;
+		
+		if(nowPage==null) {
+			nowPage = 1;
+		};
+		
+		//alert('#page'+nowPage);
+		$('#page'+nowPage).parent().addClass('active');
+	});
+
+</script>
+
 </head>
 <body>
 
 <div layout:fragment="content">
 	<!-- 사진 영역 -->
-	<div class="hero-wrap js-fullheight" th:style="'background: url('+@{/images/bg_3.jpg}+');'">
+	<div class="hero-wrap js-fullheight" th:style="'background: url('+@{/images/bg_4.jpg}+');'">
 	  <div class="overlay"></div>
 	  <div class="container">
 	    <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center" data-scrollax-parent="true">
@@ -28,62 +52,85 @@
 	  </div>
 	</div>
 
-<h3>글 목록</h3>
-    <table border=1>
-        <tr>
-            <th>글번호</th>
-            <th>제목</th>
-            <th>내용</th>
-            <th>작성자</th>
-            <th>등록일</th>
-            <th>조회수</th>
-            <th>추천수</th>
-        </tr>
-        <tr th:each="content : ${freeList}">
-            <td th:text="${content.freeBno}"></td>
-            <td th:text="${content.freeSubject}"></td>
-            <td th:text="${content.freeContent}"></td>
-            <td th:text="${content.memberId}"></td>
-            <td th:text="${content.freeReadnum}"></td>
-            <td th:text="${content.freeVote}"></td>
-            <td th:text="${content.memberId}"></td>
-        </tr>
-    </table>
-    <!-- 검색 form -->
-	<form th:action="@{/board/free}" method="GET">
-		<div class="form-group">
-			<select name="type" class="form-control">
-				<option value="" >--선택--</option>
-				<option value="subject" th:selected="@{/board/free/subjectSearch?}">제목</option>
-				<option value="writer" th:selected="@{/board/free/idSearch?}">작성자</option>
-			</select>
-		</div>
-		<div class="btn-group" role="group" aria-label="Basic example">
-			<input name="keyword" type="text" placeholder="검색어를 입력해주세요">
-			<button id="searchBtn">검색</button>
-		</div>
-	</form>
-		<br><br><br><br><br><br><br><br><br><br><br><br>
+		<section class="ftco-section bg-light">
+			<div class="container">
+				<div class="row d-flex">
+					<table class="table thead-dark">
+						<colgroup>
+							<col width="6%">
+							<col width="15%">
+							<col width="52%">
+							<col width="15%">
+							<col width="6%">
+							<col width="6%">
+						</colgroup>
+						<tr>
+							<th>글번호</th>
+							<th>작성자</th>
+							<th>제목</th>
+							<th>등록일</th>
+							<th>조회수</th>
+							<th>추천수</th>
+						</tr>
+						<tr th:each="content : ${freeSearchList}">
+							<td th:text="${content.freeBno}"></td>
+							<td th:text="${content.memberId}"></td>
+							<td style="text-align: left;"><a th:text="${content.freeSubject}" th:href="@{'/board/free/read/'+${content.freeBno}}"></a></td>
+							<td th:text="${#strings.substring(content.freeRegdate, 0, 10)}"></td>
+							<td th:text="${content.freeReadnum}"></td>
+							<td th:text="${content.freeVote}"></td>
+						</tr>
+					</table>
+					<a th:href="@{/board/free/write}" class="btn">글쓰기</a>
+				</div>
+				<div class="row mt-5">
+					<div class="col text-center">
+						<div class="block-27">
+							<!-- 페이징처리 -->
+  						<ul th:with="start=${(freeSearchList.number/blockCount)*blockCount + 1},
+  														end=${start+(blockCount-1) > freeSearchList.totalPages ? freeSearchList.totalPages : (start+(blockCount-1))}">
+								<!-- 맨 앞으로 -->
+					      <li th:if="${start > 1}">
+				        	<a th:href="@{/board/free/list?(nowPage=1)}" th:text="'<<'"></a>
+				        </li>
+								<!-- 앞으로 -->
+				        <li th:if="${start > 1}">
+				        	<a th:href="@{/board/free/list?(nowPage=${start - blockCount})}" th:text="'<'"></a>
+				        </li>
+								<!-- 페이지 번호 출력 -->
+				        <li th:each="page : ${#numbers.sequence(start, end)}">
+				        	<a th:href="@{/board/free/list?(nowPage=${page})}" th:id="page+${page}" th:text="${page}"></a>
+				        </li>
+								<!-- 뒤로 -->
+					      <li th:if="${end < freeSearchList.totalPages}">
+				        	<a th:href="@{/board/free/list?(nowPage=${start + blockCount})}" th:text="'>'"></a>
+				        </li>
+								<!-- 맨 뒤로 -->
+				        <li th:if="${end < freeSearchList.totalPages}">
+				        	<a th:href="@{/board/free/list?(nowPage=${freeSearchList.totalPages})}" th:text="'>>'"></a>
+				        </li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- 검색 form -->
+		<form th:action="@{/board/free}" method="GET">
+			<div class="form-group">
+				<select name="type" class="form-control">
+					<option value="" >--선택--</option>
+					<option value="subject" th:selected="@{/board/free/subjectSearch?}">제목</option>
+					<option value="writer" th:selected="@{/board/free/idSearch?}">작성자</option>
+				</select>
+			</div>
+			<div class="btn-group" role="group" aria-label="Basic example">
+				<input name="keyword" type="text" placeholder="검색어를 입력해주세요">
+				<button id="searchBtn">검색</button>
+			</div>
+		</form>
+			<br><br><br><br><br><br><br><br><br><br><br><br>
 </div>
-
-	<!-- 검색 처리 -->
-	<!--  <th:block layout:fragment="script">
-		<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
-		<script th:inline="javascript">
-			$("#searchBtn").on("click", function(event) {
-
-				var type = $("select[name=type]").val();
-				var keyword = $("input[name=keyword]").val();
-
-				console.log("type : " + type);
-				console.log("keyword : " + keyword);
-
-				console.log("http://localhost:8000/board/free?type="+type+"&keyword="+keyword);
-				
-				self.location="/board/free?type="+type+"&keyword="+keyword;
-			});
-		</script>
-	</th:block> -->
 
 <!-- loader -->
 <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>

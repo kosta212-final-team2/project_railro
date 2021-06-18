@@ -31,12 +31,13 @@ public class FreeBoard {
 	@SequenceGenerator(sequenceName = "free_bno_seq" , allocationSize =1 ,name = "free_bno_seq")
 	private Long freeBno; // 글번호
 	private String freeSubject;// 글제목
-	private String memberId;// 작성자
 	private String freeContent;// 내용
-	private int freeReadnum; // 조회수
-	private int freeVote; // 추천수
+	private String memberId;// 작성자
+	
 	@CreationTimestamp
 	private LocalDateTime freeRegdate; // 등록일
+	private int freeReadnum; // 조회수
+	private int freeVote; // 추천수
 	
 	/**
 	 * 부모글의에 해당하는 댓글정보 

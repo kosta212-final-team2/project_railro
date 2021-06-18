@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/default_layout}">
+<head>
+<title>free read</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Alex+Brush" rel="stylesheet">
+
+<style type="text/css">
+	#aa {
+		text-align: center;
+	}
+</style>
+
+<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<script type="text/javascript">
+	$(function() {
+		var memberId = /*[[ ${#authentication.principal.memberId} ]]*/
+		
+		alert(memberId);
+		
+		var test = $("#test").val();
+		
+		alert(test);
+		
+		let imgText = $("#img_text").text();
+		//alert(imgText);
+		$("#img_src").attr("src", imgText);
+	});
+</script>
+
+</head>
+<body>
+
+<div layout:fragment="content">
+	<!-- 사진 영역 -->
+	<div class="hero-wrap js-fullheight" th:style="'background: url('+@{/images/bg_4.jpg}+');'">
+	  <div class="overlay"></div>
+	  <div class="container">
+	    <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center" data-scrollax-parent="true">
+	      <div class="col-md-9 ftco-animate text-center" data-scrollax=" properties: { translateY: '70%' }">
+	        <p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-2"><a href="index.html">Home</a></span> <span>Blog</span></p>
+	        <h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Tips &amp; Articles</h1>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+		<section class="ftco-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<!-- 제목 -->
+            <h2 class="mb-3" th:text="${board.freeSubject}"></h2>
+            	<!-- 내용 영역 -->
+            	<th:block th:text="${board.freeContent}">
+            	
+            	</th:block>
+
+            <!-- 버튼 영역 -->
+            <div class="tag-widget post-tag-container mb-5 mt-5">
+              <div class="tagcloud">
+                <a href="#" class="tag-cloud-link">좋아요</a>
+                <a href="#" class="tag-cloud-link">신고하기</a>
+              </div>
+            </div>
+            
+            <!-- 프로필 영역 -->
+            <div class="about-author d-flex p-5 bg-light">
+              <div class="bio align-self-md-center mr-5">
+                <img src="images/person_1.jpg" alt="Image placeholder" class="img-fluid mb-4">
+              </div>
+              <div class="desc align-self-md-center">
+                <h3 th:text="${board.memberId}"></h3>
+                <p>사용자 설명</p>
+              </div>
+            </div>
+            
+            <!-- 수정하기, 삭제하기 버튼 -->
+            <div class="tag-widget post-tag-container mb-5 mt-5">
+              <div style="text-align: right;">
+		            <input type="button" value="수정하기"  class="btn py-3 px-4 btn-primary">&nbsp;&nbsp;
+		            <input type="button" value="삭제하기" onclick="" class="btn py-3 px-4 btn-primary">
+              </div>
+            </div>
+
+
+						<!-- 댓글 영역 -->
+            <div class="pt-5 mt-5">
+              <h3 class="mb-5">댓글</h3>
+              <ul class="comment-list">
+              	<!-- 댓글 반복문 돌릴 영역 -->
+              	<li class="comment" th:each="reply : ${board.freeReplyList}">
+                  <div class="vcard bio">
+            				<span id="img_text" th:text="${reply.member.picture}" style="visibility: hidden;"></span>
+                    <img id="img_src">
+                  </div>
+                  <div class="comment-body">
+                    <h3 th:text="${reply.member.memberId}"></h3>
+                    <div class="meta" th:text="${reply.freeReplyRegdate}"></div>
+                    <p><h6 th:text="${reply.freeReplyContent}"></h6></p>
+                    <!-- <p><a href="#" class="reply">Reply</a></p> -->
+                  </div>
+                </li>
+              </ul>
+              <!-- END comment-list -->
+              
+              <!-- 댓글 작성 영역 -->
+              <div class="comment-form-wrap pt-5">
+                <!-- <h3 class="mb-5">댓글 작성</h3> -->
+                 <form name="replyWriteForm" method="post" th:action="@{/board/free/reply/insert}" class="p-5 bg-light">
+                	<input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                  <input type="hidden" id="test" name="memberId" th:value="${#authentication.principal.memberId}">
+                  <input type="hidden" name="infoBno" th:value="${board.infoBno}">
+                  
+                  <div class="form-group">
+                    <!-- <label for="message">Message</label> -->
+                    <textarea name="freeReplyContent" cols="30" rows="5" class="form-control"></textarea>
+                  </div>
+                  <div class="form-group" style="text-align: center;">
+                    <input type="submit" value="댓글 등록하기" class="btn py-3 px-4 btn-primary">
+                  </div>
+                </form>
+              </div>
+            </div>
+					</div>
+				</div>
+			</div>
+		</section>
+</div>
+
+<!-- loader -->
+<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+
+</body>
+</html>
