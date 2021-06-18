@@ -13,7 +13,6 @@ import kosta.web.mvc.member.repository.OauthRepository;
 @Service
 public class OauthIdServiceImpl implements OauthIdService {
 
-	
 	@Autowired
 	private OauthRepository oauthRepository;
 	@Override

@@ -37,7 +37,7 @@ public class MemberServiceImpl implements MemberService {
 		
 		Authorities authorities = new Authorities();
 		authorities.setMember(member);
-		authorities.setRole("ROLE_ADMIN");
+		authorities.setRole("ROLE_MEMBER");
 		authoritiesRepository.save(authorities);
 		
 		memberRepository.save(member);
@@ -71,7 +71,7 @@ public class MemberServiceImpl implements MemberService {
 		
 		Authorities authorities = new Authorities();
 		authorities.setMember(member);
-		authorities.setRole("ROLE_Member");
+		authorities.setRole("ROLE_MEMBER");
 		authoritiesRepository.save(authorities);
 		memberRepository.save(member);
 		

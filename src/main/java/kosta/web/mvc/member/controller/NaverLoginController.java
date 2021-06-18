@@ -97,27 +97,38 @@ public class NaverLoginController {
 		System.out.println("apiURL=" + apiURL);
 
 		String res = requestToServer(apiURL);
+		System.out.println("res : "+res);
 		if (res != null && !res.equals("")) {
 			
 			model.addAttribute("res", res);
 			Map<String, Object> parsedJson = new JSONParser(res).parseObject();
-			System.out.println(parsedJson);
-			
+			System.out.println("naverCallback1 - parsedJson : " + parsedJson);
 			if(parsedJson.get("access_token") != null) {
 				String infoStr = getProfileFromNaver(parsedJson.get("access_token").toString());
 				Map<String, Object> infoMap = new JSONParser(infoStr).parseObject();
+				System.out.println(infoMap);
 				if(infoMap.get("message").equals("success")) {
 					Map<String, Object> infoResp = (Map<String, Object>) infoMap.get("response");
 					String uniqueId = infoResp.get("id").toString();
-					System.out.println(uniqueId);
-					OauthId oauthId= oauthIdService.findOauthIdByNaverId(uniqueId);
-					Member member = memberService.findByMemberId(uniqueId);
+					String picture = infoResp.get("profile_image").toString();
+					String email = infoResp.get("email").toString();
+					String phone = infoResp.get("mobile").toString();
+					String name = infoResp.get("name").toString();
+
+					OauthId oauthId = oauthIdService.findOauthIdByNaverId(uniqueId);
+
 					if(oauthId == null) {
 						System.out.println("네이버 연동정보 없음");
 						String naverId = uniqueId;
 						System.out.println(naverId);
 						model.addAttribute("isConnectedToNaver", false);
-						model.addAttribute("uniqueIdOfNaver", uniqueId);
+						model.addAttribute("naverId", uniqueId);
+						model.addAttribute("picture", picture);
+						model.addAttribute("email", email);
+						model.addAttribute("phone", phone);
+						model.addAttribute("name", name);
+						
+				
 					}else {
 						System.out.println(oauthId);
 						model.addAttribute("isConnectedToNaver", true);
@@ -125,11 +136,13 @@ public class NaverLoginController {
 					
 				}
 			}
-			session.setAttribute("currentUser", res);
-			session.setAttribute("currentAT", parsedJson.get("access_token"));
-			session.setAttribute("currentRT", parsedJson.get("refresh_token"));
 			
-			model.addAttribute("res", res);
+			
+			
+			session.setAttribute("currentUser", res);
+			model.addAttribute("currentAT", parsedJson.get("access_token"));
+			model.addAttribute("currentRT", parsedJson.get("refresh_token"));
+			
 		} else {
 			model.addAttribute("res", "Login failed!");
 		}
@@ -205,7 +218,7 @@ public class NaverLoginController {
 	 * @return
 	 * @throws IOException
 	 */
-	@ResponseBody
+
 	@RequestMapping("/naver/getProfile")
 	public String getProfileFromNaver(String accessToken) throws IOException {
 
@@ -282,6 +295,21 @@ public class NaverLoginController {
 		}
 
 	}
+	
+	/**
+	 * 네이버 가입 폼
+	 */
+	@RequestMapping("/naverRegisterForm")
+	public String naverRegisterForm(String naverId, String refreshToken, String accessToken, String picture, String email, String phone, String name, Model model) {
+		model.addAttribute("naverId", naverId);
+		model.addAttribute("refreshToken", refreshToken);
+		model.addAttribute("accessToken", accessToken);
+		model.addAttribute("picture", picture);
+		model.addAttribute("email", email);
+		model.addAttribute("phone", phone);
+		model.addAttribute("name", name);
+		return "page/member/naverRegister";
+	}
 
 	/**
 	 * 네이버 계정을 oauth_id 테이블에 할당
@@ -289,34 +317,12 @@ public class NaverLoginController {
 	 * @throws ParseException 
 	 */
 	@RequestMapping("/oauth")
-	public String addMemberTable(Member member, Model model, String naverId, String memberId, String refreshToken, String accessToken) throws IOException, ParseException {
-		//memberService.naverMemberInsert(member);
-		String apiURL = "https://openapi.naver.com/v1/nid/me";
-
-		String res = requestToServer(apiURL);
-		model.addAttribute("res", res);
-		Map<String, Object> parsedJson = new JSONParser(res).parseObject();
-		System.out.println(parsedJson);
-		
-		String infoStr = getProfileFromNaver(parsedJson.get("access_token").toString());
-		Map<String, Object> infoMap = new JSONParser(infoStr).parseObject();
-
-		infoMap.get("member_id");
-		Object phone = infoMap.get("phone");
-		System.out.println(phone);
-		System.out.println("member_id");
-		
-		return "page/member/naverRegister";
-		
-		
-		
-	}
-	
-
-	@RequestMapping("/naverRegister")
-	public String naverRegister(OauthId oauthId) {
+	public String addMemberTable(Member member, OauthId oauthId, HttpSession session) {
+		session.invalidate();
+		memberService.insert(member);
 		oauthIdService.insertOauthId(oauthId);
 		
 		return "page/member/login";
 	}
+	
 }

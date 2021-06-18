@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:th="http://www.thymeleaf.org"
+   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta name="description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
     <!-- Twitter meta-->
@@ -47,7 +49,6 @@
 	alert(test);
 
     </script>
-    
   </head>
   <body class="app sidebar-mini rtl">
     <th:block th:replace="fragment/header :: headerFragment"></th:block>
@@ -56,10 +57,21 @@
       <div class="row user">
         <div class="col-md-12">
           <div class="profile">
+<<<<<<< HEAD
             <button id="follow-button">+ Follow</button>
             <div class="info"><img class="user-img" src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/128.jpg">
+=======
+
+            <div class="info"><img id="img_src" class="user-img">
+            	<span id="img_text" th:text="${member.picture}"></span>
+>>>>>>> branch 'member#1' of https://github.com/kosta212-final-team2/project_railro.git
               <p th:text="${member.name}">NAME</p>
-              
+              <div sec:authorize="isAuthenticated()">
+              		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+              		<input type="hidden" id="toId" name="toId" th:value="${member.memberId}">
+          			<span id="fromId" sec:authentication="principal.memberId"></span>
+              		<button id="follow_btn" type="button">팔로우</button>
+              </div>
             </div>
             <div class="cover-image"></div>
           </div>
@@ -183,7 +195,35 @@
     <script th:src="@{/js/popper.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <script th:src="@{/js/main.js}"></script>
-    
+    <script type="text/javascript">
+    	$(function () {
+    		$("#img_text").hide();
+    		let imgText = $("#img_text").text();
+    		$("#img_src").attr("src", imgText);
+			
+    		let fromId = $("#fromId").text();
+    		
+
+			$("#follow_btn").click(function () {
+				$.ajax({
+					type:"get",
+					url:"/follow?toId="+$('#toId').val()+"&fromId="+fromId,
+					success:function(result){
+						if(result==true){
+							$("#follow_btn").text("팔로우 취소");
+						}else if(result==false){
+							$("#follow_btn").text("팔로우");
+						}
+					},
+					error:function(err){
+						alert("fail")
+					}
+				});
+			});
+			
+		})
+    </script>
+
     <th:block th:replace="fragment/footer :: footerFragment"></th:block>
 </body>
 </html>
