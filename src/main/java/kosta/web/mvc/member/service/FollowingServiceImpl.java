@@ -22,4 +22,10 @@ public class FollowingServiceImpl implements FollowingService {
 		
 	}
 
+	@Override
+	public Following findByFromIdAndToId(String fromId, String toId) {
+		Following following = followingRepository.findByFromIdAndToId(fromId, toId);
+		return following;
+	}
+
 }

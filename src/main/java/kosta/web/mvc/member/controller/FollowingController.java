@@ -13,25 +13,27 @@ public class FollowingController {
 	@Autowired
 	private FollowingService followingService;
 	
-	private boolean state = true;
+
 	@RequestMapping("/follow")
-	public boolean following(String toId, String fromId) {
+	public void following(String toId, String fromId) {
 		
 		System.out.println("following 호출");
 		
-		if(state==true) {
-			Following following = new Following(null, fromId, toId, null);
-			followingService.insert(following);
-			state = false;
-			System.out.println(state);
+		
+		Following following = new Following(null, fromId, toId, null);
+		followingService.insert(following);
+
 			
-			return true;
-		}
+	}
+	
+	@RequestMapping("/unfollow")
+	public void unfollowing(String toId, String fromId) {
+		
+		System.out.println("unfollowing 호출");
+		
+		Following following = new Following(null, fromId, toId, null);
 			
 		followingService.deleteByFromIdAndToId(fromId, toId);
-		state = true;
-		System.out.println(state);
 			
-		return false;
 	}
 }

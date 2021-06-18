@@ -2,6 +2,7 @@ package kosta.web.mvc.member.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -9,9 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.security.core.Authentication;
 
-
+import kosta.web.mvc.member.domain.Following;
 import kosta.web.mvc.member.domain.Member;
+import kosta.web.mvc.member.service.FollowingService;
 import kosta.web.mvc.member.service.MemberService;
 
 @Controller
@@ -20,9 +23,13 @@ public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
+	
 	//회원정보수정시 비밀번호 암호화처리를 위한 객체를 주입받는다
-		@Autowired
-		private BCryptPasswordEncoder passwordEncoder;
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private FollowingService followingService;
 	
 	@RequestMapping("/loginForm")
 	public String loginFormPage() {
@@ -44,6 +51,10 @@ public class MemberController {
 	@RequestMapping("/mypage")
 	public String profilePage(String memberId, Model model) {
 		Member member = memberService.findByMemberId(memberId);
+		Member loginMember = (Member) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String fromId = loginMember.getMemberId();
+		Following following = followingService.findByFromIdAndToId(fromId, memberId);
+		model.addAttribute("following", following);
 		model.addAttribute("member", member);
 		return "page/member/mypage";
 	}
