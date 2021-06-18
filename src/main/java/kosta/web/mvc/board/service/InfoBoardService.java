@@ -29,4 +29,9 @@ public interface InfoBoardService {
 	 * 	: 조회수 증가함 state=true일 때.
 	 */
 	InfoBoard selectBy(Long infoBno, boolean state);
+	
+	/**
+	 * 수정하기
+	 */
+	InfoBoard update(InfoBoard infoBoard);
 }

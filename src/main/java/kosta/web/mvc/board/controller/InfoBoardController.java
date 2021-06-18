@@ -93,4 +93,22 @@ public class InfoBoardController {
 		
 		return mv;
 	}
+	
+	/**
+	 * 수정하기 폼
+	 */
+	@RequestMapping("/updateForm")
+	public ModelAndView updateForm(Long infoBno) {
+		InfoBoard infoBoard = infoService.selectBy(infoBno, false);
+		return new ModelAndView("page/board/info/update", "board", infoBoard);
+	}
+	
+	/**
+	 * 수정 후 저장
+	 */
+	@RequestMapping("/update")
+	public ModelAndView update(InfoBoard infoBoard) {
+		InfoBoard dbBoard = infoService.update(infoBoard);
+		return new ModelAndView("page/board/info/read", "board", dbBoard);
+	}
 }

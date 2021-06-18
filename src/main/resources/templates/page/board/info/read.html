@@ -20,17 +20,14 @@
 <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
 <script type="text/javascript">
 	$(function() {
-		var memberId = /*[[ ${#authentication.principal.memberId} ]]*/
-		
-		alert(memberId);
-		
-		var test = $("#test").val();
-		
-		alert(test);
-		
 		let imgText = $("#img_text").text();
 		//alert(imgText);
 		$("#img_src").attr("src", imgText);
+		
+		$("#updatebtn").click(function() {
+			alert(1);
+		});
+		
 	});
 </script>
 
@@ -84,9 +81,13 @@
             <!-- 수정하기, 삭제하기 버튼 -->
             <div class="tag-widget post-tag-container mb-5 mt-5">
               <div style="text-align: right;">
-		            <input type="button" value="수정하기"  class="btn py-3 px-4 btn-primary">&nbsp;&nbsp;
-		            <input type="button" value="삭제하기" onclick="" class="btn py-3 px-4 btn-primary">
-              </div>
+              	<!-- 수정시 필요한 데이터를 폼으로 전송 -->
+              	<form name="updateinfoForm" th:action="@{/board/info/updateForm}" method="post">
+	              	<input type="hidden" th:name="infoBno" th:value="${board.infoBno}">
+			            <input type="submit" id="updatebtn" value="수정하기" class="btn py-3 px-4 btn-primary">&nbsp;&nbsp;
+			            <input type="button" value="삭제하기" class="btn py-3 px-4 btn-primary">
+	            	</form>
+	            </div>
             </div>
 
 
