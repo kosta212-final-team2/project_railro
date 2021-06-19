@@ -154,7 +154,7 @@ ${stationUpdate}
 				console.log(listDate);
 
 
-				totalSchedule(listDate);
+		totalSchedule(listDate);
 
 				sortable();
 				getPlan();
@@ -437,7 +437,7 @@ ${stationUpdate}
 
 				var number = $(".itemNum").innerHTML;
 				travelPlan = $("#travelPlan").val();
-
+				planId=${planId}
 				var contents
 
 				= "<div class='cityItem'>"
@@ -448,7 +448,8 @@ ${stationUpdate}
 						+ "<div class='info' name='cityName'><h5>"
 						+ city
 						+ "</h5>"
-						+ "<input type='hidden' name='travelPlan' value='"+travelPlan+"'/>"
+
+						+ "<input type='hidden' name='travelPlan' value='"+planId+"'/>"
 						+ "<input type='hidden' name='trainStation' value='"+stationId+"'/>"
 						+ "<input type='hidden' name='travelDate' value='"+date+"'/>"
 						+ "<input type='hidden' name='travelOrder'/>"
