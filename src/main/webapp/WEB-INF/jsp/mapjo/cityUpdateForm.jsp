@@ -120,6 +120,17 @@ ${stationUpdate}
 													contents += "<input type='hidden' name='lng' value='"+item.trainStation.lng+"'/>"
 													contents += "<input type='button' value='삭제' name='deletePlan'></input>"
 													contents += "</span></div></div>"; 
+													
+													
+											
+													var markerPosition = new kakao.maps.LatLng(item.trainStation.lat, item.trainStation.lng);
+													
+													var marker = new kakao.maps.Marker({
+														position : markerPosition
+													});
+
+													marker.setMap(map);
+													markers.push(marker);
 
 												$("#" + item.travelDate.toString().substr(0, 10) + "").append(contents);
 												})
@@ -281,6 +292,14 @@ ${stationUpdate}
 				var delCheck = confirm('삭제하시겠습니까?');
 				if (delCheck) {
 					$(this).parent().parent().parent().parent().remove();
+					
+					//마커도 삭제 
+					//alert($(this).prev().val())
+					//$(this).prev().val()
+					//$(this).prev().prev().val()
+					
+					
+					
 					reorder();
 				}
 
@@ -309,6 +328,7 @@ ${stationUpdate}
 				markers.splice(0);
 				//markers=[];
 			}
+			
 
 			//. 리스트 생성 코드
 
@@ -342,8 +362,10 @@ ${stationUpdate}
 			}
 			
 		    function reorder() {
+		    	alert(markers)
 				drawInfoArr=[];
 				removeRoute();
+				hideMarkers();
 				$(".cityItem").each(function(i, box) {
 					//alert($(box).parent().attr("id"))
 			        var redate = $(box).parent().attr("id");
@@ -358,19 +380,38 @@ ${stationUpdate}
 								startX);
 						// 배열에 담기
 						drawInfoArr.push(convertChange);
+												
+						//마커 새로 생성 
+						 marker = new kakao.maps.Marker({
+							position : convertChange
+						});
+
+						// 마커가 지도 위에 표시되도록 설정합니다
+						marker.setMap(map);
+						markers.push(marker);
 					
-					
-			        $(box).find(".itemNum").html(i + 1);
+
+						$(box).find(".itemNum").html(i + 1);
 			        $(box).find("input[name=travelOrder]").val(i + 1);
 			        $(box).find("input[name=travelDate]").val(redate);
 			        
-			        
 
 			    });
+				
+				
 			    drawLine(drawInfoArr, "0",
 						"#000000", 0);
+			    
 
-
+			}
+		    
+			//마 지우기
+			function removeMarker(){
+				if (markers.length > 0) {
+					for (var i = 0; i < markers.length; i++) {
+						markers[i].setMap(null);
+					}
+				}
 			}
 
 		  //선 긋기
