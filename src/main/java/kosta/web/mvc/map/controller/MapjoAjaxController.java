@@ -65,7 +65,7 @@ public class MapjoAjaxController {
 	}
 	
 	@RequestMapping("/planData")
-	public TravelPlan planData(int planId) {
+	public TravelPlan planData(Integer planId) {
 		return planservice.getTravelPlanById(planId);
 		//return new TravelPlan();
 		//return "데이타";

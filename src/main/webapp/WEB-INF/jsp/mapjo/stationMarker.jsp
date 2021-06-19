@@ -311,8 +311,7 @@
 			polyline.setMap(map);
 			resultdrawArr.push(polyline);
 		}
-		
-		//시작일과 종료일 사이의 날짜를 구하는 함수 
+		//그린 루트 지우기
 		function removeRoute(){
 			if (resultdrawArr.length > 0) {
 				for (var i = 0; i < resultdrawArr.length; i++) {
@@ -320,6 +319,8 @@
 				}
 			}
 		}
+		
+		//시작일과 종료일 사이의 날짜를 구하는 함수 
 		function getDateRange(startDate, endDate, listDate){
 
 				var dateMove = new Date(startDate);

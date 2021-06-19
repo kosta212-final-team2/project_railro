@@ -135,6 +135,9 @@ ${stationUpdate}
 					});//end of ajax
 
 			//var itemList=[];
+			var resultdrawArr=[];
+			var drawInfoArr=[];
+
 			var markers = [];
 			var travelPlan;
 			var sList = "${stationUpdate}";
@@ -312,19 +315,63 @@ ${stationUpdate}
 
 				});
 			}
-
-			function reorder() {
-
+			
+		    function reorder() {
+				drawInfoArr=[];
+				removeRoute();
 				$(".cityItem").each(function(i, box) {
 					//alert($(box).parent().attr("id"))
-					var redate = $(box).parent().attr("id");
-					$(box).find(".itemNum").html(i + 1);
-					$(box).find("input[name=travelOrder]").val(i + 1);
-					$(box).find("input[name=travelDate]").val(redate);
-				});
+			        var redate = $(box).parent().attr("id");
+			    		startX = $(box).find(
+								"input[name=lng]")
+								.val();
+						startY = $(box).find(
+								"input[name=lat]")
+								.val();
+						var convertChange = new kakao.maps.LatLng(
+								startY,
+								startX);
+						// 배열에 담기
+						drawInfoArr.push(convertChange);
+					
+					
+			        $(box).find(".itemNum").html(i + 1);
+			        $(box).find("input[name=travelOrder]").val(i + 1);
+			        $(box).find("input[name=travelDate]").val(redate);
+			        
+			        
+
+			    });
+			    drawLine(drawInfoArr, "0",
+						"#000000", 0);
+
 
 			}
 
+		  //선 긋기
+			function drawLine(arrPoint, traffic, color, zindex) {
+				var polyline;
+
+				polyline = new kakao.maps.Polyline({
+					endArrow : false,
+					path : arrPoint,
+					strokeColor : color,
+					strokeWeight : 3,
+					strokeStyle : 'dashed',
+					zIndex : zindex
+
+				});
+				polyline.setMap(map);
+				resultdrawArr.push(polyline);
+			}
+			//그린 루트 지우기
+			function removeRoute(){
+				if (resultdrawArr.length > 0) {
+					for (var i = 0; i < resultdrawArr.length; i++) {
+						resultdrawArr[i].setMap(null);
+					}
+				}
+			}
 			//드래그 가능한 리스트로 만들기
 			$(function() {
 				$("#sortable").sortable();
