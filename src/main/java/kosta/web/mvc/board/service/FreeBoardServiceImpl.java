@@ -32,22 +32,7 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 	}
 	
 	@Override
-	public void insert(FreeBoard freeBoard) {
-		freeRepository.save(freeBoard);
-	}
-
-	@Override
-	public FreeBoard selectBy(Long freeBno, boolean state) {
-		//state에 따라 조회수 증가여부...
-		if(state) {
-			freeRepository.readnumUpdate(freeBno);
-		}
-		
-		return freeRepository.findById(freeBno).orElse(null);
-	}
-	
-	@Override
-	public Page<FreeBoard>  freeSubjectSearch(String keyword, Pageable pageable) {
+	public Page<FreeBoard> freeSubjectSearch(String keyword, Pageable pageable) {
 		System.out.println("keyword = " + keyword);
 		Page<FreeBoard> freeBoardList = freeRepository.findByFreeSubjectContaining(keyword, pageable);
 		//List<FreeBoard> freeBoardList = freeRepository.findByFreeContentContaining(keyword);
@@ -57,45 +42,17 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 	}
 
 	@Override
-	public Page<FreeBoard>  freeIdSearch(String keyword , Pageable pageable) {
+	public Page<FreeBoard> freeIdSearch(String keyword , Pageable pageable) {
 		Page<FreeBoard> freeBoardList = freeRepository.findByMemberIdContaining(keyword ,pageable);
 		return freeBoardList;
 	}
 	
-	/*@Override
+	@Override
 	public void insert(FreeBoard freeBoard) {
 		freeRepository.save(freeBoard);
-		
-	}*/
+	}
 
-	/*@Override
-	public FreeBoard update(FreeBoard freeBoard) {
-		FreeBoard dbBoard = freeRepository.findById(freeBoard.getFreeBno()).orElse(null);
-		
-		if(dbBoard==null || !dbBoard.getMemberId().equals(freeBoard.getMemberId())) {
-			throw new RuntimeException("작성자정보가 일치하지 않습니다");
-		}
-		
-		//정보수정
-		dbBoard.setFreeContent( freeBoard.getFreeContent().replace("<", "&lt;") );
-		dbBoard.setFreeSubject(freeBoard.getFreeSubject());
-		
-		return dbBoard;
-	}*/
-
-	/*@Override
-	public void delete(Long freeBno) {
-		FreeBoard dbBoard = freeRepository.findById(freeBno).orElse(null);
-		
-		if(dbBoard==null || !dbBoard.getMemberId().equals(getm())) {
-			throw new RuntimeException("작성자정보가 일치하지 않습니다");
-		}
-		
-		freeRepository.deleteById(freeBno);
-		
-	}*/
-
-	/*@Override
+	@Override
 	public FreeBoard selectBy(Long freeBno, boolean state) {
 		//state에 따라 조회수 증가여부...
 		if(state) {
@@ -103,6 +60,34 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 		}
 		
 		return freeRepository.findById(freeBno).orElse(null);
-	}*/
+	}
 
+	@Override
+	public FreeBoard update(FreeBoard freeBoard) {
+		FreeBoard dbBoard = freeRepository.findById(freeBoard.getFreeBno()).orElse(null);
+		
+		if(dbBoard==null) {
+			throw new RuntimeException("글이 수정되지 않았습니다");
+		}
+		
+		//정보수정
+		dbBoard.setFreeContent( freeBoard.getFreeContent().replace("<", "&lt;") );
+		dbBoard.setFreeSubject(freeBoard.getFreeSubject());
+		
+		return dbBoard;
+	}
+
+	@Override
+	public void delete(Long freeBno) {
+		FreeBoard dbBoard = freeRepository.findById(freeBno).orElse(null);
+		
+		if(dbBoard==null) {
+			throw new RuntimeException("글이 삭제되지 않았습니다");
+		}
+		
+		freeRepository.deleteById(freeBno);	
+	}
+
+
+	
 }

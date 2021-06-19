@@ -45,12 +45,12 @@ public interface FreeBoardService {
 	/**
 	 * 수정하기
 	 * */
-	//FreeBoard update(FreeBoard freeBoard);
+	FreeBoard update(FreeBoard freeBoard);
     
     /**
      * 삭제하기
      * */
-    //void delete(Long freeBno);
+    void delete(Long freeBno);
     
 }
 

@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import kosta.web.mvc.board.domain.FreeBoard;
+import kosta.web.mvc.board.domain.InfoBoard;
 import kosta.web.mvc.board.repository.FreeBoardRepository;
 import kosta.web.mvc.board.service.FreeBoardService;
 import lombok.RequiredArgsConstructor;
@@ -130,6 +131,33 @@ public class FreeBoardController {
 		mv.addObject("board", freeBoard);
 		
 		return mv;
+	}
+	
+	/**
+	 * 글 수정하기 폼
+	 */
+	@RequestMapping("/updateForm")
+	public ModelAndView updateForm(Long freeBno) {
+		FreeBoard freeBoard = freeService.selectBy(freeBno, false);
+		return new ModelAndView("page/board/free/update", "board", freeBoard);
+	}
+	
+	/**
+	 * 글 수정 후 저장
+	 */
+	@RequestMapping("/update")
+	public ModelAndView update(FreeBoard freeBoard) {
+		FreeBoard dbBoard = freeService.update(freeBoard);
+		return new ModelAndView("page/board/free/read", "board", dbBoard);
+	}
+	
+	/**
+	 * 글 삭제하기
+	 */
+	@RequestMapping("/delete")
+	public String delete(Long freeBno) {
+		freeService.delete(freeBno);
+		return "redirect:/board/free/list";
 	}
 
 }
