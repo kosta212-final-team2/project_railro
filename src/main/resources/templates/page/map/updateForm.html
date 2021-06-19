@@ -43,8 +43,8 @@
 	<div layout:fragment="content">
 		<!-- <!-- 지도를 표시할 div 입니다 -->
 
-		<input type="hidden" id="centerLat" th:value="${centerLat}"/>
-		<input type="hidden" id="centerLng" th:value="${centerLng}"/>
+		<input type="hidden" id="centerLat" th:value="${centerLat}" /> <input
+			type="hidden" id="centerLng" th:value="${centerLng}" />
 
 		<div class="map_wrap">
 			<div id="map"
@@ -89,7 +89,7 @@
 					</div>
 				</div>
 				<input id="savePlan" type="submit" value="일정 저장" /> <input
-					type="hidden" name="stationPlanNum" th:value="${stationPlanNum}" />
+					type="hidden" id="stationPlanNum" th:value="${stationPlanNum}" />
 			</form>
 		</div>
 		<div id="menu_wrap" class="bg_white">
@@ -116,8 +116,9 @@
 				markers = [], // 마커를 담을 배열입니다
 				currCategory = ''; // 현재 선택된 카테고리를 가지고 있을 변수입니다
 
-				var centerLat=$("#centerLat").val();
-				var centerLng=$("#centerLng").val();
+				var stationPlanNum = $("#stationPlanNum").val();
+				var centerLat = $("#centerLat").val();
+				var centerLng = $("#centerLng").val();
 				
 				var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 				mapOption = {
@@ -226,12 +227,14 @@
 											+ resultData[0].properties.taxiFare
 											+ "원";
 
-									//alert(tTime);
+									
 									$(box)
 											.find("input[name=travelTime]")
 											.val(
 													(resultData[0].properties.totalTime / 60)
 															.toFixed(0));
+									alert((resultData[0].properties.totalTime / 60)
+											.toFixed(0));
 									//교통정보 표출 옵션값을 체크
 
 									for ( var i in resultData) { //for문 [S]
@@ -383,7 +386,7 @@
 
 										$(box).find("input[name=itemNum]").val(
 												i + 1);
-
+										alert("i="+i);
 										if (i == 0) {
 											startX = $(box).find(
 													"input[name=placeLng]")
@@ -481,30 +484,30 @@
 						useMapBounds : true
 					});
 				}
-				
+
 				//키워드 검색 이벤트 추가합니다.
 				$(document).on('click', '#searchKeyword', function() {
 
 					searchPlacesKey();
 				});
-				
+
 				// 키워드 검색을 요청하는 함수입니다
 				function searchPlacesKey() {
-				    var keyword = document.getElementById('keyword').value;
+					var keyword = document.getElementById('keyword').value;
 
-				    if (!keyword.replace(/^\s+|\s+$/g, '')) {
-				        alert('키워드를 입력해주세요!');
-				        return false;
-				    }
-								    removeMarker();
+					if (!keyword.replace(/^\s+|\s+$/g, '')) {
+						alert('키워드를 입력해주세요!');
+						return false;
+					}
+					removeMarker();
 
-				    // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
-								    ps.keywordSearch( keyword, placesSearchCB,{
-								    	useMapBounds :true
-								    
-								    }); 
+					// 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+					ps.keywordSearch(keyword, placesSearchCB, {
+						useMapBounds : true
+
+					});
 				}
-				
+
 				//장소검색이 완료됐을 때 호출되는 콜백함수 입니다
 				function placesSearchCB(data, status, pagination) {
 					if (status === kakao.maps.services.Status.OK) {
@@ -546,6 +549,11 @@
 				function renameForModelAttribute() {
 					$(".itemBox").each(
 							function(index) {
+								$(this).find("input[name=stationPlan]")
+								.attr(
+										"name",
+										"detailedPlans[" + index
+												+ "].stationPlan");
 								$(this).find("input[name=itemNum]").attr(
 										"name",
 										"detailedPlans[" + index
@@ -590,6 +598,7 @@
 						var marker = addMarker(new kakao.maps.LatLng(
 								places[i].y, places[i].x));
 						plan += "<div id="+places[i].id+" name='place'>"
+								+ "<input type='hidden' name='stationPlan' value='"+stationPlanNum+"'/>"
 								+ "<input type='hidden' name='placeName' value='"+places[i].place_name+"'/>"
 								+ "<input type='hidden' name='placeAddr' value='"+places[i].address_name+"'/>"
 								+ "<input type='hidden' name='placeType' value='"+places[i].category_group_name+"'/>"
