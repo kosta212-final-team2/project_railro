@@ -121,9 +121,11 @@ ${stationUpdate}
 												contents += "<input type='hidden' name='lng' value='"+item.trainStation.lng+"'/>"
 												contents += "<input type='button' value='삭제' name='deletePlan'></input>"
 												contents += "</span></div></div>"; 
-
+												
+												
 											$("#" + item.travelDate.toString().substr(0, 10) + "").append(contents);
 											})
+											
 
 											reorder();
 

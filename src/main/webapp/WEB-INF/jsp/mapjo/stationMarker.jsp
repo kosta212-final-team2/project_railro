@@ -76,31 +76,34 @@
 	$(function () {
 		//alert(1)
 		//var itemList=[];
+		
+		
 		var markers=[];
-		var startDate; 
-		var endDate;
-		var travelPlan = ${travelPlan.planId};
-			
-			
-		//일정 생성 버튼 이벤트 
-		$("#addScheduel").click(function () {
-			//alert(1)
+		var startDate = "${travelPlan.startDate}"; 
+		var endDate = "${travelPlan.endDate}";
+		var travelPlan = "${travelPlan.planId}";
+			alert(startDate)
+			alert(endDate)
+			alert(travelPlan)
 			var listDate=[];
-				
-	/* 		startDate = $("#datepicker").val();
-			endDate = $("#datepicker2").val(); */
-			
-			startDate =${travelPlan.startDate};
-			endDate = ${travelPlan.endDate};
-			getDateRange(startDate, endDate, listDate);
+				getDateRange(startDate, endDate, listDate);
 				console.log(listDate); 
 				
 				totalSchedule(listDate);
 				
 				sortable();
+		/*	
+		//일정 생성 버튼 이벤트 
+		$("#addScheduel").click(function () {
+			//alert(1)
+				
+ 		startDate = $("#datepicker").val();
+			endDate = $("#datepicker2").val(); 
+			
+	
 			
 		})
-			
+			*/
 		
 		
 		//역검색 이벤트 
@@ -382,8 +385,8 @@
 			function createDaySchedule(date) {
 				
 					var number = $(".itemNum").innerHTML;
-					travelPlan = $("#travelPlan").val();
-				
+					//travelPlan = $("#travelPlan").val();
+					alert(travelPlan);
 					var contents
 
 				    = "<div class='cityItem'>"
@@ -392,7 +395,7 @@
 					      + "<span class='itemNum'></span> "
 								+ "<span>"
 								+	"<div class='info' name='cityName'><h5>"+city+"</h5>"
-								+ "<input type='hidden' name='travelPlan' value='3'/>"
+								+ "<input type='hidden' name='travelPlan' value='"+travelPlan+"'/>"
 								+ "<input type='hidden' name='trainStation' value='"+stationId+"'/>"
 								+ "<input type='hidden' name='travelDate' value='"+date+"'/>"
 								+ "<input type='hidden' name='travelOrder'/>"

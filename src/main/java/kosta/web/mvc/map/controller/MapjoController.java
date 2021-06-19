@@ -88,7 +88,6 @@ public class MapjoController {
 	@RequestMapping("/stationMarker")
 	public ModelAndView stationMarker(TravelPlan plan) {
 		
-//		
 //		System.out.println(plan.getPlanName());
 //		System.out.println(plan.getStartDate());
 //		System.out.println(plan.getEndDate());
@@ -118,17 +117,15 @@ public class MapjoController {
 	 * */
 	@RequestMapping("/cityUpdateForm")
 	public ModelAndView cityUpdateForm (int planId) {
-//		List<StationPlan> list = stationService.selectPlanByPlanNum(planId);
-//		ModelAndView mv = new ModelAndView();
-//		mv.setViewName("mapjo/cityUpdateForm");
-//		mv.addObject("stationUpdate", list);
-//		System.out.println(list);
-		
-		
+		List<StationPlan> list = stationService.selectPlanByPlanNum(planId);
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("mapjo/cityUpdateForm");
-		mv.addObject("planId", planId);
-		//System.out.println(list);
+//		mv.setViewName("mapjo/cityUpdateForm");
+			mv.addObject("stationUpdate", list);
+//		
+		
+			//ModelAndView mv = new ModelAndView();
+			mv.setViewName("mapjo/cityUpdateForm");
+			mv.addObject("planId", planId);
 		return mv;
 	}
 	
@@ -136,13 +133,6 @@ public class MapjoController {
 	@ResponseBody
 	public List<StationPlan> cityUpdateForm2 (int planId) {
 		List<StationPlan> list = stationService.selectPlanByPlanNum(planId);
-//		ModelAndView mv = new ModelAndView();
-//		mv.setViewName("mapjo/cityUpdateForm");
-//		mv.addObject("stationUpdate", list);
-//		System.out.println(list);
-		
-		
-		
 		return list;
 	}
 	
