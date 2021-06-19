@@ -1,6 +1,12 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <div th:fragment="headerFragment">
+	<script type="text/javascript" th:inline="javascript"
+	 th:src="@{/js/jquery-3.2.1.min.js}">
+		$(function() {
+			alert(1)
+		})
+	</script>
 	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	  <div class="container">
 	    <a class="navbar-brand" href="index.html">Railro</a>
@@ -17,7 +23,9 @@
 	        <li class="nav-item"><a href="hotel.html" class="nav-link">Hotels</a></li>
 	        <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
 	        
-	        <li class="nav-item" sec:authorize="isAuthenticated()"><a th:href="@{/member/mypage(memberId=${#authentication.principal.memberId})}" class="nav-link">[[${#authentication.principal.name}]]</a></li>
+	        <li class="nav-item" sec:authorize="isAuthenticated()"><a th:href="@{/member/mypage(memberId=${#authentication.principal.memberId})}" id="mypage_link" class="nav-link"><i class="icon-user"></i></a></li>
+	        <li class="nav-item" sec:authorize="isAuthenticated()" th:if="${noticeList}==null"><a th:href="@{/member/notice(memberId=${#authentication.principal.memberId})}" class="nav-link"><i class="icon-bell-slash"></i></a></li>
+	        <li class="nav-item" sec:authorize="isAuthenticated()" th:if="${noticeList}"><a th:href="@{/member/notice(memberId=${#authentication.principal.memberId})}" class="nav-link"><i class="icon-bell-o"></i></a></li>
 	        <li class="nav-item cta" sec:authorize="isAnonymous()">
 	        	<a href="/member/loginForm" class="nav-link"><span>Login</span></a>
 	        </li>
@@ -39,6 +47,5 @@
 	      </ul>
 	    </div>
 	  </div>
-	</nav>
-	
+	</nav>	
 </div>
