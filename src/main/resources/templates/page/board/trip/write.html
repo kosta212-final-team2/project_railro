@@ -68,7 +68,8 @@
 			
 		} 
 		$("#tripSelect").change(function(){
-			
+			removeMarker();
+			removeRoute();
 			$.ajax({
 			    url:'/stationData', //request 보낼 서버의 경로
 			    type:'get', // 메소드(get, post, put 등)
@@ -187,6 +188,30 @@
 			markers.push(marker); // 배열에 생성된 마커를 추가합니다
 
 			return marker;
+		}
+		
+		//지도 위에 표시되고 있는 마커를 모두 제거합니다
+		function removeMarker() {
+			for (var i = 0; i < markers.length; i++) {
+				markers[i].setMap(null);
+			}
+			markers = [];
+		}
+
+		//지도에 표시된 경로를 삭제합니다.
+		function removeRoute() {
+			
+
+			if (resultdrawArr.length > 0) {
+				for (var i = 0; i < resultdrawArr.length; i++) {
+					resultdrawArr[i].setMap(null);
+				}
+			}
+
+			drawInfoArr = [];
+			
+			resultdrawArr = [];
+
 		}
 		/////////////////////////지도 그리기///////////////////////
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
