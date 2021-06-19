@@ -22,12 +22,12 @@ public interface FreeBoardService {
 	/**
 	 * 제목 검색
 	 * */
-	Page<FreeBoard>  freeSubjectSearch(String keyword,Pageable pageable);
+	Page<FreeBoard> freeSubjectSearch(String keyword,Pageable pageable);
 	
 	/**
 	 * 작성자 검색
 	 * */
-	Page<FreeBoard>  freeIdSearch(String keyword,Pageable pageable);
+	Page<FreeBoard> freeIdSearch(String keyword,Pageable pageable);
 	
 	/**
 	 * 등록
