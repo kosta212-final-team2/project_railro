@@ -24,7 +24,7 @@ public interface FreeBoardRepository extends JpaRepository<FreeBoard, Long> {
 	Page<FreeBoard> findByFreeSubjectContaining(String keyword , Pageable pageable);
 	
 	/**
-	 * 내용검색
+	 * 작성자검색
 	 * */
 	Page<FreeBoard>  findByMemberIdContaining(String keyword, Pageable pageable);
 	 

@@ -20,6 +20,16 @@ public interface InfoBoardService {
 	Page<InfoBoard> selectAll(Pageable pageable);
 	
 	/**
+	 * 제목으로 검색
+	 */
+	Page<InfoBoard> infoSubjectSearch(String keyword, Pageable pageable);
+	
+	/**
+	 * 작성자로 검색
+	 */
+	Page<InfoBoard> infoIdSearch(String keyword, Pageable pageable);
+	
+	/**
 	 * 등록
 	 */
 	void insert(InfoBoard board);
