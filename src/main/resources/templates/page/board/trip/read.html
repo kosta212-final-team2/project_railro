@@ -27,6 +27,9 @@
 		//alert(imgText);
 		$("#img_src").attr("src", imgText);
 		
+		var planId = $("#planId").val();
+		//alert(planId);
+		
 	markers = []; // 마커를 담을 배열입니다
 		
 		var resultdrawArr=[]; //선 저장된 배열
@@ -42,7 +45,7 @@
 		
 		//alert($("#memberId").val());
 	//	displayMap(planId);
-		displayMap(40);
+		displayMap(planId);
 		function displayMap(planId){
 			
 			$.ajax({
@@ -203,6 +206,7 @@
 						<!-- 제목 -->
             <h2 class="mb-3" th:text="${board.tripSubject}"></h2>
             	<!-- 내용 영역 -->
+            	<input type="hidden" id="planId" name="planId" th:value="${board.planId}">
             	
             	<!-- 지도 -->
             	<div id="map"></div>
