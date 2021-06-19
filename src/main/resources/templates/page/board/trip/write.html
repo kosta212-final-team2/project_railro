@@ -27,7 +27,35 @@
 				location.href=/*[[@{/board/trip/list}]]*/;
 			};
 		});
+		
+		//alert($("#memberId").val());
+		
+		$.ajax({
+			type: "POST",
+			url: "${pageContext.request.contextPath}/userPlanData",
+			data: {
+				"userId" : $("#memberId").val()
+			},
+			success: function(result) {
+				$.each(result, function(index, item){
+					var str = "";
+					
+					str += "<option value=";
+					str += item.planId;
+					str += ">";
+					str += item.planName;
+					str += item.startDate;
+					str += item.endDate;
+					str += "</option>";
+						
+					$('#tripSelect').append.html(str);
+				});
+			}
+			
+		});
+		
 	});
+	
 </script>
 </head>
 <body>
@@ -56,8 +84,17 @@
 						<!-- 글쓰기 폼 -->
 						<form name="writeForm" method="post" th:action="@{/board/trip/insert}">
 							<input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-							<input type="hidden" name="memberId" th:value="${#authentication.principal.memberId}">
-							<!-- 지도 영역 -->
+							<input type="hidden" id="memberId" name="memberId" th:value="${#authentication.principal.memberId}">
+							
+							<!-- 여행 선택 영역 -->
+							<div class="select-wrap one-third btn-group">
+								<select name="type" class="form-control" id="tripSelect">
+									<option selected="selected" disabled>--선택--</option>
+									
+								</select>
+							</div>
+							
+							<!-- 지도 영역 --> 
 							<div></div>
 							
 							<div class="form-group">
