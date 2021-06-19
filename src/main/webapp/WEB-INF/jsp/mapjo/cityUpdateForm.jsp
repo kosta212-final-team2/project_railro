@@ -27,8 +27,8 @@ ${stationUpdate}
 <p style="margin-top:-12px">
 </p>
 <p>여행이름 : <input type="text" id="travelPlan"></p>
-<p>StartDate: <input type="text" id="datepicker" readonly="readonly" value="2021-06-20"></p><!-- 수정요 넘겨받을 값  -->
-<p>EndDate: <input type="text" id="datepicker2" readonly="readonly" value="2021-06-22"></p>
+<p>StartDate: <input type="text" id="datepicker" ></p><!-- 수정요 넘겨받을 값  -->
+<p>EndDate: <input type="text" id="datepicker2" ></p>
 	<div class="map_wrap">
 		<div id="map"
 			style="width: 100vm; height: 800px; position: relative; overflow: hidden;"></div>
@@ -54,7 +54,7 @@ ${stationUpdate}
 		<!-- add list  -->
 	<form name="plan" action="${pageContext.request.contextPath}/mapjo/cityUpdate" method="post">
 						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-	
+						<input type="hidden" name="planId" value="${planId}"/>
 		<div id="menu_wrap2" class="bg_white">
 			<div class="option">
 					<div id="cityplan">
@@ -90,28 +90,69 @@ ${stationUpdate}
 
 	$(function () {
 		
+		function getPlan(){
+			$.ajax({
+				url: "${pageContext.request.contextPath}/mapjo/cityUpdateForm2",//서버주소 
+				type: "get",// 요쳥방식 get post put delete
+				dataType: "json",//서버가 보내오는 데이터 타입 -응답 : text, html, xml, json
+				data: {planId : planId },//서버에게 보낼 parameter 정보 
+				success: function (result) {
+					
+			//		alert(result)
+					$.each(result, function(index, item){
+			//			alert(index +" , " + item +" , " + item.stationPlanId+","+ item.trainStation.id+","+item.travelDate.toString().substr(0, 10)+","+item.trainStation.station)
+					var contents="";
+										 			contents += "<div class='cityItem'>"
+													contents += "<div style='float:left;'>"
+
+													contents += "<span class='itemNum'></span> "
+													contents += "<span>"
+													contents += "<div class='info' name='cityName'><h5>"
+													contents += item.trainStation.station
+													contents += "</h5>"
+													contents += "<input type='hidden' name='stationPlanId' value='"+item.stationPlanId+"'/>"
+
+													contents += "<input type='hidden' name='travelPlan' value='"+planId+"'/>"
+													contents += "<input type='hidden' name='trainStation' value='"+item.trainStation.id+"'/>"
+													contents += "<input type='hidden' name='travelDate' value='"+item.travelDate.toString().substr(0, 10)+"'/>"
+													contents += "<input type='hidden' name='travelOrder' value='"+item.travelOrder+"'/>"
+													contents += "<input type='hidden' name='lat' value='"+item.trainStation.lat+"'/>"
+													contents += "<input type='hidden' name='lng' value='"+item.trainStation.lng+"'/>"
+													contents += "<input type='button' value='삭제' name='deletePlan'></input>"
+													contents += "</span></div></div>"; 
+
+												$("#" + item.travelDate.toString().substr(0, 10) + "").append(contents);
+												})
+
+												reorder();
+
+							},
+							error : function(err) {
+								consol.log(err + ": error occured")
+							}
+
+						});//end of ajax
+					}
+		
 		var planId = "${planId}"
 	//	alert(planId)
-		
 		$.ajax({
-			url: "${pageContext.request.contextPath}/mapjo/cityUpdateForm2",//서버주소 
+			url: "${pageContext.request.contextPath}/planData",//서버주소 
 			type: "get",// 요쳥방식 get post put delete
 			dataType: "json",//서버가 보내오는 데이터 타입 -응답 : text, html, xml, json
-			data: {planId : planId },//서버에게 보낼 parameter 정보 
+			data: {"planId" : planId },//서버에게 보낼 parameter 정보 
 			success: function (result) {
-		//		alert(result)
-				$.each(result, function(index, item){
-		//			alert(index +" , " + item +" , " + item.stationPlanId+","+ item.trainStation.id+","+item.travelDate.toString().substr(0, 10)+","+item.trainStation.station)
-				var contents="";
-									 			contents += "<div class='cityItem'>"
-												contents += "<div style='float:left;'>"
+				startDate=result.startDate.toString().substr(0, 10);
+				endDate=result.endDate.toString().substr(0, 10);
+			
+				$("#datepicker").val(startDate);
+				$("#datepicker2").val(endDate);
+				
+				var listDate = [];
 
-												contents += "<span class='itemNum'></span> "
-												contents += "<span>"
-												contents += "<div class='info' name='cityName'><h5>"
-												contents += item.trainStation.station
-												contents += "</h5>"
-												contents += "<input type='hidden' name='stationPlanId' value='"+item.stationPlanId+"'/>"
+				getDateRange(startDate, endDate, listDate);
+				console.log(listDate);
+
 
 												contents += "<input type='hidden' name='travelPlan' value='"+planId+"'/>"
 												contents += "<input type='hidden' name='trainStation' value='"+item.trainStation.id+"'/>"
@@ -129,13 +170,21 @@ ${stationUpdate}
 
 											reorder();
 
+
+				totalSchedule(listDate);
+
+				sortable();
+				getPlan();
+				reorder();
+
 						},
 						error : function(err) {
 							consol.log(err + ": error occured")
 						}
 
 					});//end of ajax
-
+					
+	
 			//var itemList=[];
 			var resultdrawArr=[];
 			var drawInfoArr=[];
@@ -143,18 +192,9 @@ ${stationUpdate}
 			var markers = [];
 			var travelPlan;
 			var sList = "${stationUpdate}";
-			var startDate = $("#datepicker").val();
-			var endDate = $("#datepicker2").val();
+	
 		//	alert(startDate)
-			var listDate = [];
-
-			getDateRange(startDate, endDate, listDate);
-			console.log(listDate);
-
-			totalSchedule(listDate);
-
-			sortable();
-			reorder();
+		
 
 			//역검색 이벤트 
 			$("#search")

@@ -28,9 +28,14 @@ public class DetailedPlanController {
 	}
 	
 	@RequestMapping("/map/categorySearch")
-	public String main() {
+	public ModelAndView main(Double centerLat, Double centerLng, Integer stationPlanNum ) {
 		
-		return "page/map/map";
+		ModelAndView mv=new ModelAndView("page/map/map");
+		mv.addObject("centerLat", centerLat);
+		mv.addObject("centerLng", centerLng);
+		mv.addObject("stationPlanNum", stationPlanNum);
+		
+		return mv;
 	}
 	
 	@RequestMapping("/map/detailSave")

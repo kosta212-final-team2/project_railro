@@ -18,8 +18,16 @@
 </style>
 
 <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<script type="text/javascript"
+			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=206513eac626482c9050af4d937d257a&libraries=services
+"></script>
 <script th:inline="javascript">
 	$(function() {
+	markers = []; // 마커를 담을 배열입니다
+		
+		var resultdrawArr=[]; //선 저장된 배열
+		var drawInfoArr=[]; //그을 선이 저장된 배열
+		 
 		//alert(1);
 		$('#cancelBtn').click(function() {
 			if(confirm("정말 취소하시겠습니까?\n작성하신 내용은 저장되지 않습니다")) {
@@ -29,31 +37,169 @@
 		});
 		
 		//alert($("#memberId").val());
-		
-		$.ajax({
-			type: "POST",
-			url: "${pageContext.request.contextPath}/userPlanData",
-			data: {
-				"userId" : $("#memberId").val()
-			},
-			success: function(result) {
-				$.each(result, function(index, item){
-					var str = "";
+	 	getUserPlanData();
+		function getUserPlanData(){
+			$.ajax({
+			    url:'/userPlanData', //request 보낼 서버의 경로
+			    type:'get', // 메소드(get, post, put 등)
+			    data:{'userId':$("#memberId").val()}, //보낼 데이터
+			    dataType: "json",
+			    success: function(data) {
+			        //서버로부터 정상적으로 응답이 왔을 때 실행
+			        var str="";
+			       $.each(data,function(index,item){
+			    	  
+			    	  
+			    	  str+= "<option value='"+item.planId+"'>"+item.planName+"</option>"
+			    	  
+			       })
+			       $("#tripSelect").append(str);
+			       
+			    },
+			    error:  function(request,status,error){
+
+			    	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 					
-					str += "<option value=";
-					str += item.planId;
-					str += ">";
-					str += item.planName;
-					str += item.startDate;
-					str += item.endDate;
-					str += "</option>";
-						
-					$('#tripSelect').append.html(str);
-				});
-			}
+
+			    }
+			});
+
+
 			
-		});
+		} 
+		$("#tripSelect").change(function(){
+			
+			$.ajax({
+			    url:'/stationData', //request 보낼 서버의 경로
+			    type:'get', // 메소드(get, post, put 등)
+			    data:{'planId':$(this).val()}, //보낼 데이터
+			    dataType: "json",
+			    success: function(data) {
+			        //서버로부터 정상적으로 응답이 왔을 때 실행
+			        var str="";
+			        var startX;
+			    	  var startY;
+			    	  var endX;
+			    	  var endY;
+			       $.each(data,function(index,item){
+			    	  
+			    	 
+			    	  drawInfoArr=[];
+			    	  if(index==0){
+			    		  startX=item.trainStation.lng;
+			    		  startY=item.trainStation.lat;
+			    	  }else{
+			    		  endX=item.trainStation.lng;
+			    		  endY=item.trainStation.lat;
+			    		  var convertChange = new kakao.maps.LatLng(
+									startY,
+									startX);
+							// 배열에 담기
+							drawInfoArr.push(convertChange);
+							convertChange = new kakao.maps.LatLng(
+									endY,
+									endX);
+							drawInfoArr.push(convertChange);
+							drawLine(drawInfoArr, "0",
+									"#000000", 0);
+							startX=endX;
+							startY=endY;
+  
+			    		  
+			    	  }
+			    	  var mac = addMarker(
+								new kakao.maps.LatLng(startY,
+										startX));
+						addInfoWindow(item, mac);
+			    	  
+			    	//  str+= "<option value='"+item.planId+"'>"+item.planName+"</option>"
+			    	  
+			       })
+			       
+			       
+			    },
+			    error:  function(request,status,error){
+
+			    	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					
+
+			    }
+			});
+		})
 		
+	/* 	var placeOverlay = new kakao.maps.CustomOverlay({
+			zIndex : 1
+		}), contentNode = document.createElement('div'), */ // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다 
+		markers = []; // 마커를 담을 배열입니다
+		
+		var resultdrawArr=[]; //선 저장된 배열
+		var drawInfoArr=[]; //그을 선이 저장된 배열
+		
+		
+		 //선 긋기 함수
+		function drawLine(arrPoint, traffic, color, zindex) {
+			var polyline;
+
+			polyline = new kakao.maps.Polyline({
+				endArrow : true,
+				path : arrPoint,
+				strokeColor : color,
+				strokeWeight : 3,
+				strokeStyle : 'dashed',
+				zIndex : zindex
+
+			});
+			polyline.setMap(map);
+			resultdrawArr.push(polyline);
+		}
+		
+		//선택된 장소 값들에 정보창을 추가한다.
+		function addInfoWindow(data, marker) {
+			var iwContent =  data.travelOrder + "." + data.trainStation.station;
+
+			iwPosition = new kakao.maps.LatLng(data.trainStation.lat,
+					data.trainStation.lng); //인포윈도우 표시 위치입니다
+					
+			// 인포윈도우를 생성합니다
+			var infowindow = new kakao.maps.InfoWindow({
+				position : iwPosition,
+				content : iwContent,
+				removable : true
+
+			});
+			kakao.maps.event.addListener(marker, 'click', function() {
+				// 마커 위에 인포윈도우를 표시합니다
+				infowindow.open(map, marker);
+			});
+
+			// 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
+			//	infowindow.open(map, marker);
+
+		}
+		
+		function addMarker(position) {
+			// 마커를 생성합니다
+			var marker = new kakao.maps.Marker({
+				position : position
+			});
+
+			marker.setMap(map); // 지도 위에 마커를 표출합니다
+			markers.push(marker); // 배열에 생성된 마커를 추가합니다
+
+			return marker;
+		}
+		/////////////////////////지도 그리기///////////////////////
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		mapOption = {
+			center : new kakao.maps.LatLng(36.2683, 127.6358), // 지도의 중심좌표
+			level : 12
+		// 지도의 확대 레벨
+		};
+		
+		
+		// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+		var map = new kakao.maps.Map(mapContainer, mapOption);
+
 	});
 	
 </script>
@@ -95,7 +241,7 @@
 							</div>
 							
 							<!-- 지도 영역 --> 
-							<div></div>
+							<div id="map"></div>
 							
 							<div class="form-group">
 									<input type="text" name="tripSubject" class="form-control" placeholder="글 제목">
