@@ -28,6 +28,14 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/flaticon.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/icomoon.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
+     <script>
+  $( function() {
+	  //alert(1)
+    $( "#checkin_date2" ).datepicker({format : 'yyyy-mm-dd'});
+    $( "#checkin_date3" ).datepicker({format : 'yyyy-mm-dd'});
+  } );
+  </script>
 </head>
 <body>
  <body>
@@ -53,52 +61,68 @@
     </div>
   </nav>
     <!-- END nav -->
-    
-    <div class="hero-wrap js-fullheight" style="background-image: url('${pageContext.request.contextPath}/images/bg_1.jpg');">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
-          <div class="col-md-9 ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
-            <h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><strong>Explore <br></strong> your amazing city</h1>
-            <p data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Find great places to stay, eat, shop, or visit from local experts</p>
-            <div class="block-17 my-4">
-              <form action="" method="post" class="d-block d-flex">
-                <div class="fields d-block d-flex">
-                  <div class="textfield-search one-third">
-                  	 <input type="text" class="form-control" placeholder="Destination, City">
-                  	
-                  </div>
-                  <div class="textfield-search one-third">
-                  	 <input type="text" class="form-control" placeholder="Destination, City">
-                  	
-                  </div>
-                  
-                  <div class="select-wrap one-third">
-                    <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                    <select name="" id="" class="form-control" placeholder="Keyword search">
-                      <option value="">Where</option>
-                      <option value="">San Francisco USA</option>
-                      <option value="">Berlin Germany</option>
-                      <option value="">Lodon United Kingdom</option>
-                      <option value="">Paris Italy</option>
-                    </select>
-                  </div>
-                  
-                  
-                </div>
-                <input type="submit" class="search-submit btn btn-primary" value="Search">  
-              </form>
-            </div>
-        
-          </div>
-        </div>
-      </div>
-    </div>
+
+	<div class="hero-wrap js-fullheight"
+		style="background-image: url('${pageContext.request.contextPath}/images/bg_1.jpg');">
+		<div class="overlay"></div>
+		<div class="container">
+			<div
+				class="row no-gutters slider-text js-fullheight align-items-center justify-content-start"
+				data-scrollax-parent="true">
+				<div class="col-md-9 ftco-animate"
+					data-scrollax=" properties: { translateY: '70%' }">
+					<h1 class="mb-4"
+						data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">
+						<strong>Explore <br></strong> YOUR amazing RAILRO!
+					</h1>
+					<p data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Find
+						great places to stay, eat, shop, or visit from local experts</p>
+
+					<form name="travelPlanSave" action="${pageContext.request.contextPath}/mapjo/stationMarker" method="post" class="d-block d-flex">
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+					<input type="hidden" name="userId" value="jo" /><!-- session -->
+
+						<div
+							class="col-md-12 hotel-single ftco-animate mb-5 mt-4 fadeInUp ftco-animated">
+							<div class="row">
+								<!-- travel name  -->
+								<div class="col-md-12">
+									<div class="form-group">
+										<input type="text" class="form-control"	placeholder="Travel name" name="planName">
+									</div>
+								</div>
+								<!-- checkin_date  -->
+								<div class="col-md-6">
+									<div class="form-group">
+										<input type="text" id="checkin_date2" class="form-control"	placeholder="Date from" name="startDate">
+									</div>
+								</div>
+								
+								<!-- checkout_date  -->
+								<div class="col-md-6">
+									<div class="form-group">
+										<input type="text" id="checkin_date3" class="form-control"	placeholder="Date to" name="endDate">
+									</div>
+								</div>
+								<!-- submit button -->
+								<div class="col-md-12">
+									<div class="form-group">
+										<input type="submit" value="START!"	class="btn btn-primary py-3">
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
-  
 
-  <!-- loader -->
+
+	<!-- loader -->
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
 
 

@@ -20,6 +20,8 @@ import kosta.web.mvc.map.domain.Station;
 import kosta.web.mvc.map.dto.Item;
 import kosta.web.mvc.map.dto.StationList;
 import kosta.web.mvc.map.dto.StationPlan;
+import kosta.web.mvc.map.dto.TravelPlan;
+import kosta.web.mvc.map.service.PlanService;
 import kosta.web.mvc.map.service.StationService;
 
 @Controller
@@ -27,6 +29,9 @@ import kosta.web.mvc.map.service.StationService;
 public class MapjoController {
 	@Autowired
 	private StationService stationService;
+	
+	@Autowired
+	private PlanService planService;
 	
 	@Autowired
 	private XmlParsingTest parsing;
@@ -81,8 +86,17 @@ public class MapjoController {
 	 * kakao 지도 역 검색 및 마커 찍기 
 	 * */
 	@RequestMapping("/stationMarker")
-	public void stationMarker() {
+	public ModelAndView stationMarker(TravelPlan plan) {
 		
+//		
+//		System.out.println(plan.getPlanName());
+//		System.out.println(plan.getStartDate());
+//		System.out.println(plan.getEndDate());
+			planService.insertTravelPlan(plan);
+
+			ModelAndView mv = new ModelAndView();
+			mv.addObject("travelPlan", plan);
+			return mv;
 	}
 	
 	/**
@@ -154,7 +168,19 @@ public class MapjoController {
 	 * */
 	@RequestMapping("/travelPlan")
 	public void travelPlan () {
+	}
 	
+	/**
+	 * travel plan save /test용 
+	 * */
+	@RequestMapping("/travelPlanSave")
+	public void travelPlanSave (TravelPlan plan) {
+//		System.out.println(plan.getPlanName());
+//		System.out.println(plan.getStartDate());
+//		System.out.println(plan.getEndDate());
+//		planService.insertTravelPlan(plan);
+//		
+//		System.out.println("저장완");
 	}
 	
 

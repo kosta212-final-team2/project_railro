@@ -25,4 +25,10 @@ public class PlanServiceImpl implements PlanService {
 		return planRepository.findById(planId).orElse(null);
 	}
 
+	@Override
+	public void insertTravelPlan(TravelPlan plan) {
+		planRepository.save(plan);
+		
+	}
+
 }

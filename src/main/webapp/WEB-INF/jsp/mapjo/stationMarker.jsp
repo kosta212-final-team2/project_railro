@@ -14,23 +14,16 @@
 <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" ></script>
 <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
 <link href="${pageContext.request.contextPath}/css/stationMarkerCSS.css" rel="stylesheet" type="text/css" />
- <script>
-  $( function() {
-    $( "#datepicker" ).datepicker({dateFormat : 'yy-mm-dd'});
-    $( "#datepicker2" ).datepicker({dateFormat : 'yy-mm-dd'});
-  } );
-  </script>
+
 </head>
 <body>
 <p style="margin-top:-12px">
 </p>
-<p>여행이름 : <input type="text" id="travelPlan"></p>
-<p>StartDate: <input type="text" id="datepicker"></p>
-<p>EndDate: <input type="text" id="datepicker2"></p>
+
 <button type="button" id="addScheduel">일정생성 </button>
 	<div class="map_wrap">
 		<div id="map"
-			style="width: 100vm; height: 800px; position: relative; overflow: hidden;"></div>
+			style="width: 100vm; height: 100vh; position: relative; overflow: hidden;"></div>
 
 		<!-- 역 검색하기  -->
 		<div id="menu_wrap" class="bg_white">
@@ -73,14 +66,20 @@
 
 
 	<script type="text/javascript">
-
+/* 
+	${travelPlan.planId}
+	${travelPlan.userId}
+	${travelPlan.startDate}
+	${travelPlan.endDate}
+	 */
 
 	$(function () {
 		//alert(1)
 		//var itemList=[];
 		var markers=[];
-		var startDate,endDate;
-		var travelPlan;
+		var startDate; 
+		var endDate;
+		var travelPlan = ${travelPlan.planId};
 			
 			
 		//일정 생성 버튼 이벤트 
@@ -88,8 +87,11 @@
 			//alert(1)
 			var listDate=[];
 				
-			startDate = $("#datepicker").val();
-			endDate = $("#datepicker2").val();
+	/* 		startDate = $("#datepicker").val();
+			endDate = $("#datepicker2").val(); */
+			
+			startDate =${travelPlan.startDate};
+			endDate = ${travelPlan.endDate};
 			getDateRange(startDate, endDate, listDate);
 				console.log(listDate); 
 				
@@ -474,7 +476,7 @@
 		});
 
 		var imageSrc = '${pageContext.request.contextPath}/images/train.png', // 마커이미지의 주소입니다    
-		imageSize = new kakao.maps.Size(30, 34);
+		imageSize = new kakao.maps.Size(40, 45);
 		//imageOption = {offset: new kakao.maps.Point(25, 32)};// 마커이미지의 크기입니다
 
 		// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
