@@ -151,10 +151,10 @@ public class MapjoController {
 	 * update city plan
 	 * */
 	@RequestMapping("/cityUpdate")
-	public ModelAndView cityUpdate (StationList list) {
-		//System.out.println(list);
-		int planId = list.getList().get(0).getTravelPlan().getPlanId();
-		stationService.updateAll(list);
+	public ModelAndView cityUpdate (StationList list,Integer planId) {
+		System.out.println("list="+list.getList());
+		
+		stationService.updateAll(list, planId);
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("mapjo/cityUpdateForm");
 		mv.addObject("planId", planId);

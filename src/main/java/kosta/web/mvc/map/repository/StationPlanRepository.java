@@ -10,5 +10,7 @@ public interface StationPlanRepository extends JpaRepository<StationPlan, Intege
 
 	List<StationPlan> findByTravelPlan_planId(int planId);
 	
+	List<StationPlan> findByTravelPlan_planIdOrderByTravelOrder(int planId);
+	
 	StationPlan findByStationPlanId(int planId);
 }
