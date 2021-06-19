@@ -19,7 +19,7 @@
 <body>
 <p style="margin-top:-12px">
 </p>
-
+ 
 <button type="button" id="addScheduel">일정생성 </button>
 	<div class="map_wrap">
 		<div id="map"
