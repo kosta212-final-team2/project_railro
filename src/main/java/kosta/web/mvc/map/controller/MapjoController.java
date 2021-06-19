@@ -148,6 +148,15 @@ public class MapjoController {
 
 	}
 	
+	
+	/**
+	 * travel plan page
+	 * */
+	@RequestMapping("/travelPlan")
+	public void travelPlan () {
+	
+	}
+	
 
 
 }
