@@ -20,7 +20,6 @@
 <p style="margin-top:-12px">
 </p>
  
-<button type="button" id="addScheduel">일정생성 </button>
 	<div class="map_wrap">
 		<div id="map"
 			style="width: 100vm; height: 100vh; position: relative; overflow: hidden;"></div>
@@ -32,7 +31,7 @@
 					<input type="text" name="keyword" id="keyword" size="15">
 					<button type="button" id="search">search</button>
 					<input type='button' value="delete markers" id="deleteList">
-					<input type='hidden' value="delete markers" > 
+					<input type='hidden' name="planId" value="${travelPlan.planId}" > 
 					
 				</div>
 			</div>
@@ -104,6 +103,9 @@
 			
 		})
 			*/
+			
+			
+			
 		
 		
 		//역검색 이벤트 
@@ -262,6 +264,7 @@
 	    function reorder() {
 			drawInfoArr=[];
 			removeRoute();
+			hideMarkers();
 		    $(".cityItem").each(function(i, box) {
 						//alert($(box).parent().attr("id"))
 		        var redate = $(box).parent().attr("id");
@@ -277,6 +280,14 @@
 					// 배열에 담기
 					drawInfoArr.push(convertChange);
 				
+					//마커 새로 생성 
+					 marker = new kakao.maps.Marker({
+						position : convertChange
+					});
+
+					// 마커가 지도 위에 표시되도록 설정합니다
+					marker.setMap(map);
+					markers.push(marker);
 				
 		        $(box).find(".itemNum").html(i + 1);
 		        $(box).find("input[name=travelOrder]").val(i + 1);

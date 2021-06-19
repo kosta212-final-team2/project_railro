@@ -23,12 +23,11 @@
   </script>
 </head>
 <body>
-${stationUpdate}
 <p style="margin-top:-12px">
 </p>
-<p>여행이름 : <input type="text" id="travelPlan"></p>
-<p>StartDate: <input type="text" id="datepicker" ></p><!-- 수정요 넘겨받을 값  -->
-<p>EndDate: <input type="text" id="datepicker2" ></p>
+<input type="hidden" id="travelPlan">
+<input type="hidden" id="datepicker" ><!-- 수정요 넘겨받을 값  -->
+<input type="hidden" id="datepicker2" >
 	<div class="map_wrap">
 		<div id="map"
 			style="width: 100vm; height: 800px; position: relative; overflow: hidden;"></div>
@@ -362,7 +361,7 @@ ${stationUpdate}
 			}
 			
 		    function reorder() {
-		    	alert(markers)
+		    	//alert(markers)
 				drawInfoArr=[];
 				removeRoute();
 				hideMarkers();
