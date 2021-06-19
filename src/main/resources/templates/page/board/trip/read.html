@@ -18,7 +18,10 @@
 </style>
 
 <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
-<script type="text/javascript">
+<script type="text/javascript"
+			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=206513eac626482c9050af4d937d257a&libraries=services
+"></script>
+<script th:inline="javascript">
 	$(function() {
 		let imgText = $("#img_text").text();
 		//alert(imgText);
