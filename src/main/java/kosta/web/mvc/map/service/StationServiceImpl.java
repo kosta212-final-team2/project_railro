@@ -62,7 +62,7 @@ public class StationServiceImpl implements StationService {
 	 * */
 	@Override
 	public List<StationPlan> selectPlanByPlanNum(int planId) {
-		return stationPlanRepository.findByTravelPlan_planId(planId);
+		return stationPlanRepository.findByTravelPlan_planIdOrderByTravelOrder(planId);
 	}
 
 	
@@ -78,21 +78,24 @@ public class StationServiceImpl implements StationService {
 	 * 역 일정 수정하기 
 	 * */
 	@Override
-	public void updateAll(StationList list) {
+	public void updateAll(StationList list,Integer planId) {
 		for (StationPlan s : list.getList()) {
 			if(s.getTravelDate() != null) {
-				
+				System.out.println("stationPlanId="+s.getStationPlanId());
 				if (s.getStationPlanId() != 0) {
+					
 					StationPlan plan = stationPlanRepository.findByStationPlanId(s.getStationPlanId());
-					System.out.println(plan.getStationPlanId());
-					System.out.println(s.getStationPlanId());
+				//	System.out.println(plan.getStationPlanId());
+				//	System.out.println(s.getStationPlanId());
 //			System.out.println(plan.getTravelOrder());
 					plan.setTravelDate(s.getTravelDate());
 					plan.setTravelOrder(s.getTravelOrder());
 					
 					stationPlanRepository.save(plan);
 				}else {
+					System.out.println("다다다닫다다다"+s);
 					stationPlanRepository.save(s);
+					System.out.println("가가가가가가가가"+s);
 				}
 				
 				
@@ -101,12 +104,14 @@ public class StationServiceImpl implements StationService {
 			}
 
 		}//for
-//		List<StationPlan> dbList = stationPlanRepository.findByTravelPlan_planId(list.getList().get(0).getTravelPlan().getPlanId());
-//		for(StationPlan plan :dbList) {
-//			if(!list.getList().contains(plan)) {
-//				stationPlanRepository.delete(plan);
-//			}
-//		}
+		List<StationPlan> dbList = stationPlanRepository.findByTravelPlan_planId(planId);
+	//	System.out.println("planID==="+list.getList().get(0).getTravelPlan().getPlanId());
+		System.out.println(dbList);
+		for(StationPlan plan :dbList) {
+			if(!list.getList().contains(plan)) {
+				stationPlanRepository.delete(plan);
+			}
+	}
 
 	}
 

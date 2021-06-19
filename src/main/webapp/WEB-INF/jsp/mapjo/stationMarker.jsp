@@ -14,23 +14,16 @@
 <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" ></script>
 <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
 <link href="${pageContext.request.contextPath}/css/stationMarkerCSS.css" rel="stylesheet" type="text/css" />
- <script>
-  $( function() {
-    $( "#datepicker" ).datepicker({dateFormat : 'yy-mm-dd'});
-    $( "#datepicker2" ).datepicker({dateFormat : 'yy-mm-dd'});
-  } );
-  </script>
+
 </head>
 <body>
 <p style="margin-top:-12px">
 </p>
-<p>여행이름 : <input type="text" id="travelPlan"></p>
-<p>StartDate: <input type="text" id="datepicker"></p>
-<p>EndDate: <input type="text" id="datepicker2"></p>
+ 
 <button type="button" id="addScheduel">일정생성 </button>
 	<div class="map_wrap">
 		<div id="map"
-			style="width: 100vm; height: 800px; position: relative; overflow: hidden;"></div>
+			style="width: 100vm; height: 100vh; position: relative; overflow: hidden;"></div>
 
 		<!-- 역 검색하기  -->
 		<div id="menu_wrap" class="bg_white">
@@ -73,32 +66,44 @@
 
 
 	<script type="text/javascript">
-
+/* 
+	${travelPlan.planId}
+	${travelPlan.userId}
+	${travelPlan.startDate}
+	${travelPlan.endDate}
+	 */
 
 	$(function () {
 		//alert(1)
 		//var itemList=[];
+		
+		
 		var markers=[];
-		var startDate,endDate;
-		var travelPlan;
-			
-			
-		//일정 생성 버튼 이벤트 
-		$("#addScheduel").click(function () {
-			//alert(1)
+		var startDate = "${travelPlan.startDate}"; 
+		var endDate = "${travelPlan.endDate}";
+		var travelPlan = "${travelPlan.planId}";
+			alert(startDate)
+			alert(endDate)
+			alert(travelPlan)
 			var listDate=[];
-				
-			startDate = $("#datepicker").val();
-			endDate = $("#datepicker2").val();
-			getDateRange(startDate, endDate, listDate);
+				getDateRange(startDate, endDate, listDate);
 				console.log(listDate); 
 				
 				totalSchedule(listDate);
 				
 				sortable();
+		/*	
+		//일정 생성 버튼 이벤트 
+		$("#addScheduel").click(function () {
+			//alert(1)
+				
+ 		startDate = $("#datepicker").val();
+			endDate = $("#datepicker2").val(); 
+			
+	
 			
 		})
-			
+			*/
 		
 		
 		//역검색 이벤트 
@@ -311,8 +316,7 @@
 			polyline.setMap(map);
 			resultdrawArr.push(polyline);
 		}
-		
-		//시작일과 종료일 사이의 날짜를 구하는 함수 
+		//그린 루트 지우기
 		function removeRoute(){
 			if (resultdrawArr.length > 0) {
 				for (var i = 0; i < resultdrawArr.length; i++) {
@@ -320,6 +324,8 @@
 				}
 			}
 		}
+		
+		//시작일과 종료일 사이의 날짜를 구하는 함수 
 		function getDateRange(startDate, endDate, listDate){
 
 				var dateMove = new Date(startDate);
@@ -379,8 +385,8 @@
 			function createDaySchedule(date) {
 				
 					var number = $(".itemNum").innerHTML;
-					travelPlan = $("#travelPlan").val();
-				
+					//travelPlan = $("#travelPlan").val();
+					alert(travelPlan);
 					var contents
 
 				    = "<div class='cityItem'>"
@@ -389,7 +395,7 @@
 					      + "<span class='itemNum'></span> "
 								+ "<span>"
 								+	"<div class='info' name='cityName'><h5>"+city+"</h5>"
-								+ "<input type='hidden' name='travelPlan' value='3'/>"
+								+ "<input type='hidden' name='travelPlan' value='"+travelPlan+"'/>"
 								+ "<input type='hidden' name='trainStation' value='"+stationId+"'/>"
 								+ "<input type='hidden' name='travelDate' value='"+date+"'/>"
 								+ "<input type='hidden' name='travelOrder'/>"
@@ -473,7 +479,7 @@
 		});
 
 		var imageSrc = '${pageContext.request.contextPath}/images/train.png', // 마커이미지의 주소입니다    
-		imageSize = new kakao.maps.Size(30, 34);
+		imageSize = new kakao.maps.Size(40, 45);
 		//imageOption = {offset: new kakao.maps.Point(25, 32)};// 마커이미지의 크기입니다
 
 		// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다

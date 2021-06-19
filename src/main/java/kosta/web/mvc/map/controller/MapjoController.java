@@ -20,6 +20,8 @@ import kosta.web.mvc.map.domain.Station;
 import kosta.web.mvc.map.dto.Item;
 import kosta.web.mvc.map.dto.StationList;
 import kosta.web.mvc.map.dto.StationPlan;
+import kosta.web.mvc.map.dto.TravelPlan;
+import kosta.web.mvc.map.service.PlanService;
 import kosta.web.mvc.map.service.StationService;
 
 @Controller
@@ -27,6 +29,9 @@ import kosta.web.mvc.map.service.StationService;
 public class MapjoController {
 	@Autowired
 	private StationService stationService;
+	
+	@Autowired
+	private PlanService planService;
 	
 	@Autowired
 	private XmlParsingTest parsing;
@@ -81,8 +86,16 @@ public class MapjoController {
 	 * kakao 지도 역 검색 및 마커 찍기 
 	 * */
 	@RequestMapping("/stationMarker")
-	public void stationMarker() {
+	public ModelAndView stationMarker(TravelPlan plan) {
 		
+//		System.out.println(plan.getPlanName());
+//		System.out.println(plan.getStartDate());
+//		System.out.println(plan.getEndDate());
+			planService.insertTravelPlan(plan);
+
+			ModelAndView mv = new ModelAndView();
+			mv.addObject("travelPlan", plan);
+			return mv;
 	}
 	
 	/**
@@ -104,17 +117,15 @@ public class MapjoController {
 	 * */
 	@RequestMapping("/cityUpdateForm")
 	public ModelAndView cityUpdateForm (int planId) {
-//		List<StationPlan> list = stationService.selectPlanByPlanNum(planId);
-//		ModelAndView mv = new ModelAndView();
-//		mv.setViewName("mapjo/cityUpdateForm");
-//		mv.addObject("stationUpdate", list);
-//		System.out.println(list);
-		
-		
+		List<StationPlan> list = stationService.selectPlanByPlanNum(planId);
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("mapjo/cityUpdateForm");
-		mv.addObject("planId", planId);
-		//System.out.println(list);
+//		mv.setViewName("mapjo/cityUpdateForm");
+			mv.addObject("stationUpdate", list);
+//		
+		
+			//ModelAndView mv = new ModelAndView();
+			mv.setViewName("mapjo/cityUpdateForm");
+			mv.addObject("planId", planId);
 		return mv;
 	}
 	
@@ -122,13 +133,6 @@ public class MapjoController {
 	@ResponseBody
 	public List<StationPlan> cityUpdateForm2 (int planId) {
 		List<StationPlan> list = stationService.selectPlanByPlanNum(planId);
-//		ModelAndView mv = new ModelAndView();
-//		mv.setViewName("mapjo/cityUpdateForm");
-//		mv.addObject("stationUpdate", list);
-//		System.out.println(list);
-		
-		
-		
 		return list;
 	}
 	
@@ -137,15 +141,36 @@ public class MapjoController {
 	 * update city plan
 	 * */
 	@RequestMapping("/cityUpdate")
-	public ModelAndView cityUpdate (StationList list) {
-		//System.out.println(list);
-		int planId = list.getList().get(0).getStationPlanId();
-		stationService.updateAll(list);
+	public ModelAndView cityUpdate (StationList list,Integer planId) {
+		System.out.println("list="+list.getList());
+		
+		stationService.updateAll(list, planId);
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("mapjo/cityUpdateForm");
 		mv.addObject("planId", planId);
 		return mv;
 
+	}
+	
+	
+	/**
+	 * travel plan page
+	 * */
+	@RequestMapping("/travelPlan")
+	public void travelPlan () {
+	}
+	
+	/**
+	 * travel plan save /test용 
+	 * */
+	@RequestMapping("/travelPlanSave")
+	public void travelPlanSave (TravelPlan plan) {
+//		System.out.println(plan.getPlanName());
+//		System.out.println(plan.getStartDate());
+//		System.out.println(plan.getEndDate());
+//		planService.insertTravelPlan(plan);
+//		
+//		System.out.println("저장완");
 	}
 	
 
