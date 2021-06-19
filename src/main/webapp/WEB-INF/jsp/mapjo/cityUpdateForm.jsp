@@ -448,7 +448,7 @@ ${stationUpdate}
 						+ "<div class='info' name='cityName'><h5>"
 						+ city
 						+ "</h5>"
-						+ "<input type='hidden' name='travelPlan' value='3'/>"
+						+ "<input type='hidden' name='travelPlan' value='"+travelPlan+"'/>"
 						+ "<input type='hidden' name='trainStation' value='"+stationId+"'/>"
 						+ "<input type='hidden' name='travelDate' value='"+date+"'/>"
 						+ "<input type='hidden' name='travelOrder'/>"
