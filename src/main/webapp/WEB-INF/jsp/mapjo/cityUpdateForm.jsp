@@ -154,24 +154,7 @@ ${stationUpdate}
 				console.log(listDate);
 
 
-												contents += "<input type='hidden' name='travelPlan' value='"+planId+"'/>"
-												contents += "<input type='hidden' name='trainStation' value='"+item.trainStation.id+"'/>"
-												contents += "<input type='hidden' name='travelDate' value='"+item.travelDate.toString().substr(0, 10)+"'/>"
-												contents += "<input type='hidden' name='travelOrder' value='"+item.travelOrder+"'/>"
-												contents += "<input type='hidden' name='lat' value='"+item.trainStation.lat+"'/>"
-												contents += "<input type='hidden' name='lng' value='"+item.trainStation.lng+"'/>"
-												contents += "<input type='button' value='삭제' name='deletePlan'></input>"
-												contents += "</span></div></div>"; 
-												
-												
-											$("#" + item.travelDate.toString().substr(0, 10) + "").append(contents);
-											})
-											
-
-											reorder();
-
-
-				totalSchedule(listDate);
+		totalSchedule(listDate);
 
 				sortable();
 				getPlan();
@@ -454,7 +437,7 @@ ${stationUpdate}
 
 				var number = $(".itemNum").innerHTML;
 				travelPlan = $("#travelPlan").val();
-
+				planId=${planId}
 				var contents
 
 				= "<div class='cityItem'>"
@@ -465,7 +448,8 @@ ${stationUpdate}
 						+ "<div class='info' name='cityName'><h5>"
 						+ city
 						+ "</h5>"
-						+ "<input type='hidden' name='travelPlan' value='3'/>"
+
+						+ "<input type='hidden' name='travelPlan' value='"+planId+"'/>"
 						+ "<input type='hidden' name='trainStation' value='"+stationId+"'/>"
 						+ "<input type='hidden' name='travelDate' value='"+date+"'/>"
 						+ "<input type='hidden' name='travelOrder'/>"

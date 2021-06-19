@@ -78,7 +78,7 @@ public class StationServiceImpl implements StationService {
 	 * 역 일정 수정하기 
 	 * */
 	@Override
-	public void updateAll(StationList list,Integer planId) {
+	public void updateAll(StationList list,int planId) {
 		for (StationPlan s : list.getList()) {
 			if(s.getTravelDate() != null) {
 				System.out.println("stationPlanId="+s.getStationPlanId());
@@ -93,9 +93,7 @@ public class StationServiceImpl implements StationService {
 					
 					stationPlanRepository.save(plan);
 				}else {
-					System.out.println("다다다닫다다다"+s);
 					stationPlanRepository.save(s);
-					System.out.println("가가가가가가가가"+s);
 				}
 				
 				
@@ -110,7 +108,7 @@ public class StationServiceImpl implements StationService {
 		for(StationPlan plan :dbList) {
 			if(!list.getList().contains(plan)) {
 				stationPlanRepository.delete(plan);
-			}
+		}
 	}
 
 	}
