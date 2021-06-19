@@ -154,7 +154,6 @@ ${stationUpdate}
 				console.log(listDate);
 
 
-
 		totalSchedule(listDate);
 
 				sortable();
