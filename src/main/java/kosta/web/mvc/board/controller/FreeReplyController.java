@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import kosta.web.mvc.board.domain.FreeBoard;
 import kosta.web.mvc.board.domain.FreeReply;
 import kosta.web.mvc.board.service.FreeReplyService;
+import kosta.web.mvc.member.domain.Member;
 
 @Controller
 @RequestMapping("/board/free/reply")
@@ -21,7 +22,7 @@ public class FreeReplyController {
 	@RequestMapping("/insert")
 	public String insert(FreeReply freeReply, Long freeBno, String memberId) {
 		freeReply.setFreeBoard(new FreeBoard(freeBno));
-		//freeReply.setMemberId(new Member(memberId));
+		freeReply.setMember(new Member(memberId));
 		
 		freeReplyService.insert(freeReply);
 		

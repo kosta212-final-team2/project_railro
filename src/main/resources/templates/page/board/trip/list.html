@@ -4,10 +4,10 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/layout/default_layout}">
 <head>
-<title>free list</title>
+<title>trip list</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<th:block layout:fragment="css">
+
 <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Alex+Brush" rel="stylesheet">
 
@@ -40,18 +40,18 @@
 
 <div layout:fragment="content">
 	<!-- 사진 영역 -->
-	<div class="hero-wrap js-fullheight" th:style="'background: url('+@{/images/bg_2.jpg}+'); no-repeat fixed; background-size: cover;'">
+	<div class="hero-wrap js-fullheight" th:style="'background: url('+@{/images/bg_4.jpg}+');'">
 	  <div class="overlay"></div>
 	  <div class="container">
 	    <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center" data-scrollax-parent="true">
 	      <div class="col-md-9 ftco-animate text-center" data-scrollax=" properties: { translateY: '70%' }">
-	        <p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-2"><a href="index.html">Home</a></span> <span>Board</span></p>
-	        <h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">자유게시판</h1>
+	        <p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-2"><a href="index.html">Home</a></span> <span>Blog</span></p>
+	        <h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Tips &amp; Articles</h1>
 	      </div>
 	    </div>
 	  </div>
 	</div>
-	
+
 		<section class="ftco-section bg-light">
 			<div class="container">
 				<div class="row d-flex">
@@ -72,42 +72,42 @@
 							<th>조회수</th>
 							<th>추천수</th>
 						</tr>
-						<tr th:each="content : ${freeSearchList}">
-							<td th:text="${content.freeBno}"></td>
+						<tr th:each="content : ${tripSearchList}">
+							<td th:text="${content.tripBno}"></td>
 							<td th:text="${content.memberId}"></td>
-							<td style="text-align: left;"><a th:text="${content.freeSubject}" th:href="@{'/board/free/read/'+${content.freeBno}}"></a></td>
-							<td th:text="${#strings.substring(content.freeRegdate, 0, 10)}"></td>
-							<td th:text="${content.freeReadnum}"></td>
-							<td th:text="${content.freeVote}"></td>
+							<td style="text-align: left;"><a th:text="${content.tripSubject}" th:href="@{'/board/trip/read/'+${content.tripBno}}"></a></td>
+							<td th:text="${#strings.substring(content.tripRegdate, 0, 10)}"></td>
+							<td th:text="${content.tripReadnum}"></td>
+							<td th:text="${content.tripVote}"></td>
 						</tr>
 					</table>
-					<a th:href="@{/board/free/write}" class="btn">글쓰기</a>
+					<a th:href="@{/board/trip/write}" class="btn">글쓰기</a>
 				</div>
 				<div class="row mt-5">
 					<div class="col text-center">
 						<div class="block-27">
 							<!-- 페이징처리 -->
-  						<ul th:with="start=${(freeSearchList.number/blockCount)*blockCount + 1},
-  														end=${start+(blockCount-1) > freeSearchList.totalPages ? freeSearchList.totalPages : (start+(blockCount-1))}">
+  						<ul th:with="start=${(tripSearchList.number/blockCount)*blockCount + 1},
+  														end=${start+(blockCount-1) > tripSearchList.totalPages ? tripSearchList.totalPages : (start+(blockCount-1))}">
 								<!-- 맨 앞으로 -->
 					      <li th:if="${start > 1}">
-				        	<a th:href="@{/board/free/list?(nowPage=1)}" th:text="'<<'"></a>
+				        	<a th:href="@{/board/trip/list?(nowPage=1)}" th:text="'<<'"></a>
 				        </li>
 								<!-- 앞으로 -->
 				        <li th:if="${start > 1}">
-				        	<a th:href="@{/board/free/list?(nowPage=${start - blockCount})}" th:text="'<'"></a>
+				        	<a th:href="@{/board/trip/list?(nowPage=${start - blockCount})}" th:text="'<'"></a>
 				        </li>
 								<!-- 페이지 번호 출력 -->
 				        <li th:each="page : ${#numbers.sequence(start, end)}">
-				        	<a th:href="@{/board/free/list?(nowPage=${page})}" th:id="page+${page}" th:text="${page}"></a>
+				        	<a th:href="@{/board/trip/list?(nowPage=${page})}" th:id="page+${page}" th:text="${page}"></a>
 				        </li>
 								<!-- 뒤로 -->
-					      <li th:if="${end < freeSearchList.totalPages}">
-				        	<a th:href="@{/board/free/list?(nowPage=${start + blockCount})}" th:text="'>'"></a>
+					      <li th:if="${end < tripSearchList.totalPages}">
+				        	<a th:href="@{/board/trip/list?(nowPage=${start + blockCount})}" th:text="'>'"></a>
 				        </li>
 								<!-- 맨 뒤로 -->
-				        <li th:if="${end < freeSearchList.totalPages}">
-				        	<a th:href="@{/board/free/list?(nowPage=${freeSearchList.totalPages})}" th:text="'>>'"></a>
+				        <li th:if="${end < tripSearchList.totalPages}">
+				        	<a th:href="@{/board/trip/list?(nowPage=${tripSearchList.totalPages})}" th:text="'>>'"></a>
 				        </li>
 							</ul>
 						</div>
@@ -116,12 +116,12 @@
 				<!-- 검색 form -->
 				<div class="row mt-5">
 					<div class="col text-center">
-						<form th:action="@{/board/free/list}" method="GET">
+						<form th:action="@{/board/trip/list}" method="GET">
 							<div class="select-wrap one-third btn-group">
 								<select name="type" class="form-control">
-									<option value="" disabled>--선택--</option> 
-									<option value="subject" th:selected="@{/board/free/list?type=subject}">제목</option>
-									<option value="writer" th:selected="@{/board/free/list?type=writer}">작성자</option>
+									<option selected="selected" disabled>--선택--</option>
+									<option value="subject" th:selected="@{/board/trip/list?type=subject}">제목</option>
+									<option value="writer" th:selected="@{/board/trip/list?type=writer}">작성자</option>
 								</select>
 							</div>
 							<div class="btn-group" role="group" aria-label="Basic example">

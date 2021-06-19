@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/layout/default_layout}">
 <head>
-<title>free write</title>
+<title>trip write</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -24,10 +24,38 @@
 		$('#cancelBtn').click(function() {
 			if(confirm("정말 취소하시겠습니까?\n작성하신 내용은 저장되지 않습니다")) {
 				// 취소버튼 누르고, 예를 누름
-				location.href=/*[[@{/board/free/list}]]*/;
+				location.href=/*[[@{/board/trip/list}]]*/;
 			};
 		});
+		
+		//alert($("#memberId").val());
+		
+		$.ajax({
+			type: "POST",
+			url: "${pageContext.request.contextPath}/userPlanData",
+			data: {
+				"userId" : $("#memberId").val()
+			},
+			success: function(result) {
+				$.each(result, function(index, item){
+					var str = "";
+					
+					str += "<option value=";
+					str += item.planId;
+					str += ">";
+					str += item.planName;
+					str += item.startDate;
+					str += item.endDate;
+					str += "</option>";
+						
+					$('#tripSelect').append.html(str);
+				});
+			}
+			
+		});
+		
 	});
+	
 </script>
 </head>
 <body>
@@ -36,32 +64,44 @@
 
 <div layout:fragment="content">
 	<!-- 사진 영역 -->
-	<div class="hero-wrap js-fullheight" th:style="'background: url('+@{/images/bg_2.jpg}+'); no-repeat fixed; background-size: cover;'">
+	<div class="hero-wrap js-fullheight" th:style="'background: url('+@{/images/bg_4.jpg}+');'">
 	  <div class="overlay"></div>
 	  <div class="container">
 	    <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center" data-scrollax-parent="true">
 	      <div class="col-md-9 ftco-animate text-center" data-scrollax=" properties: { translateY: '70%' }">
-	        <p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-2"><a href="index.html">Home</a></span> <span>Board</span></p>
-	        <h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">자유게시판</h1>
+	        <p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-2"><a href="index.html">Home</a></span> <span>Blog</span></p>
+	        <h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Tips &amp; Articles</h1>
 	      </div>
 	    </div>
 	  </div>
 	</div>
-
+		
+		<!-- 글쓰기 영역 -->
 		<section class="ftco-section">
 			<div class="container">
 				<div class="row d-flex">
 					<div class="col-md-12">
-						<form name="writeForm" method="post" th:action="@{/board/free/insert}">
+						<!-- 글쓰기 폼 -->
+						<form name="writeForm" method="post" th:action="@{/board/trip/insert}">
 							<input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+							<input type="hidden" id="memberId" name="memberId" th:value="${#authentication.principal.memberId}">
 							
-							<!-- <input type="hidden" name="memberId" value="${session.memberId}"> -->
-							<input type="hidden" name="memberId" th:value="${#authentication.principal.memberId}">
+							<!-- 여행 선택 영역 -->
+							<div class="select-wrap one-third btn-group">
+								<select name="type" class="form-control" id="tripSelect">
+									<option selected="selected" disabled>--선택--</option>
+									
+								</select>
+							</div>
+							
+							<!-- 지도 영역 --> 
+							<div></div>
+							
 							<div class="form-group">
-									<input type="text" name="freeSubject" class="form-control" placeholder="글 제목">
+									<input type="text" name="tripSubject" class="form-control" placeholder="글 제목">
 						  </div>
 						  <div class="form-group">
-						    <textarea name="freeContent" cols="30" rows="7" class="form-control" placeholder="내용"></textarea>
+						    <textarea name="tripContent" cols="30" rows="7" class="form-control" placeholder="내용"></textarea>
 						  </div>
 						  <div id="aa">
 						  	<input type="submit" class="btn btn-primary py-3 px-5" value="등록">
