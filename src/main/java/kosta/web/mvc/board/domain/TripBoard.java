@@ -9,11 +9,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import kosta.web.mvc.map.dto.TravelPlan;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,11 +36,13 @@ public class TripBoard {
 	private String tripSubject; // 제목
 	private String tripContent; // 내용
 	private String memberId; // 작성자 아이디
+	private String planId; // 일정번호
 	
 	@CreationTimestamp
 	private LocalDateTime tripRegdate; // 등록일
 	private int tripReadnum; // 조회수
 	private int tripVote; // 추천수
+
 	
 	@OneToMany(mappedBy = "tripBoard", cascade = CascadeType.ALL) // 지연로딩
 	private List<TripReply> tripReplyList;
