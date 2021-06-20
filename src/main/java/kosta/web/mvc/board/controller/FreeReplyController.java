@@ -27,7 +27,18 @@ public class FreeReplyController {
 		freeReplyService.insert(freeReply);
 		
 		// flag : 조회수를 증가하지 않게 하기 위함
-		return "redirect:/board/free/read/"+freeBno;
+		return "redirect:/board/free/read/"+freeBno+"?flag=1";
+	}
+
+	/**
+	 * 댓글 삭제하기
+	 */
+	@RequestMapping("/delete")
+	public String delete(Long freeRno, Long freeBno) {
+		System.out.println("freeBno = "+freeBno+", freeRno = "+freeRno);
+		freeReplyService.delete(freeRno);
+		
+		return "redirect:/board/free/read/"+freeBno+"?flag=1";
 	}
 	
 }

@@ -24,6 +24,21 @@
 		//alert(imgText);
 		$("#img_src").attr("src", imgText);
 		
+		var loginMember = $("#loginMember").val();
+		//alert(loginMember);
+		
+		var writeMember = $("#writeMember").val();
+		//alert(writeMember);
+		
+		if(loginMember!=writeMember) {
+			$("#writerOnly").hide();
+		}
+		
+		var writeReplyMember = $("#writeReplyMember").val();
+		
+		if(loginMember!=writeReplyMember) {
+			$(".replyWriterOnly").hide();
+		}
 	});
 </script>
 
@@ -50,6 +65,11 @@
 					<div class="col-md-12">
 						<!-- 제목 -->
             <h2 class="mb-3" th:text="${board.freeSubject}"></h2>
+            	<!-- 작성시간 -->
+            	<div class="comment-body">
+            		<div class="meta" th:text="${#strings.replace(board.freeRegdate, 'T', ' ')}"></div>
+            	</div>
+            	
             	<!-- 내용 영역 -->
             	<th:block th:text="${board.freeContent}">
             	
@@ -75,7 +95,7 @@
             </div>
 
 			<!-- 수정하기, 삭제하기 버튼 -->
-			<div class="tag-widget post-tag-container mb-5 mt-5">
+			<div class="tag-widget post-tag-container mb-5 mt-5" id="writerOnly">
 				<div style="text-align: right;">
 					<!-- 수정시 필요한 데이터를 폼으로 전송 -->
 					<div style="float: right; margin-left: 10px">
@@ -94,10 +114,13 @@
 				</div>
 			</div>
 
+            <input type="hidden" id="loginMember" th:value="${#authentication.principal.memberId}">
+            <input type="hidden" id="writeMember" th:value="${board.memberId}">
+
 
 			<!-- 댓글 영역 -->
             <div class="pt-5 mt-5">
-              <h3 class="mb-5">댓글</h3>
+              <h3 class="mb-5">댓글 [<span th:text="${#lists.size(board.freeReplyList)}"></span>]</h3>
               <ul class="comment-list">
               	<!-- 댓글 반복문 돌릴 영역 -->
               	<li class="comment" th:each="reply : ${board.freeReplyList}">
@@ -109,7 +132,10 @@
                     <h3 th:text="${reply.member.memberId}"></h3>
                     <div class="meta" th:text="${reply.freeReplyRegdate}"></div>
                     <p><h6 th:text="${reply.freeReplyContent}"></h6></p>
-                    <!-- <p><a href="#" class="reply">Reply</a></p> -->
+                    <input type="hidden" id="writeReplyMember" th:value="${reply.member.memberId}">
+                  	<a id="replyWriterOnly" 
+                  		 th:href="@{/board/free/reply/delete(freeRno=${reply.freeRno}, freeBno=${board.freeBno})}" 
+                  		 class="reply replyWriterOnly" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
                   </div>
                 </li>
               </ul>

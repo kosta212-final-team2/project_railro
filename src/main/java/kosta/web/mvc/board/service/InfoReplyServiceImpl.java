@@ -20,10 +20,29 @@ public class InfoReplyServiceImpl implements InfoReplyService {
 		infoReplyRepository.save(infoReply);
 	}
 
-	@Override
-	public void delete(Long infoRno) {
-		infoReplyRepository.deleteById(infoRno);
 
+	@Override
+	public InfoReply selectBy(Long infoRno) {
+		return infoReplyRepository.findById(infoRno).orElse(null);
 	}
 
+	@Override
+	public InfoReply update(InfoReply infoReply) {
+		infoReplyRepository.deleteTest(infoReply.getInfoRno());
+		
+		infoReplyRepository.save(infoReply);
+		
+		return infoReply;
+	}
+
+	@Override
+	public void delete(Long infoRno) {
+//		InfoReply dbReply = infoReplyRepository.findById(infoRno).orElse(null);
+//		
+//		if(dbReply==null) {
+//			throw new RuntimeException("댓글이 삭제되지 않았습니다");
+//		}
+		
+		infoReplyRepository.deleteTest(infoRno);
+	}
 }

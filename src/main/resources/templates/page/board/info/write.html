@@ -52,6 +52,38 @@
 			<div class="container">
 				<div class="row d-flex">
 					<div class="col-md-12">
+						<div class="alert alert-secondary">
+							<h4>게시판 규칙</h4><button type="button" class="close" data-dismiss="alert">✖</button>
+							<p>
+									1.&nbsp;배려와 예의<br>
+									   &nbsp;&nbsp;ex)<br>
+									   &nbsp;&nbsp;욕설, 비속어의 사용을 금지합니다. (욕설임을 알 수 있는 자음, 기호 등 포함)<br>
+									   &nbsp;&nbsp;타인에 대한 무분별한 비난이나 인신공격을 하지 않습니다.<br><br>
+									
+									2.&nbsp;개인 또는 단체의 이익을 목적으로 부정한 활동 금지<br>
+									   &nbsp;&nbsp;ex)<br>
+									   &nbsp;&nbsp;일반적인 회원으로 가장하여 홍보성 게시물을 작성하여서는 안됩니다.<br>
+									   &nbsp;&nbsp;개인, 특정 단체에 대한 긍정적 또는 부정적 여론조성을 위해 부당하게 활동할 수 없습니다. <br><br>
+									
+									3.&nbsp;타인의 권리를 침해하는 행위 제한<br>
+									   &nbsp;&nbsp;ex)<br>
+									   &nbsp;&nbsp;식별가능한 타인의 초상을 무단으로 게시하여서는 안됩니다. (허용된 경우 제외)<br>
+									   &nbsp;&nbsp;타인의 재산권을 침해하는 내용이거나 허위의 사실로 영업을 방해할 목적의 게시물을 작성하지 않습니다. <br><br>
+									
+									4.&nbsp;특정 집단에 대한 차별 및 무조건적 비난 금지<br>
+									   &nbsp;&nbsp;ex)<br>
+									   &nbsp;&nbsp;인종, 성별, 국적, 연령, 지역, 장애 등 구분이 가능한 집단에 대하여 그 구성원에게 굴욕감이나 불이익을 줄 수 있는 게시물을 작성하지 않습니다. <br>
+									   &nbsp;&nbsp;학벌, 재산, 직업, 생활양식, 취향, 종교, 정치적 견해 등을 이유로 무조건적인 비난을 하지 않습니다. <br><br>
+									
+									5.&nbsp;다른 이용자의 이용에 방해가 되는 행위 금지<br>
+									   &nbsp;&nbsp;ex)<br>
+									   &nbsp;&nbsp;타인에게 혐오감을 주거나 불쾌하게 할 수 있는 게시물 작성을 금지합니다. <br>
+									   &nbsp;&nbsp;특수문자의 과도한 사용, 도배성 게시물/댓글 등 다른 이용자에게 불편을 주는 경우 해당 게시물은 삭제될 수 있습니다. <br>
+									   &nbsp;&nbsp;고의적으로 규칙위반 게시물 작성 후 삭제를 반복하는 경우 작성자는 이용이 제한될 수 있습니다. <br>
+							</p>
+						</div>
+					</div>
+					<div class="col-md-12">
 						<form name="writeForm" method="post" th:action="@{/board/info/insert}">
 							<input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 							
@@ -61,7 +93,7 @@
 									<input type="text" name="infoSubject" class="form-control" placeholder="글 제목">
 						  </div>
 						  <div class="form-group">
-						    <textarea name="infoContent" cols="30" rows="7" class="form-control" placeholder="내용"></textarea>
+						    <textarea name="infoContent" cols="30" rows="15" class="form-control" placeholder="내용"></textarea>
 						  </div>
 						  <div id="aa">
 						  	<input type="submit" class="btn btn-primary py-3 px-5" value="등록">
