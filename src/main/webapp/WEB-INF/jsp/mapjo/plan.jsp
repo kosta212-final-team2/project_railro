@@ -106,8 +106,8 @@
 													contents += "<input type='hidden' name='trainStation' value='"+item.trainStation.id+"'/>"
 													contents += "<input type='hidden' name='travelDate' value='"+item.travelDate.toString().substr(0, 10)+"'/>"
 													contents += "<input type='hidden' name='travelOrder' value='"+item.travelOrder+"'/>"
-													contents += "<input type='hidden' name='centerLat' value='"+item.trainStation.lat+"'/>"
-													contents += "<input type='hidden' name='centerLng' value='"+item.trainStation.lng+"'/>"
+													contents += "<input type='hidden' name='lat' value='"+item.trainStation.lat+"'/>"
+													contents += "<input type='hidden' name='lng' value='"+item.trainStation.lng+"'/>"
 													contents += "<input type='submit' value='세부일정계획' name='detailedPlan'></input>"
 													contents += "</span></div></div>"; 
 													contents += "</form>"; 
@@ -373,8 +373,8 @@
 						+ "<input type='hidden' name='trainStation' value='"+stationId+"'/>"
 						+ "<input type='hidden' name='travelDate' value='"+date+"'/>"
 						+ "<input type='hidden' name='travelOrder'/>"
-						+ "<input type='hidden' name='centerLat' value='"+latitude+"'/>"
-						+ "<input type='hidden' name='centerLng' value='"+longitude+"'/>"
+						+ "<input type='hidden' name='lat' value='"+latitude+"'/>"
+						+ "<input type='hidden' name='lng' value='"+longitude+"'/>"
 						+ "<input type='submit' value='세부일정계획' name='detailedPlan'></input>"
 						+ "</span>" + "</div>" + "</div>"
 						+ "</form>";
@@ -417,14 +417,14 @@
 													"name",
 													"list[" + index
 															+ "].travelOrder");
-									$(this).find("input[name=centerLat]").attr(
+									$(this).find("input[name=lat]").attr(
 											"name",
 											"list[" + index
-													+ "].trainStation.centerLat");
-									$(this).find("input[name=centerLng]").attr(
+													+ "].trainStation.lat");
+									$(this).find("input[name=lng]").attr(
 											"name",
 											"list[" + index
-													+ "].trainStation.centerLng");
+													+ "].trainStation.lng");
 
 									//  $(this).find("input[name=targetName]").attr("name", "targets[" + index + "].targetName");
 								})
