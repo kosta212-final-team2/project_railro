@@ -26,14 +26,14 @@
 <p style="margin-top:-12px">
 </p>
 <input type="hidden" id="travelPlan">
-<input type="hidden" id="datepicker" ><!-- 수정요 넘겨받을 값  -->
-<input type="hidden" id="datepicker2" >
+<input type="hidden" id="datepicker"><!-- 수정요 넘겨받을 값  -->
+<input type="hidden" id="datepicker2">
 	<div class="map_wrap">
 		<div id="map"
 			style="width: 100vm; height: 100vh; position: relative; overflow: hidden;"></div>
 
 		<!-- 역 검색하기  -->
-		<div id="menu_wrap" class="bg_white">
+<!-- 		<div id="menu_wrap" class="bg_white">
 			<div class="option">
 				<div>
 					<input type="text" name="keyword" id="keyword" size="15">
@@ -44,35 +44,24 @@
 				</div>
 			</div>
 			<hr>
-			<!-- 검색 결과가 출력되는 곳  -->
+			검색 결과가 출력되는 곳 
 			<ul id="placesList"></ul>
 			<div id="pagination"></div>
-		</div>
+		</div> -->
 
 
 		<!-- add list  -->
-	<form name="plan" action="${pageContext.request.contextPath}/mapjo/cityUpdate" method="post">
+	<form name="plan" action="${pageContext.request.contextPath}/map/updateForm" method="post">
 						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-						<input type="hidden" name="planId" value="${planId}"/>
-		<div id="menu_wrap2" class="bg_white">
+						<input type="hidden" name="stationPlanNum" value="${planId}"/>
+		<div id="menu_wrap" class="bg_white">
 			<div class="option">
 					<div id="cityplan">
 						<h2>LIST</h2>
-						<input id="savePlan" type="submit" value="save plan"/>
 					</div>	
 			</div>
 			<hr>
-			<!-- 추가한 장소가 저장되는 곳  -->
 
-
-				<!-- 
-			
-			<c:set var="TextValue" value="010-abcd-1234"/> 사이즈 : ${fn:length(TextValue) }<br> 
-			1번 :${fn:substring(TextValue,0,3) }<br> 
-			2번 :${fn:substring(TextValue,4,8) }<br> 
-			3번 :${fn:substring(TextValue,9,13) }<br>
-			
-			 -->
 
 				<ul id="placesList2">
 				</ul>
@@ -109,18 +98,21 @@
 													contents += "<div class='info' name='cityName'><h5>"
 													contents += item.trainStation.station
 													contents += "</h5>"
-													contents += "<input type='hidden' name='stationPlanId' value='"+item.stationPlanId+"'/>"
-
-													contents += "<input type='hidden' name='travelPlan' value='"+planId+"'/>"
+													contents += "<form name='plan' action='${pageContext.request.contextPath}/map/updateForm' method='post'>"
+													contents += "<input type='hidden' name='${_csrf.parameterName}' value='${_csrf.token}' />"
+													
+													contents += "<input type='hidden' name='stationPlanNum' value='"+item.stationPlanId+"'/>"
+													contents += "<input type='hidden' name='stationPlanId' value='"+planId+"'/>"
 													contents += "<input type='hidden' name='trainStation' value='"+item.trainStation.id+"'/>"
 													contents += "<input type='hidden' name='travelDate' value='"+item.travelDate.toString().substr(0, 10)+"'/>"
 													contents += "<input type='hidden' name='travelOrder' value='"+item.travelOrder+"'/>"
 													contents += "<input type='hidden' name='lat' value='"+item.trainStation.lat+"'/>"
 													contents += "<input type='hidden' name='lng' value='"+item.trainStation.lng+"'/>"
-													contents += "<input type='button' value='삭제' name='deletePlan'></input>"
+													contents += "<input type='submit' value='세부일정계획' name='detailedPlan'></input>"
 													contents += "</span></div></div>"; 
+													contents += "</form>"; 
 													
-													
+													//alert(item.trainStation.lat)
 											
 													var markerPosition = new kakao.maps.LatLng(item.trainStation.lat, item.trainStation.lng);
 													
@@ -166,9 +158,9 @@
 
 		totalSchedule(listDate);
 
-				sortable();
+				//sortable();
 				getPlan();
-				reorder();
+				//reorder();
 
 						},
 						error : function(err) {
@@ -189,65 +181,7 @@
 		//	alert(startDate)
 		
 
-			//역검색 이벤트 
-			$("#search")
-					.click(
-							function() {
-
-								$
-										.ajax({
-											url : "/stationMarker",//서버주소 
-											type : "get",// 요쳥방식 get post put delete
-											dataType : "json",//서버가 보내오는 데이터 타입 -응답 : text, html, xml, json
-											data : {
-												keyword : $(
-														'input[name=keyword]')
-														.val()
-											},//서버에게 보낼 parameter 정보 
-											success : function(result) {
-												//alert(result)
-												var str = "";
-												$
-														.each(
-																result,
-																function(index,
-																		item) {
-																	//alert(item.lat)
-																	//alert(index)
-																	//마커모양 변경요 !!
-																	str += "<li class='item'><span class='markerbg marker_"
-																			+ (index + 1)
-																			+ "'></span>";
-																	str += "<div class='info'><h5>"
-																			+ item.station
-																			+ "</h5>";
-																	str += "<h5>"
-																			+ item.id
-																			+ "</h5>";
-																	str += "<span class='jibun gray' name=''>"
-																			+ item.addr
-																			+ "</span>";
-																	str += "<span class='tel'>"
-																			+ item.lat
-																			+ "</span><span class='tel'>"
-																			+ item.lng
-																			+ "</span></div>";
-																	str += "<input type='button' value='추가' id='addList' name='"+item.lat+","+item.lng+"'></li>";
-
-																	//itemList.push(item);
-
-																})//end of each
-
-												$("#placesList").html(str);
-											},
-											error : function(err) {
-												consol.log(err
-														+ ": error occured")
-											}
-
-										});//end of ajax
-
-							});//end of click
+			
 
 			var city;
 			var stationId;
@@ -285,30 +219,14 @@
 
 			});
 
-			//리스트 장소 목록 삭제 버튼 이벤트 
-			$(document).on('click', 'input[name=deletePlan]', function() {
-
-				var delCheck = confirm('삭제하시겠습니까?');
-				if (delCheck) {
-					$(this).parent().parent().parent().parent().remove();
-					
-					//마커도 삭제 
-					//alert($(this).prev().val())
-					//$(this).prev().val()
-					//$(this).prev().prev().val()
-					
-					
-					
-					reorder();
-				}
+		
+			//세부일정계획 버튼 이벤트 
+			$(document).on('click', 'input[name=detailedPlan]', function() {
+				//alert(1)
 
 			});
-
-			//리스트에 있는 장소 마커 삭제 
-			$(document).on("click", "#deleteList", function() {
-
-				hideMarkers();
-			});
+			
+			
 
 			//submit 전 리네임 
 			$("form[name=plan]").bind('submit', function() {
@@ -329,37 +247,7 @@
 			}
 			
 
-			//. 리스트 생성 코드
 
-			function sortable() {
-
-				$(".dayschedule").sortable({
-
-					connectWith : ".dayschedule",
-
-					placeholder : "itemBoxHighlight",
-
-					start : function(event, ui) {
-
-						ui.item.data('start_pos', ui.item.index());
-
-					},
-
-					stop : function(event, ui) {
-
-						var spos = ui.item.data('start_pos');
-
-						var epos = ui.item.index();
-
-						reorder();
-
-					}
-
-				//$(".dayschedule").disableSelection();
-
-				});
-			}
-			
 		    function reorder() {
 		    	//alert(markers)
 				drawInfoArr=[];
@@ -404,14 +292,7 @@
 
 			}
 		    
-			//마 지우기
-			function removeMarker(){
-				if (markers.length > 0) {
-					for (var i = 0; i < markers.length; i++) {
-						markers[i].setMap(null);
-					}
-				}
-			}
+
 
 		  //선 긋기
 			function drawLine(arrPoint, traffic, color, zindex) {
@@ -437,11 +318,7 @@
 					}
 				}
 			}
-			//드래그 가능한 리스트로 만들기
-			$(function() {
-				$("#sortable").sortable();
-				$("#sortable").disableSelection();
-			});
+
 
 			//시작일과 종료일 사이의 날짜를 구하는 함수 
 
@@ -489,14 +366,18 @@
 						+ city
 						+ "</h5>"
 
-						+ "<input type='hidden' name='travelPlan' value='"+planId+"'/>"
+						+ "<form name='plan' action='${pageContext.request.contextPath}/map/updateForm' method='post'>"
+						+ "<input type='hidden' name='${_csrf.parameterName}' value='${_csrf.token}' />"
+						
+						+ "<input type='hidden' name='stationPlanNum' value='"+item.stationPlanId+"'/>"
 						+ "<input type='hidden' name='trainStation' value='"+stationId+"'/>"
 						+ "<input type='hidden' name='travelDate' value='"+date+"'/>"
 						+ "<input type='hidden' name='travelOrder'/>"
 						+ "<input type='hidden' name='lat' value='"+latitude+"'/>"
 						+ "<input type='hidden' name='lng' value='"+longitude+"'/>"
-						+ "<input type='button' value='삭제' name='deletePlan'></input>"
-						+ "</span>" + "</div>" + "</div>";
+						+ "<input type='submit' value='세부일정계획' name='detailedPlan'></input>"
+						+ "</span>" + "</div>" + "</div>"
+						+ "</form>";
 
 				$("#" + date + "").append(contents);
 				//$("#"+date+"").text();
@@ -516,11 +397,11 @@
 													"name",
 													"list[" + index
 															+ "].stationPlanId");
-									$(this).find("input[name=travelPlan]")
+									$(this).find("input[name=stationPlanNum]")
 											.attr(
 													"name",
 													"list[" + index
-															+ "].travelPlan");
+															+ "].stationPlanNum");
 									$(this).find("input[name=trainStation]")
 											.attr(
 													"name",
@@ -577,31 +458,6 @@
 		// 클러스터 할 최소 지도 레벨 
 		});
 
-		var imageSrc = '${pageContext.request.contextPath}/images/train.png', // 마커이미지의 주소입니다    
-		imageSize = new kakao.maps.Size(30, 34);
-		//imageOption = {offset: new kakao.maps.Point(25, 32)};// 마커이미지의 크기입니다
-
-		// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-		var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-
-		// 데이터를 가져오기 위해 jQuery를 사용합니다
-		// 데이터를 가져와 마커를 생성하고 클러스터러 객체에 넘겨줍니다
-		$.get("${pageContext.request.contextPath}/data/korail.json", function(
-				data) {
-			// 데이터에서 좌표 값을 가지고 마커를 표시합니다
-			// 마커 클러스터러로 관리할 마커 객체는 생성할 때 지도 객체를 설정하지 않습니다
-			var markers = $(data.positions).map(
-					function(i, position) {
-						return new kakao.maps.Marker({
-							position : new kakao.maps.LatLng(position.lat,
-									position.lng),
-							image : markerImage
-						});
-					});
-
-			// 클러스터러에 마커들을 추가합니다
-			clusterer.addMarkers(markers);
-		});
 	</script>
 </body>
 </html>

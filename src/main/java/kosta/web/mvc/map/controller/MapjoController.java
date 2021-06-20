@@ -80,7 +80,7 @@ public class MapjoController {
 		
 	}
 	
-	///////////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////////  
 	
 	/**
 	 * kakao 지도 역 검색 및 마커 찍기 
@@ -91,6 +91,9 @@ public class MapjoController {
 //		System.out.println(plan.getPlanName());
 //		System.out.println(plan.getStartDate());
 //		System.out.println(plan.getEndDate());
+		System.out.println("===================");
+		System.out.println("userId="+plan.getUserId());
+		System.out.println("===================");
 			planService.insertTravelPlan(plan);
 
 			ModelAndView mv = new ModelAndView();
@@ -102,14 +105,24 @@ public class MapjoController {
 	 * save city plan
 	 * */
 	@RequestMapping("/citySave")
-	public void citySave (StationList station) {
-		System.out.println("나와");
-		System.out.println(station.getList());
-		for(StationPlan s:station.getList()) {
-			System.out.println(s.getStationPlanId()+" , " + s.getTrainStation()+","+ s.getTravelDate());
-		}
+	public ModelAndView citySave (StationList station) {
+//		System.out.println("나와");
+//		System.out.println(station.getList());
+//		for(StationPlan s:station.getList()) {
+//			System.out.println(s.getStationPlanId()+" , " + s.getTrainStation()+","+ s.getTravelDate());
+//		}
 		
 		stationService.insertAll(station);
+		
+		System.out.println("============================");
+		System.out.println("plandId="+station.getList().get(0).getTravelPlan().getPlanId());
+		System.out.println("============================");
+		List<StationPlan> list = stationService.selectPlanByPlanNum(station.getList().get(0).getTravelPlan().getPlanId());
+		ModelAndView mv = new ModelAndView();
+			mv.setViewName("mapjo/plan");
+			mv.addObject("stationUpdate", list);
+			mv.addObject("planId", station.getList().get(0).getTravelPlan().getPlanId());
+		return mv;
 		
 	}
 	/**
@@ -146,7 +159,7 @@ public class MapjoController {
 		
 		stationService.updateAll(list, planId);
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("mapjo/cityUpdateForm");
+		mv.setViewName("mapjo/plan");
 		mv.addObject("planId", planId);
 		return mv;
 
@@ -158,19 +171,6 @@ public class MapjoController {
 	 * */
 	@RequestMapping("/travelPlan")
 	public void travelPlan () {
-	}
-	
-	/**
-	 * travel plan save /test용 
-	 * */
-	@RequestMapping("/travelPlanSave")
-	public void travelPlanSave (TravelPlan plan) {
-//		System.out.println(plan.getPlanName());
-//		System.out.println(plan.getStartDate());
-//		System.out.println(plan.getEndDate());
-//		planService.insertTravelPlan(plan);
-//		
-//		System.out.println("저장완");
 	}
 	
 

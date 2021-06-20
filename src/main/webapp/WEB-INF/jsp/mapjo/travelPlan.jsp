@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,28 +44,15 @@
     
   <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
     <div class="container">
-      <a class="navbar-brand" href="index.html">dirEngine.</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="oi oi-menu"></span> Menu
-      </button>
+      <a class="navbar-brand" href="${pageContext.request.contextPath}/index">RAILRO</a>
 
-      <div class="collapse navbar-collapse" id="ftco-nav">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
-          <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-          <li class="nav-item"><a href="tour.html" class="nav-link">Tour</a></li>
-          <li class="nav-item"><a href="hotel.html" class="nav-link">Hotels</a></li>
-          <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
-          <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
-          <li class="nav-item cta"><a href="contact.html" class="nav-link"><span>Add listing</span></a></li>
-        </ul>
-      </div>
+   
     </div>
   </nav>
     <!-- END nav -->
 
 	<div class="hero-wrap js-fullheight"
-		style="background-image: url('${pageContext.request.contextPath}/images/bg_1.jpg');">
+		style="background-image: url('${pageContext.request.contextPath}/images/herbst.jpg');">
 		<div class="overlay"></div>
 		<div class="container">
 			<div
@@ -80,8 +69,8 @@
 
 					<form name="travelPlanSave" action="${pageContext.request.contextPath}/mapjo/stationMarker" method="post" class="d-block d-flex">
 					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-					<input type="hidden" name="userId" value="jo" />
-					<%-- <input type="hidden" id="memberId" name="userId" value="${#authentication.principal.memberId}"> --%>
+					 <input type="hidden" name="userId" value="cec" /> 
+					<%-- <input type="hidden" id="memberId" name="userId" value="${authentication.principal.memberId}"> --%>
 
 						<div
 							class="col-md-12 hotel-single ftco-animate mb-5 mt-4 fadeInUp ftco-animated">

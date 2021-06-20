@@ -19,20 +19,21 @@
 <body>
 <p style="margin-top:-12px">
 </p>
- 
-<button type="button" id="addScheduel">일정생성 </button>
-	<div class="map_wrap">
+
+
+
+		<div class="map_wrap">
+		
 		<div id="map"
 			style="width: 100vm; height: 100vh; position: relative; overflow: hidden;"></div>
-
 		<!-- 역 검색하기  -->
 		<div id="menu_wrap" class="bg_white">
 			<div class="option">
 				<div>
-					<input type="text" name="keyword" id="keyword" size="15">
+					<input type="text" name="keyword" id="keyword" size="15" placeholder="역이름을 입력하세요">
 					<button type="button" id="search">search</button>
-					<input type='button' value="delete markers" id="deleteList">
-					<input type='hidden' value="delete markers" > 
+					<!-- <input type='button' value="delete markers" id="deleteList"> -->
+					<input type='hidden' name="planId" value="${travelPlan.planId}" > 
 					
 				</div>
 			</div>
@@ -42,16 +43,16 @@
 			<div id="pagination"></div>
 		</div>
 
-
 		<!-- add list  -->
-	<form name="plan" action="${pageContext.request.contextPath}/mapjo/citySave" method="post">
+	<form id="plan" name="plan" action="${pageContext.request.contextPath}/mapjo/citySave" method="post">
 						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	
 		<div id="menu_wrap2" class="bg_white">
 			<div class="option">
 					<div id="cityplan">
 						<h2>LIST</h2>
-						<input id="savePlan" type="submit" value="save plan"/>
+						<input id="savePlan" type="submit" value="save plan"/> 
+					
 					</div>	
 			</div>
 			<hr>
@@ -63,7 +64,6 @@
 		</form>
 
 	</div>
-
 
 	<script type="text/javascript">
 /* 
@@ -82,9 +82,9 @@
 		var startDate = "${travelPlan.startDate}"; 
 		var endDate = "${travelPlan.endDate}";
 		var travelPlan = "${travelPlan.planId}";
-			alert(startDate)
-			alert(endDate)
-			alert(travelPlan)
+			//alert(startDate)
+			//alert(endDate)
+			//alert(travelPlan)
 			var listDate=[];
 				getDateRange(startDate, endDate, listDate);
 				console.log(listDate); 
@@ -104,6 +104,9 @@
 			
 		})
 			*/
+			
+			
+			
 		
 		
 		//역검색 이벤트 
@@ -130,7 +133,6 @@
 						str+=	"<input type='button' value='추가' id='addList' name='"+item.lat+","+item.lng+"'></li>"; 
 						
 					//itemList.push(item);
-					
 						
 					})//end of each
 					
@@ -201,10 +203,10 @@
 		
 		
 		//리스트에 있는 장소 마커 삭제 
-		$(document).on("click","#deleteList",function () {
+/* 		$(document).on("click","#deleteList",function () {
 	
 			hideMarkers();
-		});
+		}); */
 		
 		//submit 전 리네임 
 		$("form[name=plan]").bind('submit', function() {
@@ -257,11 +259,14 @@
 
 	    });
 		}
+		
+		
 		var resultdrawArr=[];
 		var drawInfoArr=[];
 	    function reorder() {
 			drawInfoArr=[];
 			removeRoute();
+			hideMarkers();
 		    $(".cityItem").each(function(i, box) {
 						//alert($(box).parent().attr("id"))
 		        var redate = $(box).parent().attr("id");
@@ -277,6 +282,14 @@
 					// 배열에 담기
 					drawInfoArr.push(convertChange);
 				
+					//마커 새로 생성 
+					 marker = new kakao.maps.Marker({
+						position : convertChange
+					});
+
+					// 마커가 지도 위에 표시되도록 설정합니다
+					marker.setMap(map);
+					markers.push(marker);
 				
 		        $(box).find(".itemNum").html(i + 1);
 		        $(box).find("input[name=travelOrder]").val(i + 1);
@@ -386,7 +399,7 @@
 				
 					var number = $(".itemNum").innerHTML;
 					//travelPlan = $("#travelPlan").val();
-					alert(travelPlan);
+					//alert(travelPlan);
 					var contents
 
 				    = "<div class='cityItem'>"
@@ -504,5 +517,6 @@
 			clusterer.addMarkers(markers);
 		});
 	</script>
+	
 </body>
 </html>
