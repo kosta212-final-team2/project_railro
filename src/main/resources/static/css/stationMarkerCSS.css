@@ -65,7 +65,18 @@
 #pagination .on {font-weight: bold; cursor: default;color:#777;}
 
 #plan .itemBox {position:relative;border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 65px;}
-input[type=button], input[type=submit] {
+#savePlan{
+	position:relative;
+	left:150px;
+	background-color: rgb(89, 180, 168);
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+input[type=button], input[type=submit], button[type=button] {
   background-color: rgb(89, 180, 168);
   border: none;
   color: white;

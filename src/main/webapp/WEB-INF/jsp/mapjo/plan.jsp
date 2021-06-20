@@ -101,9 +101,8 @@
 													contents += "<form name='plan' action='${pageContext.request.contextPath}/map/updateForm' method='post'>"
 													contents += "<input type='hidden' name='${_csrf.parameterName}' value='${_csrf.token}' />"
 													
-													contents += "<input type='hidden' name='stationPlanId' value='"+item.stationPlanId+"'/>"
-
-													contents += "<input type='hidden' name='stationPlanNum' value='"+planId+"'/>"
+													contents += "<input type='hidden' name='stationPlanNum' value='"+item.stationPlanId+"'/>"
+													contents += "<input type='hidden' name='stationPlanId' value='"+planId+"'/>"
 													contents += "<input type='hidden' name='trainStation' value='"+item.trainStation.id+"'/>"
 													contents += "<input type='hidden' name='travelDate' value='"+item.travelDate.toString().substr(0, 10)+"'/>"
 													contents += "<input type='hidden' name='travelOrder' value='"+item.travelOrder+"'/>"
@@ -369,7 +368,8 @@
 
 						+ "<form name='plan' action='${pageContext.request.contextPath}/map/updateForm' method='post'>"
 						+ "<input type='hidden' name='${_csrf.parameterName}' value='${_csrf.token}' />"
-						+ "<input type='hidden' name='stationPlanNum' value='"+planId+"'/>"
+						
+						+ "<input type='hidden' name='stationPlanNum' value='"+item.stationPlanId+"'/>"
 						+ "<input type='hidden' name='trainStation' value='"+stationId+"'/>"
 						+ "<input type='hidden' name='travelDate' value='"+date+"'/>"
 						+ "<input type='hidden' name='travelOrder'/>"

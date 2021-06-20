@@ -43,7 +43,6 @@
 			<div id="pagination"></div>
 		</div>
 
-
 		<!-- add list  -->
 	<form id="plan" name="plan" action="${pageContext.request.contextPath}/mapjo/citySave" method="post">
 						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -52,7 +51,8 @@
 			<div class="option">
 					<div id="cityplan">
 						<h2>LIST</h2>
-					<input id="savePlan" type="submit" value="save plan"/> 
+						<input id="savePlan" type="submit" value="save plan"/> 
+					
 					</div>	
 			</div>
 			<hr>
