@@ -94,12 +94,14 @@ public class MapjoController {
 //		System.out.println(plan.getStartDate());
 //		System.out.println(plan.getEndDate());
 		System.out.println("===================");
-		System.out.println("userId="+plan.getUserId());
 		Member loginMember = (Member) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		System.out.println("===================");
+		plan.setUserId(loginMember.getMemberId());
+		
+		ModelAndView mv = new ModelAndView();
 			planService.insertTravelPlan(plan);
 
-			ModelAndView mv = new ModelAndView();
+			System.out.println("userId="+plan.getUserId());
 			mv.addObject("travelPlan", plan);
 			return mv;
 	}
