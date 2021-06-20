@@ -111,7 +111,7 @@ public class MapjoController {
 //		for(StationPlan s:station.getList()) {
 //			System.out.println(s.getStationPlanId()+" , " + s.getTrainStation()+","+ s.getTravelDate());
 //		}
-		
+		 
 		stationService.insertAll(station);
 		
 		System.out.println("============================");
