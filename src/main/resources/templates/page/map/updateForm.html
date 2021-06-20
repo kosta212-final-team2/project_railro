@@ -11,8 +11,8 @@
 <link href="/css/stationMarkerCSS.css" rel="stylesheet" type="text/css" />
 
 <title>지도 생성하기</title>
-<!--     <link rel="stylesheet" th:href="@{css/style.css}">
- -->
+     <link rel="stylesheet" th:href="@{css/style.css}">
+
 <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
 	rel="stylesheet" type="text/css" />
 <script type="text/javascript"
@@ -109,7 +109,7 @@
 			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=206513eac626482c9050af4d937d257a&libraries=services
 "></script>
 		<script
-			src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xx1a84abe21dda44ad8db991438fa61e67
+			src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xxa679dd62bca64825a1ee6154eec1dcfe
 "></script>
 
 		<script>
@@ -197,7 +197,7 @@
 					} else if (zindex % 4 == 2) {
 						colorCode = "#0100FF";
 					} else {
-						colorCode = "#ABF200";
+						colorCode = "#006400";
 					}
 
 					//JSON TYPE EDIT [S]
@@ -207,7 +207,7 @@
 								url : "https://apis.openapi.sk.com/tmap/routes?version=1&format=json&callback=result",
 								async : false,
 								data : {
-									"appKey" : "l7xx1a84abe21dda44ad8db991438fa61e67",
+									"appKey" : "l7xxa679dd62bca64825a1ee6154eec1dcfe",
 									"startX" : startX,
 									"startY" : startY,
 									"endX" : endX,
