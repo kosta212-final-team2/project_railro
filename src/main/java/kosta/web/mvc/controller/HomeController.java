@@ -26,8 +26,12 @@ public class HomeController {
 	NoticeService noticeService;
 	
 	@RequestMapping("/")
-	public String index(Model model) {
+	public String index() {
 		System.out.println("call testpage");
+		/*
+		 * List<Notice> noticeList = noticeService.findAllByToId(memberId);
+		 * System.out.println(memberId); model.addAttribute("noticeList", noticeList);
+		 */
 		return "page/index"; // resources/templates/page/index.html
 	}
 	
