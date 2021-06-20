@@ -109,7 +109,7 @@
 			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=206513eac626482c9050af4d937d257a&libraries=services
 "></script>
 		<script
-			src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xxa679dd62bca64825a1ee6154eec1dcfe
+			src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xx1a84abe21dda44ad8db991438fa61e67
 "></script>
 
 		<script>
@@ -207,7 +207,7 @@
 								url : "https://apis.openapi.sk.com/tmap/routes?version=1&format=json&callback=result",
 								async : false,
 								data : {
-									"appKey" : "l7xxa679dd62bca64825a1ee6154eec1dcfe",
+									"appKey" : "l7xx1a84abe21dda44ad8db991438fa61e67",
 									"startX" : startX,
 									"startY" : startY,
 									"endX" : endX,
@@ -491,6 +491,9 @@
 						alert('키워드를 입력해주세요!');
 						return false;
 					}
+					
+					// 커스텀 오버레이를 숨깁니다 
+					placeOverlay.setMap(null);
 					removeMarker();
 
 					// 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
