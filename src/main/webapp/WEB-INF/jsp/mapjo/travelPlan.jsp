@@ -52,7 +52,7 @@
     <!-- END nav -->
 
 	<div class="hero-wrap js-fullheight"
-		style="background-image: url('${pageContext.request.contextPath}/images/bg_1.jpg');">
+		style="background-image: url('${pageContext.request.contextPath}/images/herbst.jpg');">
 		<div class="overlay"></div>
 		<div class="container">
 			<div
@@ -69,8 +69,8 @@
 
 					<form name="travelPlanSave" action="${pageContext.request.contextPath}/mapjo/stationMarker" method="post" class="d-block d-flex">
 					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-					<input type="hidden" name="userId" value="jo" /> 
-					<%-- <input type="hidden" id="memberId" name="userId" value="${authentication.principal.memberId}"> --%>
+					<!-- <input type="hidden" name="userId" value="jo" />  -->
+					<input type="hidden" id="memberId" name="userId" value="${authentication.principal.memberId}">
 
 						<div
 							class="col-md-12 hotel-single ftco-animate mb-5 mt-4 fadeInUp ftco-animated">

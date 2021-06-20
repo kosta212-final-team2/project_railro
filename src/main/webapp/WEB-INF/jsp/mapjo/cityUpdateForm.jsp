@@ -30,7 +30,7 @@
 <input type="hidden" id="datepicker2" >
 	<div class="map_wrap">
 		<div id="map"
-			style="width: 100vm; height: 800px; position: relative; overflow: hidden;"></div>
+			style="width: 100vm; height: 100vh; position: relative; overflow: hidden;"></div>
 
 		<!-- 역 검색하기  -->
 		<div id="menu_wrap" class="bg_white">

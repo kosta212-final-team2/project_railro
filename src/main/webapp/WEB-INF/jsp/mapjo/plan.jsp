@@ -113,7 +113,7 @@
 													contents += "</span></div></div>"; 
 													contents += "</form>"; 
 													
-													alert(item.trainStation.lat)
+													//alert(item.trainStation.lat)
 											
 													var markerPosition = new kakao.maps.LatLng(item.trainStation.lat, item.trainStation.lng);
 													
@@ -223,7 +223,7 @@
 		
 			//세부일정계획 버튼 이벤트 
 			$(document).on('click', 'input[name=detailedPlan]', function() {
-				alert(1)
+				//alert(1)
 
 			});
 			

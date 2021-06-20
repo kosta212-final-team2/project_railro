@@ -159,7 +159,7 @@ public class MapjoController {
 		
 		stationService.updateAll(list, planId);
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("mapjo/cityUpdateForm");
+		mv.setViewName("mapjo/plan");
 		mv.addObject("planId", planId);
 		return mv;
 
@@ -173,6 +173,6 @@ public class MapjoController {
 	public void travelPlan () {
 	}
 	
-	
+
 
 }

@@ -19,18 +19,20 @@
 <body>
 <p style="margin-top:-12px">
 </p>
- 
-	<div class="map_wrap">
+
+
+
+		<div class="map_wrap">
+		
 		<div id="map"
 			style="width: 100vm; height: 100vh; position: relative; overflow: hidden;"></div>
-
 		<!-- 역 검색하기  -->
 		<div id="menu_wrap" class="bg_white">
 			<div class="option">
 				<div>
-					<input type="text" name="keyword" id="keyword" size="15">
+					<input type="text" name="keyword" id="keyword" size="15" placeholder="역이름을 입력하세요">
 					<button type="button" id="search">search</button>
-					<input type='button' value="delete markers" id="deleteList">
+					<!-- <input type='button' value="delete markers" id="deleteList"> -->
 					<input type='hidden' name="planId" value="${travelPlan.planId}" > 
 					
 				</div>
@@ -43,14 +45,14 @@
 
 
 		<!-- add list  -->
-	<form name="plan" action="${pageContext.request.contextPath}/mapjo/citySave" method="post">
+	<form id="plan" name="plan" action="${pageContext.request.contextPath}/mapjo/citySave" method="post">
 						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	
 		<div id="menu_wrap2" class="bg_white">
 			<div class="option">
 					<div id="cityplan">
 						<h2>LIST</h2>
-						<input id="savePlan" type="submit" value="save plan"/>
+					<input id="savePlan" type="submit" value="save plan"/> 
 					</div>	
 			</div>
 			<hr>
@@ -62,7 +64,6 @@
 		</form>
 
 	</div>
-
 
 	<script type="text/javascript">
 /* 
@@ -81,9 +82,9 @@
 		var startDate = "${travelPlan.startDate}"; 
 		var endDate = "${travelPlan.endDate}";
 		var travelPlan = "${travelPlan.planId}";
-			alert(startDate)
-			alert(endDate)
-			alert(travelPlan)
+			//alert(startDate)
+			//alert(endDate)
+			//alert(travelPlan)
 			var listDate=[];
 				getDateRange(startDate, endDate, listDate);
 				console.log(listDate); 
@@ -132,7 +133,6 @@
 						str+=	"<input type='button' value='추가' id='addList' name='"+item.lat+","+item.lng+"'></li>"; 
 						
 					//itemList.push(item);
-					
 						
 					})//end of each
 					
@@ -203,10 +203,10 @@
 		
 		
 		//리스트에 있는 장소 마커 삭제 
-		$(document).on("click","#deleteList",function () {
+/* 		$(document).on("click","#deleteList",function () {
 	
 			hideMarkers();
-		});
+		}); */
 		
 		//submit 전 리네임 
 		$("form[name=plan]").bind('submit', function() {
@@ -259,6 +259,8 @@
 
 	    });
 		}
+		
+		
 		var resultdrawArr=[];
 		var drawInfoArr=[];
 	    function reorder() {
@@ -397,7 +399,7 @@
 				
 					var number = $(".itemNum").innerHTML;
 					//travelPlan = $("#travelPlan").val();
-					alert(travelPlan);
+					//alert(travelPlan);
 					var contents
 
 				    = "<div class='cityItem'>"
@@ -515,5 +517,6 @@
 			clusterer.addMarkers(markers);
 		});
 	</script>
+	
 </body>
 </html>
