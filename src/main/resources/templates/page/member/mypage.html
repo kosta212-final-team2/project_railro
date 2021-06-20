@@ -92,8 +92,8 @@
         <div class="col-md-3">
           <div class="tile p-0">
             <ul class="nav flex-column nav-tabs user-tabs">
-              <li class="nav-item"><a class="nav-link active" href="#user-timeline" data-toggle="tab">일정</a></li>
-              <li class="nav-item"><a class="nav-link" href="#user-board" data-toggle="tab">게시글 활동</a></li>
+              <li class="nav-item"><a class="nav-link active" href="#user-timeline" data-toggle="tab">게시글 활동</a></li>
+              <li class="nav-item"><a class="nav-link" href="#user-board" data-toggle="tab">나의 일정</a></li>
               <li th:if="${fromId} == ${member.memberId}" class="nav-item"><a class="nav-link" href="#user-settings" data-toggle="tab">개인정보 수정</a></li>
             </ul>
           </div>
@@ -109,7 +109,7 @@
                   </div>
                 </div>
                 <div class="post-content">
-                  <p th:text="${board.infoContent}"></p>
+                  <a th:text="${board.infoSubject}" th:href="@{/board/free/read/+${board.freeBno}}"></a>
                 </div>
                 <ul class="post-utility">
                   <li class="likes"><a href="#"><i class="fa fa-fw fa-lg fa-thumbs-o-up"></i>Like</a></li>
