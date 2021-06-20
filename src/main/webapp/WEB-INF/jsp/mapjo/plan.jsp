@@ -122,6 +122,29 @@
 
 													marker.setMap(map);
 													markers.push(marker);
+													
+													 
+													var iwContent = "<div style='padding:5px;'>"+item.trainStation.station+"<br>"
+													+ "<a href='https://www.youtube.com/results?search_query="+item.trainStation.station+"여행' style='color:blue' target='_blank'>YouTube</a>"
+													+ "   |  <a href='https://map.kakao.com/link/to/"+item.trainStation.station+","+item.trainStation.lat+","+item.trainStation.lng+"' style='color:blue' target='_blank'>길찾기</a></div>"
+													 
+													var iwRemoveable = true;
+												  var iwPosition = new kakao.maps.LatLng(item.trainStation.lat, item.trainStation.lng); //인포윈도우 표시 위치입니다
+
+												// 인포윈도우를 생성합니다
+													var infowindow = new kakao.maps.InfoWindow({
+												    position : iwPosition, 
+												    content : iwContent,
+												    removable : iwRemoveable
+													});
+												  
+												// 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
+												infowindow.open(map, marker); 
+													
+													
+													
+													
+													
 
 												$("#" + item.travelDate.toString().substr(0, 10) + "").append(contents);
 												})

@@ -38,8 +38,6 @@
 				<div>
 					<input type="text" name="keyword" id="keyword" size="15">
 					<button type="button" id="search">search</button>
-					<input type='button' value="delete markers" id="deleteList">
-					<input type='hidden' value="delete markers" > 
 					
 				</div>
 			</div>
@@ -365,8 +363,12 @@
 				drawInfoArr=[];
 				removeRoute();
 				hideMarkers();
+				
 				$(".cityItem").each(function(i, box) {
 					//alert($(box).parent().attr("id"))
+					//alert($(box).children().children().next().children().children().text())
+					
+					var city =$(box).children().children().next().children().children().text();
 			        var redate = $(box).parent().attr("id");
 			    		startX = $(box).find(
 								"input[name=lng]")
@@ -377,6 +379,9 @@
 						var convertChange = new kakao.maps.LatLng(
 								startY,
 								startX);
+						
+						
+						
 						// 배열에 담기
 						drawInfoArr.push(convertChange);
 												
@@ -388,13 +393,30 @@
 						// 마커가 지도 위에 표시되도록 설정합니다
 						marker.setMap(map);
 						markers.push(marker);
-					
+						
 
+						var iwContent = "<div style='padding:5px;'>"+city+"<br>"
+						+ "<a href='https://www.youtube.com/results?search_query="+city+"여행' style='color:blue' target='_blank'>YouTube</a>"
+						+ "   |  <a href='https://map.kakao.com/link/to/"+city+","+startY+","+startX+"' style='color:blue' target='_blank'>길찾기</a></div>"
+						 
+						var iwRemoveable = true;
+
+					// 인포윈도우를 생성합니다
+						var infowindow = new kakao.maps.InfoWindow({
+					    position : convertChange, 
+					    content : iwContent,
+					    removable : iwRemoveable
+						});
+					  
+					// 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
+					infowindow.open(map, marker); 
+					//infowindow.close();  
+						
 						$(box).find(".itemNum").html(i + 1);
 			        $(box).find("input[name=travelOrder]").val(i + 1);
 			        $(box).find("input[name=travelDate]").val(redate);
 			        
-
+						
 			    });
 				
 				
