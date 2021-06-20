@@ -19,8 +19,8 @@
 	src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <style>
 .itemBox {
-	border: solid 1px black;
-	width: 150px;
+	border: none;
+	width: 100%;
 	height: 50px;
 	padding: 10px;
 	margin-bottom: 10px;
@@ -33,6 +33,9 @@
 	padding: 10px;
 	margin-bottom: 10px;
 	background-color: yellow;
+}
+.travelTime{
+	text-align: center;
 }
 </style>
 
@@ -66,7 +69,7 @@
 
 				<div id="plan">
 					<div class='itemBox' th:each="planData:${detailData}">
-
+						<div class="travelTime" th:text="|&#8675;${planData.travelTime}분|"></div>
 						<div style='float: left;'>
 
 							<input type='text' name='itemNum' style='width: 15px' readonly
@@ -375,7 +378,7 @@
 					$(".itemBox")
 							.each(
 									function(i, box) {
-
+										
 										$(box).find("input[name=itemNum]").val(
 												i + 1);
 
@@ -386,6 +389,7 @@
 											startY = $(box).find(
 													"input[name=placeLat]")
 													.val();
+											$(box).find("input[name=travelTime]").val(0);
 										} else {
 											endX = $(box).find(
 													"input[name=placeLng]")
@@ -402,6 +406,14 @@
 											startY = $(box).find(
 													"input[name=placeLat]")
 													.val();
+										}
+										var checkTime=$(box).find("input[name=travelTime]").val();
+										console.log(checkTime);
+										if(checkTime==0){
+											$(box).find(".travelTime").hide();
+										}else{
+											$(box).find(".travelTime").show();
+											$(box).find(".travelTime").html("&#8675;"+checkTime+"분");
 										}
 										var placeInfo = {
 											placeId : $(box).find(
@@ -523,7 +535,7 @@
 					var contents
 
 					= "<div class='itemBox'>"
-
+							
 							+ "<div style='float:left;'>"
 
 							+ "<input type='text' name='itemNum' style='width:15px' readonly></input> "
