@@ -2,6 +2,7 @@ package kosta.web.mvc.member.service;
 
 import java.util.List;
 
+import kosta.web.mvc.board.domain.InfoBoard;
 import kosta.web.mvc.member.domain.Authorities;
 import kosta.web.mvc.member.domain.Member;
 import kosta.web.mvc.member.domain.OauthId;
@@ -41,8 +42,14 @@ public interface MemberService {
 	void naverOauthInsert(OauthId oauthId);
 	List<Authorities> findAllByMemberId(String memberId);
 	
+	public void updateAuthorities(String memberId);
 	/**
 	 * id로 해당회원 삭제
 	 * */
 	void deletebyMemberId(String memberId);
+	
+	/**
+	 * 
+	 */
+	List<InfoBoard> selectINfoBoardByMember(String memberId);
 }

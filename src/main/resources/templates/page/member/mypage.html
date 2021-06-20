@@ -45,6 +45,12 @@
     <script type="text/javascript">
     var test = $("#test").val();
 
+    $(document).ready(function(){
+    	$("#submit").click(function(){
+    		if($("#pwd").val().length==0){alert("비밀번호를 입력하세요");$("#pwd").focus; return false;}
+    		
+    	});
+    });
     </script>
   </head>
   <body class="app sidebar-mini rtl">
@@ -77,7 +83,7 @@
           <div class="tile p-0">
             <ul class="nav flex-column nav-tabs user-tabs">
               <li class="nav-item"><a class="nav-link active" href="#user-timeline" data-toggle="tab">일정</a></li>
-              <li class="nav-item"><a class="nav-link" href="#user-settings" data-toggle="tab">게시글 활동</a></li>
+              <li class="nav-item"><a class="nav-link" href="#user-board" data-toggle="tab">게시글 활동</a></li>
               <li class="nav-item"><a class="nav-link" href="#user-settings" data-toggle="tab">개인정보 수정</a></li>
             </ul>
           </div>
@@ -85,10 +91,29 @@
         <div class="col-md-9">
           <div class="tab-content">
             <div class="tab-pane active" id="user-timeline">
+              <div class="timeline-post" th:each="board : ${list}">
+                <div class="post-media" >
+                  <div class="content">
+                    <h5><a href="#" th:text="${board.memberId}"></a></h5>
+                    <p class="text-muted"><small th:text="${board.infoRegdate}"></small></p>
+                  </div>
+                </div>
+                <div class="post-content">
+                  <p th:text="${board.infoContent}"></p>
+                </div>
+                <ul class="post-utility">
+                  <li class="likes"><a href="#"><i class="fa fa-fw fa-lg fa-thumbs-o-up"></i>Like</a></li>
+                  <li class="shares"><a href="#"><i class="fa fa-fw fa-lg fa-share"></i>Share</a></li>
+                  <li class="comments"><i class="fa fa-fw fa-lg fa-comment-o"></i> 5 Comments</li>
+                </ul>
+              </div>
+              
+            </div>
+            <div class="tab-pane fade" id="user-board">
               <div class="timeline-post">
                 <div class="post-media"><a href="#"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg"></a>
                   <div class="content">
-                    <h5><a href="#">John Doe</a></h5>
+                    <h5><a href="#">John</a></h5>
                     <p class="text-muted"><small>2 January at 9:30</small></p>
                   </div>
                 </div>
@@ -120,7 +145,7 @@
             </div>
             <div class="tab-pane fade" id="user-settings">
               <div class="tile user-settings">
-                <h4 class="line-head">Settings</h4>
+                <h4 class="line-head">개인정보 수정</h4>
                 <form th:action="@{/member/updateMember}" method="post">
                 <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                 <input type="hidden" name="memberId" th:value="${#authentication.principal.memberId}">
@@ -147,18 +172,18 @@
                     </div>
                     <div class="clearfix"></div>
                     <div class="col-md-8 mb-4">
-                      <label>Password</label>
-                      <input class="form-control" type="password" name="pwd">
+                      <label>Password(새로운 비밀번호)</label>
+                      <input class="form-control" type="password" name="pwd" id="pwd">
                     </div>
                     
                     <div class="clearfix"></div>
                     <div class="col-md-8 mb-4">
-                      <label>Password(수정하기이ㅟ해 기존 비번 넣기)</label>
+                      <label>Password(기존 비밀번호 확인)</label>
                       <input class="form-control" type="password" name="savePwd">
                     </div>
                     
-            <div class="tm-bg-primary-dark tm-block tm-block-avatar" style="position: absolute; top : 50px; right: 100px;">
-              <h2  class="tm-block-title">Change Avatar</h2>
+            <div class="tm-bg-primary-dark tm-block tm-block-avatar" style="position: absolute; top : 50px; right: 100px;" onclick="location.href='/member/updatePicture'">
+              <h2  class="tm-block-title">프로필 사진 변경</h2>
               <div class="tm-avatar-container">
                 <img
                   src="/avatar.png"
@@ -176,18 +201,35 @@
                   </div>
                   <div class="row mb-10">
                     <div class="col-md-12">
-                      <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i> Save</button>
+                      <button class="btn btn-primary" type="submit" id="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i> Save</button>
                     
                     </div>
                   </div>
                   <div>
                     
                 </form>
+                
+                <form name="form" method="post" action="http://localhost:8080/board" enctype="multipart/form-data">
+      				<h2  class="tm-block-title">프로필 사진 변경</h2>
+              			<div class="tm-avatar-container">
+                <img
+                  src="/avatar.png"
+                  alt="Avatar"
+                  class="tm-avatar img-fluid mb-4"
+                />
+                <a href="#" class="tm-avatar-delete-link">
+                  <i class="far fa-trash-alt tm-product-delete-icon"></i>
+                </a>
+              </div>
+             		 <button class="btn btn-primary btn-block text-uppercase">
+              		  Upload New Photo
+             		 </button>
+   				 </form>
                   </div>
                   <div>
                   <input type="hidden" id="test" name="memberId" th:value="${#authentication.principal.memberId}">
                  <a th:href="@{/member/deleteMember(memberId=${#authentication.principal.memberId})}">
-                    Delete Your Account
+                    회원 탈퇴
                   </a>
               
                   </div>

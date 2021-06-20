@@ -15,4 +15,8 @@ public interface AuthoritiesRepository extends JpaRepository<Authorities, Long> 
 	@Modifying
 	@Query(value = "DELETE FROM authorities a WHERE a.member_id=?1", nativeQuery=true) 
 	void deleteByMemberId(String memberId);
+	
+	@Modifying
+	@Query(value = "UPDATE authorities SET ROLE='ROLE_QUIT' WHERE member_id=?1", nativeQuery = true)
+	void updateAuthorities(String memberId);
 }
