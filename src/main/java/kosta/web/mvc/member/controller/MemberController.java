@@ -17,8 +17,10 @@ import org.springframework.security.core.Authentication;
 import kosta.web.mvc.board.domain.InfoBoard;
 import kosta.web.mvc.member.domain.Following;
 import kosta.web.mvc.member.domain.Member;
+import kosta.web.mvc.member.domain.Notice;
 import kosta.web.mvc.member.service.FollowingService;
 import kosta.web.mvc.member.service.MemberService;
+import kosta.web.mvc.member.service.NoticeService;
 
 @Controller
 @RequestMapping("/member")
@@ -28,9 +30,11 @@ public class MemberController {
 	private MemberService memberService;
 	
 	//회원정보수정시 비밀번호 암호화처리를 위한 객체를 주입받는다
-		@Autowired
-		private BCryptPasswordEncoder passwordEncoder;
-		
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private NoticeService noticeService;
 	
 	@Autowired
 	private FollowingService followingService;
@@ -114,6 +118,16 @@ public class MemberController {
 	
 		
 		return "redirect:/member/loginForm";
+	}
+	
+	/**
+	 * 알림
+	 * */
+	@RequestMapping("/notice")
+	public String noticePage(String memberId, Model model) {
+		List<Notice> list = noticeService.findAllByToId(memberId);
+		model.addAttribute("list", list);
+		return "page/member/notice";
 	}
 	
 }

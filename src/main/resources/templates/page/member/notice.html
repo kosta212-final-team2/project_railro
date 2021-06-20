@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script th:src="@{/js/jquery.min.js}"></script>
+<style type="text/css">
+body { background: #fff; }
+.blueone {
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}  
+.blueone th {
+  padding: 10px;
+  color: #168;
+  border-bottom: 3px solid #168;
+  text-align: left;
+}
+.blueone td {
+  color: #669;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+.blueone tr:hover td {
+  color: #004;
+}
+
+#btn{
+}
+</style>
+</head>
+<body>
+	<table class="blueone">
+		<tr>
+			<th></th>
+			<th></th>
+			<th></th>
+		</tr>
+		<tr th:each="notice : ${list}">
+			<td th:text="${notice.regdate}"></td>
+			<td><a th:href="@{/member/mypage(memberId=${notice.fromId})}" th:text="${notice.fromId}"></a></td>
+			<td th:text="${notice.message}"></td>
+		</tr>
+	</table>
+	<div id="btn">
+	<button type="button" >닫기</button>
+	</div>
+</body>
+</html>
