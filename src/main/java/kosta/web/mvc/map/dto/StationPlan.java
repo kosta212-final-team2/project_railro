@@ -28,7 +28,7 @@ import lombok.ToString;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@ToString(exclude = "travelPlan")
 public class StationPlan {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "station_plan_sequence")

@@ -21,7 +21,7 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "stationPlan")
 @AllArgsConstructor
 @NoArgsConstructor
 public class DetailedPlan {
