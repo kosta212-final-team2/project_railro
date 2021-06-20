@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/default_layout}">
+<head>
+<title>info write</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Alex+Brush" rel="stylesheet">
+
+<style type="text/css">
+	#aa {
+		text-align: center;
+	}
+</style>
+
+<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<script th:inline="javascript">
+	$(function() {
+
+	});
+</script>
+</head>
+<body>
+
+
+
+<div layout:fragment="content">
+	<!-- 사진 영역 -->
+	<div class="hero-wrap js-fullheight" th:style="'background: url('+@{/images/bg_about.jpg}+');'">
+	  <div class="overlay"></div>
+	  <div class="container">
+	    <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center" data-scrollax-parent="true">
+	      <div class="col-md-9 ftco-animate text-center" data-scrollax=" properties: { translateY: '70%' }">
+	        <p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-2"><a href="index.html">Home</a></span> <span>about</span></p>
+	        <h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">레일로란?</h1>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- 내용 영역 -->
+    <section class="ftco-section">
+    	<div class="container">
+    		<div class="row d-md-flex">
+	    		<div class="col-md-6 ftco-animate img about-image" style="background-image: url(images/about.jpg);">
+	    		</div>
+	    		<div class="col-md-6 ftco-animate p-md-5">
+		    		<div class="row">
+		          <div class="col-md-12 nav-link-wrap mb-5">
+		            <div class="nav ftco-animate nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+		              <a class="nav-link active" id="v-pills-whatwedo-tab" data-toggle="pill" href="#v-pills-whatwedo" role="tab" aria-controls="v-pills-whatwedo" aria-selected="true">소개합니다</a>
+
+		              <a class="nav-link" id="v-pills-mission-tab" data-toggle="pill" href="#v-pills-mission" role="tab" aria-controls="v-pills-mission" aria-selected="false">기획 의도</a>
+
+		              <a class="nav-link" id="v-pills-goal-tab" data-toggle="pill" href="#v-pills-goal" role="tab" aria-controls="v-pills-goal" aria-selected="false">기대 효과</a>
+		            </div>
+		          </div>
+		          <div class="col-md-12 d-flex align-items-center">
+		            
+		            <div class="tab-content ftco-animate" id="v-pills-tabContent">
+
+		              <div class="tab-pane fade show active" id="v-pills-whatwedo" role="tabpanel" aria-labelledby="v-pills-whatwedo-tab">
+		              	<div>
+			                <h2 class="mb-4">KOSTA 대용량 웹서비스를 위한<br> MSA Full-Stack SW 개발자 양성과정 참가</h2>
+			              	<p>6개월의 긴 기간동안 Java 기반의 언어를 이용하여 웹 개발을 배웠습니다.</p>
+			                <p>조민주, 차영우, 최수빈, 최은철, 최정남, 황보현 6명이 모여서 약 2주간 개발을 진행했습니다.</p>
+				            </div>
+		              </div>
+
+		              <div class="tab-pane fade" id="v-pills-mission" role="tabpanel" aria-labelledby="v-pills-mission-tab">
+		                <div>
+			                <h2 class="mb-4">기차 여행을 계획하기 위한 플랫폼의 부재</h2>
+			              	<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+			                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nesciunt voluptate, quibusdam sunt iste dolores consequatur</p>
+				            </div>
+		              </div>
+
+		              <div class="tab-pane fade" id="v-pills-goal" role="tabpanel" aria-labelledby="v-pills-goal-tab">
+		                <div>
+			                <h2 class="mb-4">내일로를 더 많은 사람이 알았으면 하는 바램</h2>
+			              	<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+			                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nesciunt voluptate, quibusdam sunt iste dolores consequatur</p>
+				            </div>
+		              </div>
+		            </div>
+		          </div>
+		        </div>
+		      </div>
+		    </div>
+    	</div>
+    </section>
+
+    <section class="ftco-section bg-light">
+    	<div class="container">
+    		<div class="row justify-content-start mb-5 pb-3">
+          <div class="col-md-7 heading-section ftco-animate">
+          	<span class="subheading">FAQS</span>
+            <h2 class="mb-4"><strong>자주 묻는 질문</strong></h2>
+          </div>
+        </div>  
+    		<div class="row">
+    			<div class="col-md-12 ftco-animate">
+    				<div id="accordion">
+    					<div class="row">
+    						<div class="col-md-6">
+    							<div class="card">
+						        <div class="card-header">
+										  <a class="card-link" data-toggle="collapse"  href="#menuone" aria-expanded="true" aria-controls="menuone">내일로란 무엇인가요?<span class="collapsed"><i class="icon-plus-circle"></i></span><span class="expanded"><i class="icon-minus-circle"></i></span></a>
+						        </div>
+						        <div id="menuone" class="collapse show">
+						          <div class="card-body">
+												<p>코레일에서 판매하는 자유여행패스 상품입니다. 누구나, 언제든지 이용기간동안 기차를 무제한으로 탈 수 있습니다. 3일권, 7일권이 있고 일반적으로 입석 또는 자유석으로 운영되나 KTX와 일반열차의 좌석을 정해진 횟수만큼 무료로 지정할 수 있습니다.</p>
+						          </div>
+						        </div>
+						      </div>
+
+						      <div class="card">
+						        <div class="card-header">
+										  <a class="card-link" data-toggle="collapse"  href="#menutwo" aria-expanded="false" aria-controls="menutwo">내일로 티켓은 어디서 발권하나요?<span class="collapsed"><i class="icon-plus-circle"></i></span><span class="expanded"><i class="icon-minus-circle"></i></span></a>
+						        </div>
+						        <div id="menutwo" class="collapse">
+						          <div class="card-body">
+												<p>내일로 티켓은 코레일 홈페이지 또는 코레일 어플리케이션에서 구매 및 발권할 수 있습니다. </p>
+						          </div>
+						        </div>
+						      </div>
+
+						      <div class="card">
+						        <div class="card-header">
+										  <a class="card-link" data-toggle="collapse"  href="#menu3" aria-expanded="false" aria-controls="menu3"> Bookmarksgrove, the headline? <span class="collapsed"><i class="icon-plus-circle"></i></span><span class="expanded"><i class="icon-minus-circle"></i></span></a>
+						        </div>
+						        <div id="menu3" class="collapse">
+						          <div class="card-body">
+												<p>When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then she continued her way.</p>
+						          </div>
+						        </div>
+						      </div>
+    						</div>
+
+    						<div class="col-md-6">
+    							<div class="card">
+						        <div class="card-header">
+										  <a class="card-link" data-toggle="collapse"  href="#menu4" aria-expanded="false" aria-controls="menu4">Alphabet Village and the subline of her own? <span class="collapsed"><i class="icon-plus-circle"></i></span><span class="expanded"><i class="icon-minus-circle"></i></span></a>
+						        </div>
+						        <div id="menu4" class="collapse">
+						          <div class="card-body">
+												<p>When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then she continued her way.</p>
+						          </div>
+						        </div>
+						      </div>
+
+						      <div class="card">
+						        <div class="card-header">
+										  <a class="card-link" data-toggle="collapse"  href="#menu5" aria-expanded="false" aria-controls="menu5">Then she continued her way? <span class="collapsed"><i class="icon-plus-circle"></i></span><span class="expanded"><i class="icon-minus-circle"></i></span></a>
+						        </div>
+						        <div id="menu5" class="collapse">
+						          <div class="card-body">
+												<p>When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then she continued her way.</p>
+						          </div>
+						        </div>
+						      </div>
+
+						      <div class="card">
+						        <div class="card-header">
+										  <a class="card-link" data-toggle="collapse"  href="#menu6" aria-expanded="false" aria-controls="menu6">Skyline of her hometown Bookmarksgrove? <span class="collapsed"><i class="icon-plus-circle"></i></span><span class="expanded"><i class="icon-minus-circle"></i></span></a>
+						        </div>
+						        <div id="menu6" class="collapse">
+						          <div class="card-body">
+												<p>When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then she continued her way.</p>
+						          </div>
+						        </div>
+						      </div>
+    						</div>
+    					</div>
+				    </div>
+    			</div>
+    		</div>
+    	</div>
+    </section>
+</div>
+
+<!-- loader -->
+<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+
+</body>
+</html>

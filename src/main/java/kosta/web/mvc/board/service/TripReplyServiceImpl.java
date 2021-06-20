@@ -22,7 +22,7 @@ public class TripReplyServiceImpl implements TripReplyService {
 
 	@Override
 	public void delete(Long tripRno) {
-		tripReplyRepository.deleteById(tripRno);
+		
 
 	}
 

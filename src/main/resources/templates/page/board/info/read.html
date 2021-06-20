@@ -24,6 +24,22 @@
 		//alert(imgText);
 		$("#img_src").attr("src", imgText);
 		
+		var loginMember = $("#loginMember").val();
+		//alert(loginMember);
+		
+		var writeMember = $("#writeMember").val();
+		//alert(writeMember);
+		
+		if(loginMember!=writeMember) {
+			$("#writerOnly").hide();
+		}
+		
+		var writeReplyMember = $("#writeReplyMember").val();
+		
+		if(loginMember!=writeReplyMember) {
+			$(".replyWriterOnly").hide();
+		}
+		
 	});
 </script>
 
@@ -50,10 +66,15 @@
 					<div class="col-md-12">
 						<!-- 제목 -->
             <h2 class="mb-3" th:text="${board.infoSubject}"></h2>
+            	<!-- 작성시간 -->
+            	<div class="comment-body">
+            		<div class="meta" th:text="${#strings.replace(board.infoRegdate, 'T', ' ')}"></div>
+            	</div>
+            
             	<!-- 내용 영역 -->
-            	<th:block th:text="${board.infoContent}">
-            	
-            	</th:block>
+            	<div class="lead">
+            		<p th:text="${board.infoContent}"></p>
+            	</div>
 
             <!-- 버튼 영역 -->
             <div class="tag-widget post-tag-container mb-5 mt-5">
@@ -75,29 +96,32 @@
             </div>
             
             <!-- 수정하기, 삭제하기 버튼 -->
-            <div class="tag-widget post-tag-container mb-5 mt-5">
+            <div class="tag-widget post-tag-container mb-5 mt-5" id="writerOnly">
               <div style="text-align: right;">
               	<!-- 수정시 필요한 데이터를 폼으로 전송 -->
               	<div style="float:right;margin-left: 10px">
-	              	<form name="deleteinfoForm" th:action="@{/board/info/delete}" method="post">
+	              	<form name="deleteinfoForm" th:action="@{/board/info/delete}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
 		              	<input type="hidden" th:name="infoBno" th:value="${board.infoBno}">
 				            <input type="submit" value="삭제하기" class="btn py-3 px-4 btn-primary">
 		            	</form>
 		            </div>
 	            	<!-- 삭제시 필요한 데이터를 폼으로 전송 -->
 	            	<div>
-	              	<form name="updateinfoForm" th:action="@{/board/info/updateForm}" method="post">
+	              	<form name="updateinfoForm" th:action="@{/board/info/updateForm}" method="get">
 		              	<input type="hidden" th:name="infoBno" th:value="${board.infoBno}">
 				            <input type="submit" value="수정하기" class="btn py-3 px-4 btn-primary">
 		            	</form>
 		            </div>
 	            </div>
             </div>
+            
+            <input type="hidden" id="loginMember" th:value="${#authentication.principal.memberId}">
+            <input type="hidden" id="writeMember" th:value="${board.memberId}">
 
 
 						<!-- 댓글 영역 -->
             <div class="pt-5 mt-5">
-              <h3 class="mb-5">댓글</h3>
+              <h3 class="mb-5">댓글 [<span th:text="${#lists.size(board.infoReplyList)}"></span>]</h3>
               <ul class="comment-list">
               	<!-- 댓글 반복문 돌릴 영역 -->
               	<li class="comment" th:each="reply : ${board.infoReplyList}">
@@ -107,9 +131,13 @@
                   </div>
                   <div class="comment-body">
                     <h3 th:text="${reply.member.memberId}"></h3>
-                    <div class="meta" th:text="${reply.infoReplyRegdate}"></div>
+                    <div class="meta" th:text="${#strings.replace(reply.infoReplyRegdate, 'T', ' ')}"></div>
                     <p><h6 th:text="${reply.infoReplyContent}"></h6></p>
-                    <!-- <p><a href="#" class="reply">Reply</a></p> -->
+                    <input type="hidden" id="writeReplyMember" th:value="${reply.member.memberId}">
+                  	<a id="replyWriterOnly" 
+                  		 th:href="@{/board/info/reply/delete(infoRno=${reply.infoRno}, infoBno=${board.infoBno})}" 
+                  		 class="reply replyWriterOnly" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
+                  	<!-- <a th:href="@{/board/info/reply/updateForm(infoRno=${reply.infoRno}, infoBno=${board.infoBno})}" class="reply">수정</a> -->
                   </div>
                 </li>
               </ul>

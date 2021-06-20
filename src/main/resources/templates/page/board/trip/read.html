@@ -27,6 +27,27 @@
 		//alert(imgText);
 		$("#img_src").attr("src", imgText);
 		
+		// 게시판
+		var loginMember = $("#loginMember").val();
+		//alert(loginMember);
+		
+		var writeMember = $("#writeMember").val();
+		//alert(writeMember);
+		
+		if(loginMember!=writeMember) {
+			$("#writerOnly").hide();
+		}
+		
+		var writeReplyMember = $("#writeReplyMember").val();
+		
+		if(loginMember!=writeReplyMember) {
+			$(".replyWriterOnly").hide();
+		}
+		
+		// 지도
+		var planId = $("#planId").val();
+		//alert(planId);
+		
 	markers = []; // 마커를 담을 배열입니다
 		
 		var resultdrawArr=[]; //선 저장된 배열
@@ -42,7 +63,7 @@
 		
 		//alert($("#memberId").val());
 	//	displayMap(planId);
-		displayMap(40);
+		displayMap(planId);
 		function displayMap(planId){
 			
 			$.ajax({
@@ -202,7 +223,13 @@
 					<div class="col-md-12">
 						<!-- 제목 -->
             <h2 class="mb-3" th:text="${board.tripSubject}"></h2>
+            	<!-- 작성시간 -->
+            	<div class="comment-body">
+            		<div class="meta" th:text="${#strings.replace(board.tripRegdate, 'T', ' ')}"></div>
+            	</div>
+            	
             	<!-- 내용 영역 -->
+            	<input type="hidden" id="planId" name="planId" th:value="${board.planId}">
             	
             	<!-- 지도 -->
             	<div id="map"></div>
@@ -232,7 +259,7 @@
             </div>
             
             <!-- 수정하기, 삭제하기 버튼 -->
-            <div class="tag-widget post-tag-container mb-5 mt-5">
+            <div class="tag-widget post-tag-container mb-5 mt-5" id="writerOnly">
               <div style="text-align: right;">
               	<!-- 수정시 필요한 데이터를 폼으로 전송 -->
               	<div style="float:right;margin-left: 10px">
@@ -251,10 +278,13 @@
 	            </div>
             </div>
 
+            <input type="hidden" id="loginMember" th:value="${#authentication.principal.memberId}">
+            <input type="hidden" id="writeMember" th:value="${board.memberId}">
+
 
 						<!-- 댓글 영역 -->
             <div class="pt-5 mt-5">
-              <h3 class="mb-5">댓글</h3>
+              <h3 class="mb-5">댓글 [<span th:text="${#lists.size(board.tripReplyList)}"></span>]</h3>
               <ul class="comment-list">
               	<!-- 댓글 반복문 돌릴 영역 -->
               	<li class="comment" th:each="reply : ${board.tripReplyList}">
@@ -266,7 +296,10 @@
                     <h3 th:text="${reply.member.memberId}"></h3>
                     <div class="meta" th:text="${reply.tripReplyRegdate}"></div>
                     <p><h6 th:text="${reply.tripReplyContent}"></h6></p>
-                    <!-- <p><a href="#" class="reply">Reply</a></p> -->
+                    <input type="hidden" id="writeReplyMember" th:value="${reply.member.memberId}">
+                  	<a id="replyWriterOnly" 
+                  		 th:href="@{/board/trip/reply/delete(tripRno=${reply.tripRno}, tripBno=${board.tripBno})}" 
+                  		 class="reply replyWriterOnly" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
                   </div>
                 </li>
               </ul>
