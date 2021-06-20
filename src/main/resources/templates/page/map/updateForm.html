@@ -77,8 +77,13 @@
 								name='placeType' th:value="${planData.placeType}" /> <input
 								type='hidden' name='placeLat' th:value="${planData.placeLat}" />
 								<input type='hidden' name='placeLng'
-								th:value="${planData.placeLng}" /> <input type='hidden'
-								name='travleTime' th:value="${planData.travelTime}" /> <input
+								th:value="${planData.placeLng}" />
+								<input
+								type='hidden' name='placeUrl' th:value="${planData.placeUrl}" />
+								<input type='hidden' name='placeLng'
+								th:value="${planData.placeLng}" />
+								 <input type='hidden'
+								name='travelTime' value="0" /> <input
 								type='hidden' name='stationPlanNum'
 								th:value="${planData.stationPlan.stationPlanId}" /> <th:block
 									th:text="${planData.placeName}"></th:block>
@@ -89,7 +94,7 @@
 					</div>
 				</div>
 				<input id="savePlan" type="submit" value="일정 저장" /> <input
-					type="hidden" id="stationPlanNum" th:value="${stationPlanNum}" />
+					type="hidden" name="stationPlanNum" id="stationPlanNum" th:value="${stationPlanNum}" />
 			</form>
 		</div>
 		<div id="menu_wrap" class="bg_white">
@@ -227,14 +232,14 @@
 											+ resultData[0].properties.taxiFare
 											+ "원";
 
-									
-									$(box)
+									//alert(tTime);
+							//		timeT=(resultData[0].properties.totalTime / 60)
+							//		.toFixed(0);
+								$(box)
 											.find("input[name=travelTime]")
 											.val(
 													(resultData[0].properties.totalTime / 60)
 															.toFixed(0));
-									alert((resultData[0].properties.totalTime / 60)
-											.toFixed(0));
 									//교통정보 표출 옵션값을 체크
 
 									for ( var i in resultData) { //for문 [S]
@@ -259,6 +264,7 @@
 											}
 											drawLine(drawInfoArr, "0",
 													colorCode, zindex);
+											
 										} else {
 											if (properties.pointType == "S"
 													|| properties.pointType == "E") { //출발지 마커
@@ -281,7 +287,7 @@
 										}
 
 									}
-
+									
 								},
 								error : function(request, status, error) {
 									console.log("code:" + request.status + "\n"
@@ -295,7 +301,7 @@
 				//선택된 장소 값들에 정보창을 추가한다.
 				function addInfoWindow(data, marker) {
 					var iwContent = '<div class="placeinfo">'
-							+ '   <div class="title" target="_blank" title="' + data.placeName + '">'
+							+ '   <a class="title" href="'+data.placeUrl+'" target="_blank" title="' + data.placeName + '">'
 							+ data.placeOrder + "." + data.placeName + '</div>';
 
 					iwContent += '    <span title="' + data.placeAddr + '">'
@@ -321,21 +327,7 @@
 					//	infowindow.open(map, marker);
 
 				}
-				//일정 추가를 요청하는 클릭이벤트를 등록합니다.
-				$(document).on('click', 'div[name=place]', function() {
-
-					addPlan(this);
-				});
-
-				$(document).on('click', 'input[name=deletePlan]', function() {
-
-					var delCheck = confirm('삭제하시겠습니까?');
-					if (delCheck) {
-						$(this).parent().parent().remove();
-						reorder();
-					}
-
-				});
+			
 
 				function drawLine(arrPoint, traffic, color, zindex) {
 					var polyline;
@@ -386,7 +378,7 @@
 
 										$(box).find("input[name=itemNum]").val(
 												i + 1);
-										alert("i="+i);
+
 										if (i == 0) {
 											startX = $(box).find(
 													"input[name=placeLng]")
@@ -401,9 +393,9 @@
 											endY = $(box).find(
 													"input[name=placeLat]")
 													.val();
-
 											route(startX, startY, endX, endY,
 													i, box);
+																						
 											startX = $(box).find(
 													"input[name=placeLng]")
 													.val();
@@ -580,6 +572,11 @@
 												"name",
 												"detailedPlans[" + index
 														+ "].placeLng");
+								$(this).find("input[name=placeUrl]")
+								.attr(
+										"name",
+										"detailedPlans[" + index
+												+ "].placeUrl");
 								$(this).find("input[name=travelTime]").attr(
 										"name",
 										"detailedPlans[" + index

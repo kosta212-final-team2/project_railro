@@ -42,4 +42,5 @@ public class DetailedPlan {
 	private Long travelTime;
 	private double placeLat;
 	private double placeLng;
+	private String placeUrl;
 }
