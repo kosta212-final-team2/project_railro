@@ -51,14 +51,14 @@ public class DetailedPlanController {
 	}
 	
 	@RequestMapping("/map/updateForm")
-	public ModelAndView updateForm(Double centerLat, Double centerLng, int stationPlanNum) {
+	public ModelAndView updateForm(Double lat, Double lng, int stationPlanNum) {
 		
 		List<DetailedPlan> list= detailService.findByStaionPlan(stationPlanNum);
 		
 		
 		ModelAndView mv=new ModelAndView("page/map/updateForm", "detailData", list);
-		mv.addObject("centerLat", centerLat);
-		mv.addObject("centerLng", centerLng);
+		mv.addObject("centerLat", lat);
+		mv.addObject("centerLng", lng);
 		mv.addObject("stationPlanNum", stationPlanNum);
 		return mv;
 	}
