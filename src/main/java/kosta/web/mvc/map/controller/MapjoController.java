@@ -38,6 +38,15 @@ public class MapjoController {
 	@Autowired
 	private XmlParsingTest parsing;
 	
+	
+	/**
+	 * index test
+	 * */
+	@RequestMapping("/index2")
+	public void index() {
+		
+	}
+	
 	/**
 	 * naver 지도 보여주기 / test 용 
 	 * */
