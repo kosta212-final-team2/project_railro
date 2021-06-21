@@ -85,13 +85,15 @@
             </div>
             
             <!-- 프로필 영역 -->
-            <div class="about-author d-flex p-5 bg-light">
+            <div id="writer_img" class="about-author d-flex p-5 bg-light">
               <div class="bio align-self-md-center mr-5">
-                <img src="images/person_1.jpg" alt="Image placeholder" class="img-fluid mb-4">
+              	 
+                <img th:src="${member.picture}" alt="Image placeholder" class="img-fluid mb-4" style="width: 70px; height: 70px; border-radius: 70%; overflow: hidden;">
+              	
               </div>
               <div class="desc align-self-md-center">
-                <h3 th:text="${board.memberId}"></h3>
-                <p>사용자 설명</p>
+                <a th:href="@{/member/mypage(memberId=${board.memberId})}" th:text="${board.memberId}" style="font-size: 30px;"></a><p>
+                <span th:text="${member.name}"></span>님
               </div>
             </div>
             
@@ -130,7 +132,7 @@
                     <img id="img_src">
                   </div>
                   <div class="comment-body">
-                    <h3 th:text="${reply.member.memberId}"></h3>
+                    <a th:href="@{/member/mypage(memberId=${reply.member.memberId})}" style="font-size: 20px; color: black;" th:text="${reply.member.memberId}"></a><p>
                     <div class="meta" th:text="${#strings.replace(reply.infoReplyRegdate, 'T', ' ')}"></div>
                     <p><h6 th:text="${reply.infoReplyContent}"></h6></p>
                     <input type="hidden" id="writeReplyMember" th:value="${reply.member.memberId}">

@@ -18,6 +18,8 @@ import kosta.web.mvc.board.domain.FreeBoard;
 import kosta.web.mvc.board.domain.TripBoard;
 import kosta.web.mvc.board.repository.TripBoardRepository;
 import kosta.web.mvc.board.service.TripBoardService;
+import kosta.web.mvc.member.domain.Member;
+import kosta.web.mvc.member.repository.MemberRepository;
 
 @Controller
 @RequestMapping("/board/trip")
@@ -28,6 +30,9 @@ public class TripBoardController {
 	
 	@Autowired
 	private TripBoardRepository tripRepository;
+	
+	@Autowired
+	private MemberRepository memberRepository;
 
 	/**
 	 * 글 목록 조회 : 전체검색 및 조건검색으로 합쳐짐
@@ -122,8 +127,9 @@ public class TripBoardController {
 		boolean state = flag==null ? true : false;
 		
 		TripBoard tripBoard = tripService.selectBy(tripBno, state);//state가 true이면 조회수증가, false 조회수 증가안함.
-		
+		Member member = memberRepository.findByMemberId(tripBoard.getMemberId());
 		ModelAndView mv = new ModelAndView();
+		mv.addObject("member", member);
 		mv.setViewName("page/board/trip/read");
 		mv.addObject("board", tripBoard);
 		
