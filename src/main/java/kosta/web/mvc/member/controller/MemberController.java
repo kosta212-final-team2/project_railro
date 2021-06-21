@@ -19,6 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kosta.web.mvc.board.domain.InfoBoard;
+import kosta.web.mvc.map.dto.TravelPlan;
+import kosta.web.mvc.map.repository.TravelPlanRepository;
+import kosta.web.mvc.map.service.PlanService;
 import kosta.web.mvc.member.domain.Following;
 import kosta.web.mvc.member.domain.Member;
 import kosta.web.mvc.member.domain.Notice;
@@ -43,6 +46,9 @@ public class MemberController {
 	@Autowired
 	private FollowingService followingService;
 	
+	@Autowired
+	private PlanService planService;
+	
 	@RequestMapping("/loginForm")
 	public String loginFormPage() {
 		return "page/member/login";
@@ -63,12 +69,17 @@ public class MemberController {
 	@RequestMapping("/mypage")
 	public String profilePage(String memberId, Model model) {
 		Member member = memberService.findByMemberId(memberId);
+		
 		Member loginMember = (Member) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String fromId = loginMember.getMemberId();
+		
 		Following following = followingService.findByFromIdAndToId(fromId, memberId);
+		
 		//나의 게시물 리스트 출력
 		List<InfoBoard> list = memberService.selectINfoBoardByMember(memberId);
+		List<TravelPlan> planList = planService.getTravelPlanByUser(memberId);
 		model.addAttribute("list", list);
+		model.addAttribute("planList", planList);
 		model.addAttribute("fromId", fromId);
 		model.addAttribute("following", following);
 		model.addAttribute("member", member);
