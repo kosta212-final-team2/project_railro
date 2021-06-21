@@ -117,14 +117,14 @@ ul{list-style:none; }
         <div class="form_txtInput">
           <h2 class="sub_tit_txt">회원가입</h2>
           <form method="post" th:action="@{/member/oauth}" id="registerForm" >
-          <input type="text" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" >
-          <input type="text" th:name="naverId" th:value="${naverId}" >
-          <input type="text" th:name="refreshToken" th:value="${refreshToken}" >
-          <input type="text" th:name="accessToken" th:value="${accessToken}" >
-          <input type="text" th:name="picture" th:value="${picture}" >
-          <input type="text" th:name="email" th:value="${email}" >
-          <input type="text" th:name="phone" th:value="${phone}" >
-          <input type="text" th:name="name" th:value="${name}" >
+          <input type="text" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" style="display: none">
+          <input type="text" th:name="naverId" th:value="${naverId}" style="display: none">
+          <input type="text" th:name="refreshToken" th:value="${refreshToken}" style="display: none">
+          <input type="text" th:name="accessToken" th:value="${accessToken}" style="display: none">
+          <input type="text" th:name="picture" th:value="${picture}" style="display: none">
+          <input type="text" th:name="email" th:value="${email}" style="display: none">
+          <input type="text" th:name="phone" th:value="${phone}" style="display: none">
+          <input type="text" th:name="name" th:value="${name}" style="display: none">
           <div class="join_form">
             <table>
               <colgroup>

@@ -1,5 +1,7 @@
 package kosta.web.mvc.member.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.security.core.Authentication;
 
@@ -92,21 +96,6 @@ public class MemberController {
 		
 		return new ModelAndView("page/member/mypage","member", updateMember);
 	}
-	/**
-	 * 프로필 사진 변경
-	 */
-	@RequestMapping("/updatePicture")
-	public ModelAndView updatePictrure(Member member, String memberPicture) {
-		
-		Member updateMember = memberService.update(member, memberPicture);
-		
-		updateMember.setPicture(memberPicture);
-		return new ModelAndView("page/member/mypage","member",updateMember);
-	}
-	
-	/**
-	 * 
-	 */
 	
 	/**
 	 * 회원탈퇴
@@ -129,5 +118,49 @@ public class MemberController {
 		model.addAttribute("list", list);
 		return "page/member/notice";
 	}
+	
+	/**
+	 * 프로필 사진 변경
+	 */
+	@RequestMapping("/updatePicture")
+	public String updatePicture(String memberId, Model model) {
+		
+		memberId = SecurityContextHolder.getContext().getAuthentication().getName();
+		
+		model.addAttribute("member", memberService.findByMemberId(memberId));
+		
+//		Member updateMember = memberService.imgUpdate(memberId, picture);
+//		
+//		Member authMember = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//
+//		authMember.setPicture(picture);
+//		
+//		model.addAttribute("member", memberService.findByMemberId(memberId));
+		
+		return "page/member/mypage";
+	}
+	
+	@RequestMapping("/insertPicture")
+	public String insertImage(HttpServletRequest request, @RequestParam("fileName") MultipartFile mFile, Model model) {
+		String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
+		Member member = memberService.findByMemberId(memberId);
+		String redirect_url = "redirect:/page/member/mypage" + member.getMemberId();
+		
+		try {
+			if(member.getPicture() != null) {
+				File file = new File(member.getPicture());
+				file.delete();
+			}
+			mFile.transferTo(new File(mFile.getOriginalFilename()));
+		}catch(IllegalStateException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		memberService.imgUpdate(memberId, mFile.getOriginalFilename());
+		
+		return redirect_url;
+	}
+	
+	
 	
 }
