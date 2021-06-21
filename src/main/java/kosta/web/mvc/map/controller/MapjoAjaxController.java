@@ -60,7 +60,6 @@ public class MapjoAjaxController {
 	
 	@RequestMapping("/userPlanData")
 	public List<TravelPlan> planDataByUser(String userId) {
-		System.out.println("planDataByUser call");
 		return planservice.getTravelPlanByUser(userId);
 		//return new TravelPlan();
 		//return "데이타";
