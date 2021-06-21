@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import kosta.web.mvc.board.domain.InfoBoard;
+import kosta.web.mvc.board.repository.InfoBoardRepository;
 import kosta.web.mvc.member.domain.Authorities;
 import kosta.web.mvc.member.domain.Member;
 import kosta.web.mvc.member.domain.OauthId;
@@ -31,6 +33,9 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	InfoBoardRepository infoBoardRepository;
 	
 	@Override
 	public void insert(Member member) {
@@ -112,10 +117,21 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void deletebyMemberId(String memberId) {
 		oauthRepository.deleteByMemberId(memberId);
-		authoritiesRepository.deleteByMemberId(memberId);
-		memberRepository.deleteById(memberId);
-		
 	}
+	
+	@Override
+	public void updateAuthorities(String memberId) {
+		authoritiesRepository.updateAuthorities(memberId);
+	}
+
+	@Override
+	public List<InfoBoard> selectINfoBoardByMember(String memberId) {
+		
+		return infoBoardRepository.selectINfoBoardByMember(memberId);
+	}
+
+	
+
 
 	
 

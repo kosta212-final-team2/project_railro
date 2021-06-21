@@ -7,6 +7,8 @@
 	    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	      <span class="oi oi-menu"></span> Menu
 	    </button>
+
+		<span id="memberId_tag" name="memberId" sec:authorize="isAuthenticated()" style="visibility: hidden">[[${#authentication.principal.name}]]</span>
 	    <div class="collapse navbar-collapse" id="ftco-nav">
 	      <ul class="navbar-nav ml-auto">
 	        <li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
@@ -15,7 +17,8 @@
 	        <li class="nav-item"><a href="/board/free/list" class="nav-link">Free</a></li>
 	        <li class="nav-item"><a href="/board/info/list" class="nav-link">Info</a></li>
 	        
-	        <li class="nav-item" sec:authorize="isAuthenticated()"><a th:href="@{/member/mypage(memberId=${#authentication.principal.memberId})}" class="nav-link">[[${#authentication.principal.name}]]</a></li>
+	        <li class="nav-item" sec:authorize="isAuthenticated()"><a th:href="@{/member/mypage(memberId=${#authentication.principal.memberId})}" id="mypage_link" class="nav-link"><i class="icon-user"></i></a></li>
+	        <li class="nav-item" sec:authorize="isAuthenticated()"><a th:href="@{/member/notice(memberId=${#authentication.principal.memberId})} " class="nav-link"><i class="icon-bell-o"></i></a></li>
 	        <li class="nav-item cta" sec:authorize="isAnonymous()">
 	        	<a href="/member/loginForm" class="nav-link"><span>Login</span></a>
 	        </li>
@@ -25,6 +28,7 @@
 	        		<button type="submit" 
 	        						style="width:80px;background-color: #f8585b;border: none;color:#fff;padding: 8px 0;border-radius: 20px;text-align: center;" 
 	        						id="btn_logout" class="nav-link">logout</button>
+
 	        	</form>
 	        </li>
 	      </ul>
@@ -32,3 +36,4 @@
 	  </div>
 	</nav>
 </div>
+

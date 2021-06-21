@@ -32,6 +32,8 @@ public class Notice {
 	
 	private String toId;
 	
+	private int readState;
+	
 	@CreationTimestamp
 	private LocalDateTime regdate;
 }
