@@ -52,4 +52,12 @@ public interface MemberService {
 	 * 
 	 */
 	List<InfoBoard> selectINfoBoardByMember(String memberId);
+	
+	/**
+	 * 프로필 사진 변경
+	 * @return 
+	 */
+	public void imgUpdate(String memberId, String picture);
+	
+	public void savePicture(Member member);
 }

@@ -130,6 +130,21 @@ public class MemberServiceImpl implements MemberService {
 		return infoBoardRepository.selectINfoBoardByMember(memberId);
 	}
 
+	@Override
+	public void imgUpdate(String memberId, String picture) {
+		Member member = findByMemberId(memberId);
+		member.setPicture(picture);
+		
+		savePicture(member);
+		
+	}
+
+	@Override
+	public void savePicture(Member member) {
+		memberRepository.save(member);
+		
+	}
+
 	
 
 
