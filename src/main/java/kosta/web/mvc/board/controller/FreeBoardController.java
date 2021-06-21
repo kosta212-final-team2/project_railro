@@ -18,6 +18,8 @@ import kosta.web.mvc.board.domain.FreeBoard;
 import kosta.web.mvc.board.domain.InfoBoard;
 import kosta.web.mvc.board.repository.FreeBoardRepository;
 import kosta.web.mvc.board.service.FreeBoardService;
+import kosta.web.mvc.member.domain.Member;
+import kosta.web.mvc.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -31,6 +33,9 @@ public class FreeBoardController {
 	@Autowired
 	private FreeBoardRepository freeRepository;
 	
+	@Autowired
+	private MemberRepository memberRepository;
+
 	/**
 	 * 글 목록 조회
 	 */
@@ -125,8 +130,9 @@ public class FreeBoardController {
 		boolean state = flag==null ? true : false;
 		
 		FreeBoard freeBoard = freeService.selectBy(freeBno, state);//state가 true이면 조회수증가, false 조회수 증가안함.
-		
+		Member member = memberRepository.findByMemberId(freeBoard.getMemberId());
 		ModelAndView mv = new ModelAndView();
+		mv.addObject("member", member);
 		mv.setViewName("page/board/free/read");
 		mv.addObject("board", freeBoard);
 		

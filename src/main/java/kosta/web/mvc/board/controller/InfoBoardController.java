@@ -18,6 +18,8 @@ import kosta.web.mvc.board.domain.FreeBoard;
 import kosta.web.mvc.board.domain.InfoBoard;
 import kosta.web.mvc.board.repository.InfoBoardRepository;
 import kosta.web.mvc.board.service.InfoBoardService;
+import kosta.web.mvc.member.domain.Member;
+import kosta.web.mvc.member.repository.MemberRepository;
 
 @Controller
 @RequestMapping("/board/info")
@@ -29,6 +31,9 @@ public class InfoBoardController {
 	@Autowired
 	private InfoBoardRepository infoRepository;
 
+	@Autowired
+	private MemberRepository memberRepository;
+	
 	/**
 	 * 글 목록 조회 : 전체검색 및 조건검색으로 합쳐짐
 	 */ /*
@@ -122,8 +127,9 @@ public class InfoBoardController {
 		boolean state = flag==null ? true : false;
 		
 		InfoBoard infoBoard = infoService.selectBy(infoBno, state);//state가 true이면 조회수증가, false 조회수 증가안함.
-		
+		Member member = memberRepository.findByMemberId(infoBoard.getMemberId());
 		ModelAndView mv = new ModelAndView();
+		mv.addObject("member", member);
 		mv.setViewName("page/board/info/read");
 		mv.addObject("board", infoBoard);
 		
