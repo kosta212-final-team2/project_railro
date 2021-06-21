@@ -11,6 +11,7 @@ import kosta.web.mvc.map.repository.TravelPlanRepository;
 @Service
 public class PlanServiceImpl implements PlanService {
 
+	
 	@Autowired
 	TravelPlanRepository planRepository;
 	@Override
