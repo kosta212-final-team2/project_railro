@@ -2,10 +2,11 @@ package kosta.web.mvc.member.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.security.core.Authentication;
 
 import kosta.web.mvc.board.domain.InfoBoard;
 import kosta.web.mvc.member.domain.Following;
@@ -129,35 +129,41 @@ public class MemberController {
 		
 		model.addAttribute("member", memberService.findByMemberId(memberId));
 		
-//		Member updateMember = memberService.imgUpdate(memberId, picture);
-//		
-//		Member authMember = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//
-//		authMember.setPicture(picture);
-//		
-//		model.addAttribute("member", memberService.findByMemberId(memberId));
 		
 		return "page/member/mypage";
 	}
 	
 	@RequestMapping("/insertPicture")
-	public String insertImage(HttpServletRequest request, @RequestParam("fileName") MultipartFile mFile, Model model) {
-		String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
-		Member member = memberService.findByMemberId(memberId);
-		String redirect_url = "redirect:/page/member/mypage" + member.getMemberId();
+	public String insertImage(HttpServletRequest request, @RequestParam("filename") MultipartFile mFile, Model model) {
+		
+		
+		
+		ServletContext application = request.getServletContext();
+		String path = application.getRealPath("/profileImg");//저장할 폴더
+		//
+		
+		Member authMember = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		Member member = memberService.findByMemberId(authMember.getMemberId());
+		
+		System.out.println("mFile.getOriginalFilename()  = " + mFile.getOriginalFilename());
+		System.out.println("path  = " + path);
+		
+		
 		
 		try {
-			if(member.getPicture() != null) {
-				File file = new File(member.getPicture());
-				file.delete();
-			}
-			mFile.transferTo(new File(mFile.getOriginalFilename()));
+		   mFile.transferTo(new File(path+"/"+mFile.getOriginalFilename()));
+			
+			
+			model.addAttribute(member.getPicture());
+			
 		}catch(IllegalStateException | IOException e) {
 			e.printStackTrace();
 		}
 		
-		memberService.imgUpdate(memberId, mFile.getOriginalFilename());
+		memberService.imgUpdate(member.getMemberId(), mFile.getOriginalFilename());
 		
+		String redirect_url = "redirect:/member/mypage?memberId=" + member.getMemberId();
 		return redirect_url;
 	}
 	
