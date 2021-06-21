@@ -10,7 +10,8 @@
 
 <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Alex+Brush" rel="stylesheet">
-
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
 <style type="text/css">
 	#aa {
 		text-align: center;
@@ -22,6 +23,8 @@
 	.station{
 		list-style:none;
 	}
+	
+	body{font-family: 'Do Hyeon', sans-serif;}
 </style>
 
 <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
@@ -320,7 +323,7 @@
 					</div>
 				</div>
 			</div>
-			<div style="float: right;"><a  th:href="@{/mapjo/cityUpdateForm?(planId=${planId})}">수정</a></div>
+			<div style="float: right;"><a th:href="@{/mapjo/cityUpdateForm?(planId=${planId})}" style="font-size: 20px; margin-right: 100px;">수정</a></div>
 		</section>
 </div>
 
