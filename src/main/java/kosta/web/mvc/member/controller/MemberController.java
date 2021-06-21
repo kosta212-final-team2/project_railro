@@ -176,7 +176,7 @@ public class MemberController {
 			e.printStackTrace();
 		}
 		
-		memberService.imgUpdate(member.getMemberId(), mFile.getOriginalFilename());
+		memberService.imgUpdate(member.getMemberId(), "/profileImg/"+mFile.getOriginalFilename());
 		
 		String redirect_url = "redirect:/member/mypage?memberId=" + member.getMemberId();
 		return redirect_url;
