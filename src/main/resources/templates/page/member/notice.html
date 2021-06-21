@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript">
+	$(function() {
+		$("#back").click(function() {
+			window.history.back();
+		})
+	})
+</script>
 <style type="text/css">
 body { background: #fff; }
 .blueone {
@@ -43,7 +50,7 @@ body { background: #fff; }
 		</tr>
 	</table>
 	<div id="btn">
-	<button type="button" >닫기</button>
+	<button id="back" type="button" >이전으로</button>
 	</div>
 </body>
 </html>

@@ -92,15 +92,39 @@
         <div class="col-md-3">
           <div class="tile p-0">
             <ul class="nav flex-column nav-tabs user-tabs">
-              <li class="nav-item"><a class="nav-link active" href="#user-timeline" data-toggle="tab">게시글 활동</a></li>
-              <li class="nav-item"><a class="nav-link" href="#user-board" data-toggle="tab">나의 일정</a></li>
+
+              <li class="nav-item"><a class="nav-link active" href="#user-timeline" data-toggle="tab">내 일정</a></li>
+              <li class="nav-item"><a class="nav-link" href="#user-board" data-toggle="tab">게시글 활동</a></li>
               <li th:if="${fromId} == ${member.memberId}" class="nav-item"><a class="nav-link" href="#user-settings" data-toggle="tab">개인정보 수정</a></li>
             </ul>
           </div>
         </div>
         <div class="col-md-9">
           <div class="tab-content">
-            <div class="tab-pane active" id="user-timeline">
+          
+          	<div class="tab-pane fade" id="user-timeline">
+              <div class="tile user-settings">
+                <h4 class="line-head" style="text-align: center;">내 일정 리스트</h4>
+                	<div class="row"> 
+				
+              <div class="col-md-6 col-lg-4" style="margin-bottom: 20px;" th:each="plan : ${planList}">
+                <div class="card text-center card-product">
+                  <div class="card-product__img">
+                    		<img class="card-img" th:src="@{/images/Gangneung.jpg}" alt="" style="width: 240px; height: 200px;">
+                  </div>
+                  <div class="card-body">
+                    		<h4 class="card-product__title"><a href="#" th:text="${plan.planName}">PLAN_NAME</a></h4>
+                    <span class="card-product__price" th:text="${#strings.substring(plan.startDate, 0, 10)}"></span>~<span class="card-product__price" th:text="${#strings.substring(plan.endDate, 0, 10)}"></span>
+                  </div>
+                </div>
+              </div>
+
+              </div>       
+                  </div>
+                  
+            </div>
+          
+            <div class="tab-pane active" id="user-board">
               <div class="timeline-post" th:each="board : ${list}">
                 <div class="post-media" >
                   <div class="content">
@@ -118,36 +142,10 @@
               </div>
               
             </div>
-            <div class="tab-pane fade" id="user-board">
-              <div class="tile user-settings">
-                <h4 class="line-head" style="text-align: center;">내 일정 리스트</h4>
-                	<div class="row"> 
-
-              <div class="col-md-6 col-lg-4">
-                <div class="card text-center card-product">
-                  <div class="card-product__img">
-                  	
-                    
-
-                    		<img class="card-img" th:src="@{/images/Gangneung.jpg}" alt="" style="width: 240px; height: 200px;">
-
-                  </div>
-                  <div class="card-body">
-
-
-                    		<h4 class="card-product__title"><a href="#">PLAN_NAME</a></h4>
-
-                    <span class="card-product__price">2020.02.17</span>~<span class="card-product__price">2020.02.18</span>
-                  </div>
-                </div>
-              </div>
-
-              </div>
-                
-                
-                  </div>
-                  
-            </div>
+            
+            
+            
+            
             <div class="tab-pane fade" id="user-settings">
               <div class="tile user-settings">
                 <h4 class="line-head">개인정보 수정</h4>
