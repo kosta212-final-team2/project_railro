@@ -80,12 +80,18 @@
                   	<select class="form-control" id="exampleSelect2" multiple="">
        				 	<option th:each="au : ${auth}" th:value="${au.role}" th:text="${au.role}">${au.role}</option>
     				</select>
-                </div>
                 
+                	<div style="float: left; margin-right:120px;">
                 	<button class="btn btn-info" type="button">권한수정</button>
                 	<form method="get" action="/admin/member/read/delete">
+                	</div>
+                	<div style="float: left;">
                 	<input class="form-control" name="memberId" th:value="${member.memberId}" type="hidden" readonly="readonly">
                 	<button class="btn btn-info" id="kick_out" type="submit">강제탈퇴</button>
+                	</div>
+                
+                </div>
+                	
                 	</form>
             </div>
           </div>

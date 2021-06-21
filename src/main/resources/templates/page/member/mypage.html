@@ -133,7 +133,7 @@
                   </div>
                 </div>
                 <div class="post-content">
-                  <a th:text="${board.infoSubject}" th:href="@{/board/free/read/+${board.freeBno}}"></a>
+                  <a th:text="${board.infoSubject}" th:href="@{/board/free/read/${board.freeBno}}"></a>
                 </div>
                 <ul class="post-utility">
                   <li class="likes"><a href="#"><i class="fa fa-fw fa-lg fa-thumbs-o-up"></i>Like</a></li>

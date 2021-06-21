@@ -118,6 +118,7 @@ ul{list-style:none; }
           <h2 class="sub_tit_txt">회원가입</h2>
           <form method="post" action="/member/register" id="registerForm" >
           <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" >
+          <input type="hidden" th:id="picture" th:name="picture" value="/images/defaultImg.jpg">
           <div class="join_form">
             <table>
               <colgroup>
@@ -154,10 +155,6 @@ ul{list-style:none; }
                 <tr>
                   <th><span>주소</span></th>
                   <td><input type="text" th:id="addr" th:name="addr" placeholder="주소를 입력해주세요."></td>
-                </tr>
-                <tr>
-                  <th>프로필 사진</th>
-                  <td><input type="text" th:id="picture" th:name="picture" placeholder="프로필 사진을 입력해주세요."></td>
                 </tr>
               </tbody>
             </table>
