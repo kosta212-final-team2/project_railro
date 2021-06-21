@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/layout/default_layout}">
 <head>
-<title>trip write</title>
+<title>전체 일정</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -47,7 +47,7 @@
 			    data:{'planId':$("#planId").val()}, //보낼 데이터
 			    dataType: "json",
 			    success: function(data) {
-			    	console.log(data);
+			    	$("#planName").html(data.planName);
 			    	var startDate=data.startDate.substring(0,10);
 			    	var endDate=data.endDate.substring(0,10);
 			    	$("#datepicker").val(data.startDate.substring(0,10));
@@ -303,7 +303,7 @@
 			<div class="container">
 				<div class="row d-flex">
 					<div class="col-md-12">
-						
+						<h1 id="planName"></h1>
 						<!-- 글쓰기 폼 -->
 						<div id="travelPlanData">
 							<input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
