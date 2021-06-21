@@ -123,7 +123,7 @@
 			var contents
 
 			= "<li><ul id='"+data.stationPlanId+"' class='station unstyled'>"
-				+data.trainStation.station
+				+"<h3>"+data.trainStation.station+"</h3>"
 				+ "</ul></li>";
 			
 				
@@ -144,9 +144,9 @@
 				var str
 					="<li id='"+item.placeName+"' class='detail'>"
 					if(item.detailedOrder!=1){
-						str+="<div name='travelTime'>"+'⇣'+item.travelTime+'분'+"</div>"
+						str+="<div name='travelTime' style='padding-left:15px; font-size:12px;'>"+'⇣ '+item.travelTime+'분 소요'+"</div>"
 					}
-					str+=item.placeName
+					str+="<strong>"+item.placeName+"</strong>"
 					+"</li>";
 				$("#" + stationPlanId + "").append(str);
 			})
@@ -174,7 +174,7 @@
 
 			var contents
 
-			= "<li><ul id='"+date+"' class='dayschedule unstyled'>" + date + "</ul></li>";
+			= "<li><ul id='"+date+"' class='dayschedule unstyled'><h2>" + date + "</h2></ul></li><p>";
 
 			$("#schedule").append(contents);
 			
