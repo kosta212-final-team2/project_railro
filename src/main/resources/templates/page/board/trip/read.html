@@ -23,9 +23,9 @@
 "></script>
 <script th:inline="javascript">
 	$(function() {
-		let imgText = $("#img_text").text();
+		//let imgText = $("#img_text").text();
 		//alert(imgText);
-		$("#img_src").attr("src", imgText);
+		//$("#img_src").attr("src", imgText);
 		
 		// 게시판
 		var loginMember = $("#loginMember").val();
@@ -292,8 +292,8 @@
               	<!-- 댓글 반복문 돌릴 영역 -->
               	<li class="comment" th:each="reply : ${board.tripReplyList}">
                   <div class="vcard bio">
-            				<span id="img_text" th:text="${reply.member.picture}" style="visibility: hidden;"></span>
-                    <img id="img_src">
+            				<span th:text="${reply.member.picture}" style="visibility: hidden;"></span>
+                    <img th:src="${reply.member.picture}">
                   </div>
                   <div class="comment-body">
                                         <a th:href="@{/member/mypage(memberId=${reply.member.memberId})}" style="font-size: 20px; color: black;" th:text="${reply.member.memberId}"></a><p>
