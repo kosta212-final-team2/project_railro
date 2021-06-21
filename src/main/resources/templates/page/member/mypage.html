@@ -201,23 +201,20 @@
                
                   </div>
                           
-            <div class="tm-bg-primary-dark tm-block tm-block-avatar" style="position: absolute; top : 50px; right: 100px;" onclick="location.href='/member/updatePicture'">
-              <h2  class="tm-block-title">프로필 사진 변경</h2>
+            <div class="tm-bg-primary-dark tm-block tm-block-avatar" style="position: absolute; top : 100px; right: 100px;" onclick="location.href='/member/updatePicture'">
+              <h2  class="tm-block-title"></h2>
               <div class="tm-avatar-container">
               	<input type="hidden" id="profileLink" th:value="${member.picture}">
                 <img
                   th:src="${member.picture}"
                   alt="Avatar"
                   class="tm-avatar img-fluid mb-4"
-                  style="width: 50px;height:50px"
+                  style="width: 150px;height:200px"
                 />
                 <a href="#" class="tm-avatar-delete-link">
                   <i class="far fa-trash-alt tm-product-delete-icon"></i>
                 </a>
               </div>
-              <button class="btn btn-primary btn-block text-uppercase" type="submit">
-                Upload New Photo
-              </button>
             </div>
             
             <div class="contents">
@@ -227,7 +224,7 @@
 	<input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 			<label for="ex_file">프로필 사진 바꾸기</label> 
 			<input type="file" id="ex_file" name="filename" required />
-			<button type="submit" class="btn btn-default">업로드</button>
+			<button type="submit" class="btn btn-primary " >업로드</button>
 		</form>
 	</div>
 </div>

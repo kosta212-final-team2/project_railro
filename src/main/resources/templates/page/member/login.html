@@ -86,16 +86,23 @@
 											<div align="center">
 												<!-- 일반 회원가입 -->
 												<div class="btn py-3 px-4 btn-light" style="width:150px;height:auto;">
-													<a th:href="@{/member/registerForm}" style="font-size:20px;" th:unless="${isTodoAssignNaver}">회원가입</a>
+													<div th:if="@{isConnectedToNaver}">
+														<a th:href="@{/member/registerForm}" style="font-size:20px;" >회원가입</a>
+													</div>
 												</div>
 												<p>
-												<!-- 네이버 로그인 -->
-												<div align="center" th:unless="${isTodoAssignNaver}">
-													<a href="/member/naver"><img id="naverbtn" th:src="@{/images/btn_naver.png}"/></a>
+												</p>
 												</div>
-											</div>
+												<!-- 네이버 로그인 -->
+													<a th:href="@{/member/naver}" th:unless="${isConnectedToNaver}"><img id="naverbtn" th:src="@{/images/btn_naver.png}"/></a>
+												
+												<div th:if="@{isConnectedToNaver}">
+													<img th:src="@{/images/btn_naver.png}" style="visibility: hidden;"/>
+												</div>
+												
+											
 				            </div>
-										<input type="hidden" th:value="${isTodoAssignNaver ne null and isTodoAssignNaver ? 'naver' : 'none'}" name="oauth-handler">
+										<input type="hidden" th:if="${isConnectedToNaver}" name="oauth-handler">
 									</form>
 								</div>
 							</div>
