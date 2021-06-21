@@ -14,6 +14,7 @@ import kosta.web.mvc.map.repository.TravelPlanRepository;
 @Transactional
 public class PlanServiceImpl implements PlanService {
 
+	
 	@Autowired
 	TravelPlanRepository planRepository;
 	@Override
@@ -23,8 +24,21 @@ public class PlanServiceImpl implements PlanService {
 
 	@Override
 	public TravelPlan getTravelPlanById(int planId) {
-		
+		System.out.println("planId="+planId);
 		return planRepository.findById(planId).orElse(null);
 	}
+
+	@Override
+	public void insertTravelPlan(TravelPlan plan) {
+		planRepository.save(plan);
+		
+	}
+
+	@Override
+	public void deleteTravelPlan(int planId) {
+		// TODO Auto-generated method stub
+		planRepository.deleteById(planId);
+	}
+	
 
 }

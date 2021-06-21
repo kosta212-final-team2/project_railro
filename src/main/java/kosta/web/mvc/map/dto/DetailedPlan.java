@@ -21,7 +21,7 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "stationPlan")
 @AllArgsConstructor
 @NoArgsConstructor
 public class DetailedPlan {
@@ -42,4 +42,5 @@ public class DetailedPlan {
 	private Long travelTime;
 	private double placeLat;
 	private double placeLng;
+	private String placeUrl;
 }

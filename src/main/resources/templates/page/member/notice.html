@@ -44,7 +44,7 @@ body { background: #fff; }
 			<th></th>
 		</tr>
 		<tr th:each="notice : ${list}">
-			<td th:text="${notice.regdate}"></td>
+			<td th:text="${#strings.substring(notice.regdate, 0, 10)}"></td>
 			<td><a th:href="@{/member/mypage(memberId=${notice.fromId})}" th:text="${notice.fromId}"></a></td>
 			<td th:text="${notice.message}"></td>
 		</tr>

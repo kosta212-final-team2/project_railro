@@ -34,6 +34,6 @@ public interface StationService {
 	
 	StationPlan findByStationPlanId(int planId);
 	
-	void updateAll(StationList list);
+	void updateAll(StationList list,int planId);
 	
 }

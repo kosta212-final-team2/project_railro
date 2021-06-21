@@ -15,22 +15,32 @@
 	#aa {
 		text-align: center;
 	}
+	
+	
 </style>
 
 <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
 <script type="text/javascript">
 	$(function() {
-		var memberId = /*[[ ${#authentication.principal.memberId} ]]*/
-		
-		alert(memberId);
-		
-		var test = $("#test").val();
-		
-		alert(test);
-		
 		let imgText = $("#img_text").text();
 		//alert(imgText);
 		$("#img_src").attr("src", imgText);
+		
+		var loginMember = $("#loginMember").val();
+		//alert(loginMember);
+		
+		var writeMember = $("#writeMember").val();
+		//alert(writeMember);
+		
+		if(loginMember!=writeMember) {
+			$("#writerOnly").hide();
+		}
+		
+		var writeReplyMember = $("#writeReplyMember").val();
+		
+		if(loginMember!=writeReplyMember) {
+			$(".replyWriterOnly").hide();
+		}
 	});
 </script>
 
@@ -39,13 +49,13 @@
 
 <div layout:fragment="content">
 	<!-- 사진 영역 -->
-	<div class="hero-wrap js-fullheight" th:style="'background: url('+@{/images/bg_2.jpg}+');'">
+	<div class="hero-wrap js-fullheight" th:style="'background: url('+@{/images/bg_2.jpg}+'); no-repeat fixed; background-size: cover;'">
 	  <div class="overlay"></div>
 	  <div class="container">
 	    <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center" data-scrollax-parent="true">
 	      <div class="col-md-9 ftco-animate text-center" data-scrollax=" properties: { translateY: '70%' }">
-	        <p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-2"><a href="index.html">Home</a></span> <span>Blog</span></p>
-	        <h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Tips &amp; Articles</h1>
+	        <p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-2"><a href="index.html">Home</a></span> <span>Board</span></p>
+	        <h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">자유게시판</h1>
 	      </div>
 	    </div>
 	  </div>
@@ -57,6 +67,11 @@
 					<div class="col-md-12">
 						<!-- 제목 -->
             <h2 class="mb-3" th:text="${board.freeSubject}"></h2>
+            	<!-- 작성시간 -->
+            	<div class="comment-body">
+            		<div class="meta" th:text="${#strings.replace(board.freeRegdate, 'T', ' ')}"></div>
+            	</div>
+            	
             	<!-- 내용 영역 -->
             	<th:block th:text="${board.freeContent}">
             	
@@ -71,28 +86,45 @@
             </div>
             
             <!-- 프로필 영역 -->
-            <div class="about-author d-flex p-5 bg-light">
+            <div id="writer_img" class="about-author d-flex p-5 bg-light">
               <div class="bio align-self-md-center mr-5">
-                <img src="images/person_1.jpg" alt="Image placeholder" class="img-fluid mb-4">
+              	 
+                <img th:src="${member.picture}" alt="Image placeholder" class="img-fluid mb-4" style="width: 70px; height: 70px; border-radius: 70%; overflow: hidden;">
+              	
               </div>
               <div class="desc align-self-md-center">
-                <h3 th:text="${board.memberId}"></h3>
-                <p>사용자 설명</p>
-              </div>
-            </div>
-            
-            <!-- 수정하기, 삭제하기 버튼 -->
-            <div class="tag-widget post-tag-container mb-5 mt-5">
-              <div style="text-align: right;">
-		            <input type="button" value="수정하기"  class="btn py-3 px-4 btn-primary">&nbsp;&nbsp;
-		            <input type="button" value="삭제하기" onclick="" class="btn py-3 px-4 btn-primary">
+                <a th:href="@{/member/mypage(memberId=${board.memberId})}" th:text="${board.memberId}" style="font-size: 30px;"></a><p>
+                <span th:text="${member.name}"></span>님
               </div>
             </div>
 
+			<!-- 수정하기, 삭제하기 버튼 -->
+			<div class="tag-widget post-tag-container mb-5 mt-5" id="writerOnly">
+				<div style="text-align: right;">
+					<!-- 수정시 필요한 데이터를 폼으로 전송 -->
+					<div style="float: right; margin-left: 10px">
+						<form name="deletefreeForm" th:action="@{/board/free/delete}" method="post">
+							<input type="hidden" th:name="freeBno" th:value="${board.freeBno}"> 
+								<input type="submit" value="삭제하기" class="btn py-3 px-4 btn-primary">
+						</form>
+					</div>
+					<!-- 삭제시 필요한 데이터를 폼으로 전송 -->
+					<div>
+						<form name="updatefreeForm" th:action="@{/board/free/updateForm}" method="post">
+							<input type="hidden" th:name="freeBno" th:value="${board.freeBno}"> 
+							<input type="submit" value="수정하기" class="btn py-3 px-4 btn-primary">
+						</form>
+					</div>
+				</div>
+			</div>
 
-						<!-- 댓글 영역 -->
+            <input type="hidden" id="loginMember" th:value="${#authentication.principal.memberId}">
+            <input type="hidden" id="writeMember" th:value="${board.memberId}">
+
+
+			<!-- 댓글 영역 -->
             <div class="pt-5 mt-5">
-              <h3 class="mb-5">댓글</h3>
+              <h3 class="mb-5">댓글 [<span th:text="${#lists.size(board.freeReplyList)}"></span>]</h3>
               <ul class="comment-list">
               	<!-- 댓글 반복문 돌릴 영역 -->
               	<li class="comment" th:each="reply : ${board.freeReplyList}">
@@ -101,10 +133,13 @@
                     <img id="img_src">
                   </div>
                   <div class="comment-body">
-                    <h3 th:text="${reply.member.memberId}"></h3>
+                                        <a th:href="@{/member/mypage(memberId=${reply.member.memberId})}" style="font-size: 20px; color: black;" th:text="${reply.member.memberId}"></a><p>
                     <div class="meta" th:text="${reply.freeReplyRegdate}"></div>
                     <p><h6 th:text="${reply.freeReplyContent}"></h6></p>
-                    <!-- <p><a href="#" class="reply">Reply</a></p> -->
+                    <input type="hidden" id="writeReplyMember" th:value="${reply.member.memberId}">
+                  	<a id="replyWriterOnly" 
+                  		 th:href="@{/board/free/reply/delete(freeRno=${reply.freeRno}, freeBno=${board.freeBno})}" 
+                  		 class="reply replyWriterOnly" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
                   </div>
                 </li>
               </ul>
@@ -116,7 +151,7 @@
                  <form name="replyWriteForm" method="post" th:action="@{/board/free/reply/insert}" class="p-5 bg-light">
                 	<input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                   <input type="hidden" id="test" name="memberId" th:value="${#authentication.principal.memberId}">
-                  <input type="hidden" name="infoBno" th:value="${board.infoBno}">
+                  <input type="hidden" name="freeBno" th:value="${board.freeBno}">
                   
                   <div class="form-group">
                     <!-- <label for="message">Message</label> -->

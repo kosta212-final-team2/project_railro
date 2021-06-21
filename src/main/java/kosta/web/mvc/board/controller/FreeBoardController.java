@@ -15,8 +15,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import kosta.web.mvc.board.domain.FreeBoard;
+import kosta.web.mvc.board.domain.InfoBoard;
 import kosta.web.mvc.board.repository.FreeBoardRepository;
 import kosta.web.mvc.board.service.FreeBoardService;
+import kosta.web.mvc.member.domain.Member;
+import kosta.web.mvc.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -30,6 +33,9 @@ public class FreeBoardController {
 	@Autowired
 	private FreeBoardRepository freeRepository;
 	
+	@Autowired
+	private MemberRepository memberRepository;
+
 	/**
 	 * 글 목록 조회
 	 */
@@ -124,12 +130,40 @@ public class FreeBoardController {
 		boolean state = flag==null ? true : false;
 		
 		FreeBoard freeBoard = freeService.selectBy(freeBno, state);//state가 true이면 조회수증가, false 조회수 증가안함.
-		
+		Member member = memberRepository.findByMemberId(freeBoard.getMemberId());
 		ModelAndView mv = new ModelAndView();
+		mv.addObject("member", member);
 		mv.setViewName("page/board/free/read");
 		mv.addObject("board", freeBoard);
 		
 		return mv;
+	}
+	
+	/**
+	 * 글 수정하기 폼
+	 */
+	@RequestMapping("/updateForm")
+	public ModelAndView updateForm(Long freeBno) {
+		FreeBoard freeBoard = freeService.selectBy(freeBno, false);
+		return new ModelAndView("page/board/free/update", "board", freeBoard);
+	}
+	
+	/**
+	 * 글 수정 후 저장
+	 */
+	@RequestMapping("/update")
+	public ModelAndView update(FreeBoard freeBoard) {
+		FreeBoard dbBoard = freeService.update(freeBoard);
+		return new ModelAndView("page/board/free/read", "board", dbBoard);
+	}
+	
+	/**
+	 * 글 삭제하기
+	 */
+	@RequestMapping("/delete")
+	public String delete(Long freeBno) {
+		freeService.delete(freeBno);
+		return "redirect:/board/free/list";
 	}
 
 }

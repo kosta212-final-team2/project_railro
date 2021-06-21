@@ -45,8 +45,8 @@
 	  <div class="container">
 	    <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center" data-scrollax-parent="true">
 	      <div class="col-md-9 ftco-animate text-center" data-scrollax=" properties: { translateY: '70%' }">
-	        <p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-2"><a href="index.html">Home</a></span> <span>Blog</span></p>
-	        <h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Tips &amp; Articles</h1>
+	        <p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-2"><a href="index.html">Home</a></span> <span>Board</span></p>
+	        <h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">여행 정보 게시판</h1>
 	      </div>
 	    </div>
 	  </div>
@@ -72,7 +72,7 @@
 							<th>조회수</th>
 							<th>추천수</th>
 						</tr>
-						<tr th:each="content : ${pageList}">
+						<tr th:each="content : ${infoSearchList}">
 							<td th:text="${content.infoBno}"></td>
 							<td th:text="${content.memberId}"></td>
 							<td style="text-align: left;"><a th:text="${content.infoSubject}" th:href="@{'/board/info/read/'+${content.infoBno}}"></a></td>
@@ -87,8 +87,8 @@
 					<div class="col text-center">
 						<div class="block-27">
 							<!-- 페이징처리 -->
-  						<ul th:with="start=${(pageList.number/blockCount)*blockCount + 1},
-  														end=${start+(blockCount-1) > pageList.totalPages ? pageList.totalPages : (start+(blockCount-1))}">
+  						<ul th:with="start=${(infoSearchList.number/blockCount)*blockCount + 1},
+  														end=${start+(blockCount-1) > infoSearchList.totalPages ? infoSearchList.totalPages : (start+(blockCount-1))}">
 								<!-- 맨 앞으로 -->
 					      <li th:if="${start > 1}">
 				        	<a th:href="@{/board/info/list?(nowPage=1)}" th:text="'<<'"></a>
@@ -102,15 +102,33 @@
 				        	<a th:href="@{/board/info/list?(nowPage=${page})}" th:id="page+${page}" th:text="${page}"></a>
 				        </li>
 								<!-- 뒤로 -->
-					      <li th:if="${end < pageList.totalPages}">
+					      <li th:if="${end < infoSearchList.totalPages}">
 				        	<a th:href="@{/board/info/list?(nowPage=${start + blockCount})}" th:text="'>'"></a>
 				        </li>
 								<!-- 맨 뒤로 -->
-				        <li th:if="${end < pageList.totalPages}">
-				        	<a th:href="@{/board/info/list?(nowPage=${pageList.totalPages})}" th:text="'>>'"></a>
+				        <li th:if="${end < infoSearchList.totalPages}">
+				        	<a th:href="@{/board/info/list?(nowPage=${infoSearchList.totalPages})}" th:text="'>>'"></a>
 				        </li>
 							</ul>
 						</div>
+					</div>
+				</div>
+				<!-- 검색 form -->
+				<div class="row mt-5">
+					<div class="col text-center">
+						<form th:action="@{/board/info/list}" method="GET">
+							<div class="select-wrap one-third btn-group">
+								<select name="type" class="form-control">
+									<option selected="selected" disabled>--선택--</option>
+									<option value="subject" th:selected="@{/board/info/list?type=subject}">제목</option>
+									<option value="writer" th:selected="@{/board/info/list?type=writer}">작성자</option>
+								</select>
+							</div>
+							<div class="btn-group" role="group" aria-label="Basic example">
+								<input name="keyword" type="text" placeholder="검색어를 입력해주세요" class="form-control">
+								<button id="searchBtn" class="search-submit btn btn-primary">검색</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>

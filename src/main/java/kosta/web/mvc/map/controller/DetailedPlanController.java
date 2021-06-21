@@ -11,11 +11,15 @@ import kosta.web.mvc.map.dto.DetailedPlan;
 import kosta.web.mvc.map.dto.DetailedPlanList;
 import kosta.web.mvc.map.dto.StationPlan;
 import kosta.web.mvc.map.service.DetailedPlanService;
+import kosta.web.mvc.map.service.StationService;
 
 @Controller
 public class DetailedPlanController {
 	@Autowired
 	DetailedPlanService detailService;
+	
+	@Autowired
+	StationService stationService;
 	
 	@RequestMapping("/map/test")
 	public String test() {
@@ -28,9 +32,14 @@ public class DetailedPlanController {
 	}
 	
 	@RequestMapping("/map/categorySearch")
-	public String main() {
+	public ModelAndView main(Double centerLat, Double centerLng, Integer stationPlanNum ) {
 		
-		return "page/map/map";
+		ModelAndView mv=new ModelAndView("page/map/map");
+		mv.addObject("centerLat", centerLat);
+		mv.addObject("centerLng", centerLng);
+		mv.addObject("stationPlanNum", stationPlanNum);
+		
+		return mv;
 	}
 	
 	@RequestMapping("/map/detailSave")
@@ -42,20 +51,36 @@ public class DetailedPlanController {
 	}
 	
 	@RequestMapping("/map/updateForm")
-	public ModelAndView updateForm(int stationPlanNum) {
+	public ModelAndView updateForm(Double lat, Double lng, int stationPlanNum) {
 		
 		List<DetailedPlan> list= detailService.findByStaionPlan(stationPlanNum);
 		
+		
 		ModelAndView mv=new ModelAndView("page/map/updateForm", "detailData", list);
+		mv.addObject("centerLat", lat);
+		mv.addObject("centerLng", lng);
+		mv.addObject("stationPlanNum", stationPlanNum);
 		return mv;
 	}
 	
 	@RequestMapping("/map/update")
-	public String update(DetailedPlanList list, int stationPlanNum) {
+	public ModelAndView update(DetailedPlanList list, Integer stationPlanNum) {
 		for(DetailedPlan dplan:list.getDetailedPlans()) {
 			dplan.setStationPlan(new StationPlan(stationPlanNum));
 		}
+		
 		detailService.updateAll(list, stationPlanNum);
-		return "page/map";
+		
+		StationPlan stationPlan=stationService.findByStationPlanId(stationPlanNum);
+		
+		List<StationPlan> stationList =stationService.selectPlanByPlanNum(stationPlan.getTravelPlan().getPlanId());
+		
+		
+		System.out.println(stationList);
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("mapjo/plan");
+		mv.addObject("stationUpdate", stationList);
+		mv.addObject("planId", stationList.get(0).getTravelPlan().getPlanId());
+		return mv;
 	}
 }

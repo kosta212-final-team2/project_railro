@@ -72,12 +72,16 @@ public class MemberController {
 		
 		Member loginMember = (Member) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String fromId = loginMember.getMemberId();
+		if(memberId==null) {
+			memberId=fromId;
+		}
 		
 		Following following = followingService.findByFromIdAndToId(fromId, memberId);
 		
 		//나의 게시물 리스트 출력
 		List<InfoBoard> list = memberService.selectINfoBoardByMember(memberId);
 		List<TravelPlan> planList = planService.getTravelPlanByUser(memberId);
+		model.addAttribute("planList", planList);
 		model.addAttribute("list", list);
 		model.addAttribute("planList", planList);
 		model.addAttribute("fromId", fromId);

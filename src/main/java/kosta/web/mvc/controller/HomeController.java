@@ -40,5 +40,9 @@ public class HomeController {
 		return "page/loginSuccess";
 	}
 
+	@RequestMapping("/about")
+	public String aboutPage() {
+		return "page/introduce/about";
+	}
 
 }

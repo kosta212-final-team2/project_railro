@@ -28,7 +28,7 @@ import lombok.ToString;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@ToString(exclude = "travelPlan")
 public class StationPlan {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "station_plan_sequence")
@@ -58,9 +58,12 @@ public class StationPlan {
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
 		StationPlan plan = (StationPlan)obj;
-		//if(this.stationPlanId == plan.getStationPlanId()) 
+		if(this.stationPlanId == plan.getStationPlanId()) {
 			return true; 
-		//else return false;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	

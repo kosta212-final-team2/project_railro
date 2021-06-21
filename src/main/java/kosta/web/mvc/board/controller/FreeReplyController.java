@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import kosta.web.mvc.board.domain.FreeBoard;
 import kosta.web.mvc.board.domain.FreeReply;
 import kosta.web.mvc.board.service.FreeReplyService;
+import kosta.web.mvc.member.domain.Member;
 
 @Controller
 @RequestMapping("/board/free/reply")
@@ -21,12 +22,23 @@ public class FreeReplyController {
 	@RequestMapping("/insert")
 	public String insert(FreeReply freeReply, Long freeBno, String memberId) {
 		freeReply.setFreeBoard(new FreeBoard(freeBno));
-		//freeReply.setMemberId(new Member(memberId));
+		freeReply.setMember(new Member(memberId));
 		
 		freeReplyService.insert(freeReply);
 		
 		// flag : 조회수를 증가하지 않게 하기 위함
-		return "redirect:/board/free/read/"+freeBno;
+		return "redirect:/board/free/read/"+freeBno+"?flag=1";
+	}
+
+	/**
+	 * 댓글 삭제하기
+	 */
+	@RequestMapping("/delete")
+	public String delete(Long freeRno, Long freeBno) {
+		System.out.println("freeBno = "+freeBno+", freeRno = "+freeRno);
+		freeReplyService.delete(freeRno);
+		
+		return "redirect:/board/free/read/"+freeBno+"?flag=1";
 	}
 	
 }

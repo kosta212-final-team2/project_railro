@@ -22,12 +22,12 @@ public interface FreeBoardService {
 	/**
 	 * 제목 검색
 	 * */
-	Page<FreeBoard>  freeSubjectSearch(String keyword,Pageable pageable);
+	Page<FreeBoard> freeSubjectSearch(String keyword,Pageable pageable);
 	
 	/**
 	 * 작성자 검색
 	 * */
-	Page<FreeBoard>  freeIdSearch(String keyword,Pageable pageable);
+	Page<FreeBoard> freeIdSearch(String keyword,Pageable pageable);
 	
 	/**
 	 * 등록
@@ -45,12 +45,12 @@ public interface FreeBoardService {
 	/**
 	 * 수정하기
 	 * */
-	//FreeBoard update(FreeBoard freeBoard);
+	FreeBoard update(FreeBoard freeBoard);
     
     /**
      * 삭제하기
      * */
-    //void delete(Long freeBno);
+    void delete(Long freeBno);
     
 }
 

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import kosta.web.mvc.map.domain.Station;
+import kosta.web.mvc.map.dto.StationPlan;
 import kosta.web.mvc.map.dto.TravelPlan;
 import kosta.web.mvc.map.service.PlanService;
 import kosta.web.mvc.map.service.StationService;
@@ -65,8 +66,15 @@ public class MapjoAjaxController {
 	}
 	
 	@RequestMapping("/planData")
-	public TravelPlan planData(int planId) {
+	public TravelPlan planData(Integer planId) {
 		return planservice.getTravelPlanById(planId);
+		//return new TravelPlan();
+		//return "데이타";
+	}
+	
+	@RequestMapping("/stationData")
+	public List<StationPlan> stationData(Integer planId) {
+		return stationService.selectPlanByPlanNum(planId);
 		//return new TravelPlan();
 		//return "데이타";
 	}

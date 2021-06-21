@@ -3,6 +3,7 @@ package kosta.web.mvc;
 import java.net.URLDecoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,6 +16,24 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 @SpringBootTest
 public class XmlParsingTest {
+	
+	/**
+	 * 날짜 가져오기 
+	 * */
+	@Test 
+	private static void getDate() {
+		SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+				
+		Calendar time = Calendar.getInstance();
+		       
+		String format_time1 = format1.format(time.getTime());
+		        
+		System.out.println(format_time1);
+		
+		//return null;
+	}
+	
+	
 	
 	/**
 	 * 날짜 시간 형식 변환 

@@ -40,13 +40,13 @@
 
 <div layout:fragment="content">
 	<!-- 사진 영역 -->
-	<div class="hero-wrap js-fullheight" th:style="'background: url('+@{/images/bg_2.jpg}+');'">
+	<div class="hero-wrap js-fullheight" th:style="'background: url('+@{/images/bg_2.jpg}+'); no-repeat fixed; background-size: cover;'">
 	  <div class="overlay"></div>
 	  <div class="container">
 	    <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center" data-scrollax-parent="true">
 	      <div class="col-md-9 ftco-animate text-center" data-scrollax=" properties: { translateY: '70%' }">
-	        <p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-2"><a href="index.html">Home</a></span> <span>Blog</span></p>
-	        <h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Tips &amp; Articles</h1>
+	        <p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-2"><a href="index.html">Home</a></span> <span>Board</span></p>
+	        <h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">자유게시판</h1>
 	      </div>
 	    </div>
 	  </div>
@@ -113,23 +113,26 @@
 						</div>
 					</div>
 				</div>
+				<!-- 검색 form -->
+				<div class="row mt-5">
+					<div class="col text-center">
+						<form th:action="@{/board/free/list}" method="GET">
+							<div class="select-wrap one-third btn-group">
+								<select name="type" class="form-control">
+									<option value="" disabled>--선택--</option> 
+									<option value="subject" th:selected="@{/board/free/list?type=subject}">제목</option>
+									<option value="writer" th:selected="@{/board/free/list?type=writer}">작성자</option>
+								</select>
+							</div>
+							<div class="btn-group" role="group" aria-label="Basic example">
+								<input name="keyword" type="text" placeholder="검색어를 입력해주세요" class="form-control">
+								<button id="searchBtn" class="search-submit btn btn-primary">검색</button>
+							</div>
+						</form>
+					</div>
+				</div>
 			</div>
 		</section>
-		<!-- 검색 form -->
-		<form th:action="@{/board/free}" method="GET">
-			<div class="form-group">
-				<select name="type" class="form-control">
-					<option value="" >--선택--</option>
-					<option value="subject" th:selected="@{/board/free/subjectSearch?}">제목</option>
-					<option value="writer" th:selected="@{/board/free/idSearch?}">작성자</option>
-				</select>
-			</div>
-			<div class="btn-group" role="group" aria-label="Basic example">
-				<input name="keyword" type="text" placeholder="검색어를 입력해주세요">
-				<button id="searchBtn">검색</button>
-			</div>
-		</form>
-			<br><br><br><br><br><br><br><br><br><br><br><br>
 </div>
 
 <!-- loader -->

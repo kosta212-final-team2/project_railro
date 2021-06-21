@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import kosta.web.mvc.board.domain.FreeBoard;
 import kosta.web.mvc.board.domain.InfoBoard;
 import kosta.web.mvc.board.repository.InfoBoardRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,22 @@ public class InfoBoardServiceImpl implements InfoBoardService {
 	public Page<InfoBoard> selectAll(Pageable pageable) {
 		//return infoRepository.findAll(Sort.by(Sort.Direction.DESC, "infoBno"));
 		return infoRepository.findAll(pageable);
+	}
+	
+	@Override
+	public Page<InfoBoard> infoSubjectSearch(String keyword, Pageable pageable) {
+		System.out.println("keyword = " + keyword);
+		Page<InfoBoard> infoBoardList = infoRepository.findByInfoSubjectContaining(keyword, pageable);
+		//List<FreeBoard> freeBoardList = freeRepository.findByFreeContentContaining(keyword);
+		
+		System.out.println("infoBoardList : " + infoBoardList);
+		return infoBoardList;
+	}
+
+	@Override
+	public Page<InfoBoard> infoIdSearch(String keyword, Pageable pageable) {
+		Page<InfoBoard> infoBoardList = infoRepository.findByMemberIdContaining(keyword ,pageable);
+		return infoBoardList;
 	}
 
 	@Override
@@ -70,5 +87,7 @@ public class InfoBoardServiceImpl implements InfoBoardService {
 		
 		infoRepository.deleteById(infoBno);
 	}
+
+
 
 }
