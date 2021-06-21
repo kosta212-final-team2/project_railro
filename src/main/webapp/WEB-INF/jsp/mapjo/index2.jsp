@@ -183,7 +183,7 @@
 									str += "<a href='#' class='block-20' style='background-image: url(${pageContext.request.contextPath}/images/"+station.img+");'>";
 									str += "</a><div class='text p-4 d-block'>";
 									str += "<span class='tag'>Destination</span>";
-									str += "<h3 class='heading mt-3'><a href='${pageContext.request.contextPath}/mapjo/travelPlan'>"+station.station+"dddddd</a></h3>";
+									str += "<h3 class='heading mt-3'><a href='${pageContext.request.contextPath}/mapjo/travelPlan'>"+station.station+"</a></h3>";
 									str += "<div class='meta mb-3'>";
 									str += "<div><a href='https://www.youtube.com/results?search_query="+station.station+"여행' style='color:tomato' target='_blank'>YouTube</a></div>";
 									str += "</div></div></div></div>";
