@@ -7,6 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/map")
 public class PlanController {
+	
 	@RequestMapping("/planData")
 	public ModelAndView planData(Integer planId) {
 		ModelAndView mv=new ModelAndView("page/map/planData", "planId", planId);
