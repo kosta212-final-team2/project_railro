@@ -12,4 +12,6 @@ public interface PlanService {
 	
 	
 	void insertTravelPlan(TravelPlan plan);
+	
+	void deleteTravelPlan(int planId);
 }

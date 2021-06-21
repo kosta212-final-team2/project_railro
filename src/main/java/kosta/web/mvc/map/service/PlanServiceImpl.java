@@ -32,4 +32,11 @@ public class PlanServiceImpl implements PlanService {
 		
 	}
 
+	@Override
+	public void deleteTravelPlan(int planId) {
+		// TODO Auto-generated method stub
+		planRepository.deleteById(planId);
+	}
+	
+
 }
