@@ -2,6 +2,8 @@ package kosta.web.mvc.board.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -27,5 +29,10 @@ public interface InfoBoardRepository extends JpaRepository<InfoBoard, Long> {
 	 * 작성자검색
 	 * */
 	Page<InfoBoard> findByMemberIdContaining(String keyword, Pageable pageable);
+
+
+	@Query("select b from InfoBoard b where b.memberId=?1")
+	List<InfoBoard> selectINfoBoardByMember(String memberId);
+
 
 }

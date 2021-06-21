@@ -19,6 +19,16 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{/css/open-iconic-bootstrap.min.css}">
+
+		
+		<link rel="stylesheet" th:href="@{/css/ionicons.min.css}">
+		
+
+		
+		<link rel="stylesheet" th:href="@{/css/flaticon.css}">
+		<link rel="stylesheet" th:href="@{/css/icomoon.css}">
+		<link rel="stylesheet" th:href="@{/css/style.css}">
     <!-- Main CSS-->
     <link rel="stylesheet" th:href="@{/css/profile.css}">
     <!-- Font-icon css-->
@@ -45,6 +55,12 @@
     <script type="text/javascript">
     var test = $("#test").val();
 
+    $(document).ready(function(){
+    	$("#submit").click(function(){
+    		if($("#pwd").val().length==0){alert("비밀번호를 입력하세요");$("#pwd").focus; return false;}
+    		
+    	});
+    });
     </script>
   </head>
   <body class="app sidebar-mini rtl">
@@ -76,51 +92,65 @@
         <div class="col-md-3">
           <div class="tile p-0">
             <ul class="nav flex-column nav-tabs user-tabs">
-              <li class="nav-item"><a class="nav-link active" href="#user-timeline" data-toggle="tab">일정</a></li>
-              <li class="nav-item"><a class="nav-link" href="#user-settings" data-toggle="tab">게시글 활동</a></li>
-              <li class="nav-item"><a class="nav-link" href="#user-settings" data-toggle="tab">개인정보 수정</a></li>
+              <li class="nav-item"><a class="nav-link active" href="#user-timeline" data-toggle="tab">게시글 활동</a></li>
+              <li class="nav-item"><a class="nav-link" href="#user-board" data-toggle="tab">나의 일정</a></li>
+              <li th:if="${fromId} == ${member.memberId}" class="nav-item"><a class="nav-link" href="#user-settings" data-toggle="tab">개인정보 수정</a></li>
             </ul>
           </div>
         </div>
         <div class="col-md-9">
           <div class="tab-content">
             <div class="tab-pane active" id="user-timeline">
-              <div class="timeline-post">
-                <div class="post-media"><a href="#"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg"></a>
+              <div class="timeline-post" th:each="board : ${list}">
+                <div class="post-media" >
                   <div class="content">
-                    <h5><a href="#">John Doe</a></h5>
-                    <p class="text-muted"><small>2 January at 9:30</small></p>
+                    <h5><a href="#" th:text="${board.memberId}"></a></h5>
+                    <p class="text-muted"><small th:text="${board.infoRegdate}"></small></p>
                   </div>
                 </div>
                 <div class="post-content">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,	quis tion ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                  <a th:text="${board.infoSubject}" th:href="@{/board/free/read/+${board.freeBno}}"></a>
                 </div>
                 <ul class="post-utility">
                   <li class="likes"><a href="#"><i class="fa fa-fw fa-lg fa-thumbs-o-up"></i>Like</a></li>
-                  <li class="shares"><a href="#"><i class="fa fa-fw fa-lg fa-share"></i>Share</a></li>
                   <li class="comments"><i class="fa fa-fw fa-lg fa-comment-o"></i> 5 Comments</li>
                 </ul>
               </div>
-              <div class="timeline-post">
-                <div class="post-media"><a href="#"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg"></a>
-                  <div class="content">
-                    <h5><a href="#">John Doe</a></h5>
-                    <p class="text-muted"><small>2 January at 9:30</small></p>
+              
+            </div>
+            <div class="tab-pane fade" id="user-board">
+              <div class="tile user-settings">
+                <h4 class="line-head" style="text-align: center;">내 일정 리스트</h4>
+                	<div class="row"> 
+
+              <div class="col-md-6 col-lg-4">
+                <div class="card text-center card-product">
+                  <div class="card-product__img">
+                  	
+                    
+
+                    		<img class="card-img" th:src="@{/images/Gangneung.jpg}" alt="" style="width: 240px; height: 200px;">
+
+                  </div>
+                  <div class="card-body">
+
+
+                    		<h4 class="card-product__title"><a href="#">PLAN_NAME</a></h4>
+
+                    <span class="card-product__price">2020.02.17</span>~<span class="card-product__price">2020.02.18</span>
                   </div>
                 </div>
-                <div class="post-content">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,	quis tion ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                </div>
-                <ul class="post-utility">
-                  <li class="likes"><a href="#"><i class="fa fa-fw fa-lg fa-thumbs-o-up"></i>Like</a></li>
-                  <li class="shares"><a href="#"><i class="fa fa-fw fa-lg fa-share"></i>Share</a></li>
-                  <li class="comments"><i class="fa fa-fw fa-lg fa-comment-o"></i> 5 Comments</li>
-                </ul>
               </div>
+
+              </div>
+                
+                
+                  </div>
+                  
             </div>
             <div class="tab-pane fade" id="user-settings">
               <div class="tile user-settings">
-                <h4 class="line-head">Settings</h4>
+                <h4 class="line-head">개인정보 수정</h4>
                 <form th:action="@{/member/updateMember}" method="post">
                 <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                 <input type="hidden" name="memberId" th:value="${#authentication.principal.memberId}">
@@ -147,18 +177,18 @@
                     </div>
                     <div class="clearfix"></div>
                     <div class="col-md-8 mb-4">
-                      <label>Password</label>
-                      <input class="form-control" type="password" name="pwd">
+                      <label>Password(새로운 비밀번호)</label>
+                      <input class="form-control" type="password" name="pwd" id="pwd">
                     </div>
                     
                     <div class="clearfix"></div>
                     <div class="col-md-8 mb-4">
-                      <label>Password(수정하기이ㅟ해 기존 비번 넣기)</label>
+                      <label>Password(기존 비밀번호 확인)</label>
                       <input class="form-control" type="password" name="savePwd">
                     </div>
                     
-            <div class="tm-bg-primary-dark tm-block tm-block-avatar" style="position: absolute; top : 50px; right: 100px;">
-              <h2  class="tm-block-title">Change Avatar</h2>
+            <div class="tm-bg-primary-dark tm-block tm-block-avatar" style="position: absolute; top : 50px; right: 100px;" onclick="location.href='/member/updatePicture'">
+              <h2  class="tm-block-title">프로필 사진 변경</h2>
               <div class="tm-avatar-container">
                 <img
                   src="/avatar.png"
@@ -176,18 +206,19 @@
                   </div>
                   <div class="row mb-10">
                     <div class="col-md-12">
-                      <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i> Save</button>
+                      <button class="btn btn-primary" type="submit" id="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i> Save</button>
                     
                     </div>
                   </div>
                   <div>
                     
                 </form>
+               
                   </div>
-                  <div>
+                  <div style="float: right;">
                   <input type="hidden" id="test" name="memberId" th:value="${#authentication.principal.memberId}">
                  <a th:href="@{/member/deleteMember(memberId=${#authentication.principal.memberId})}">
-                    Delete Your Account
+                    회원 탈퇴
                   </a>
               
                   </div>
