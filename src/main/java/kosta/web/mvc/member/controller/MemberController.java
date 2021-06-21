@@ -63,9 +63,13 @@ public class MemberController {
 	
 	@RequestMapping("/mypage")
 	public String profilePage(String memberId, Model model) {
-		Member member = memberService.findByMemberId(memberId);
 		Member loginMember = (Member) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String fromId = loginMember.getMemberId();
+		if(memberId==null) {
+			memberId=fromId;
+		}
+		Member member = memberService.findByMemberId(memberId);
+		
 		Following following = followingService.findByFromIdAndToId(fromId, memberId);
 		//나의 게시물 리스트 출력
 		List<InfoBoard> list = memberService.selectINfoBoardByMember(memberId);

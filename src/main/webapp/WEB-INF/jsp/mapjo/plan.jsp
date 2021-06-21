@@ -51,8 +51,7 @@
 
 
 		<!-- add list  -->
-	<form name="plan" action="${pageContext.request.contextPath}/map/updateForm" method="post">
-						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
 						<input type="hidden" name="stationPlanNum" value="${planId}"/>
 		<div id="menu_wrap" class="bg_white">
 			<div class="option">
@@ -67,9 +66,13 @@
 				</ul>
 
 				<div id="pagination"></div>
+					<form name="plan" action="${pageContext.request.contextPath}/member/mypage" method="post">
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+				<input type="submit" value="전체일정 저장"/>
+						</form>
+				
 		</div>
-		</form>
-
+		
 	</div>
 
 
