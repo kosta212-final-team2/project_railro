@@ -3,6 +3,7 @@ package kosta.web.mvc.map.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -19,6 +20,19 @@ import kosta.web.mvc.map.dto.Item;
 
 @Service
 public class XmlParsingTest {
+	
+	
+	private static String getDate() {
+		SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+				
+		Calendar time = Calendar.getInstance();
+		       
+		String format_time1 = format1.format(time.getTime());
+		        
+		System.out.println(format_time1);
+		
+		return null;
+	}
 	
 
 	private static Date convert(String input_format){
