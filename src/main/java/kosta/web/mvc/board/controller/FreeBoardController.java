@@ -154,7 +154,11 @@ public class FreeBoardController {
 	@RequestMapping("/update")
 	public ModelAndView update(FreeBoard freeBoard) {
 		FreeBoard dbBoard = freeService.update(freeBoard);
-		return new ModelAndView("page/board/free/read", "board", dbBoard);
+		Member member = memberRepository.findByMemberId(freeBoard.getMemberId());
+		ModelAndView mv = new ModelAndView("page/board/free/read", "board", dbBoard);
+		mv.addObject("freeBno", freeBoard.getFreeBno());
+		mv.addObject("member", member);
+		return mv;
 	}
 	
 	/**

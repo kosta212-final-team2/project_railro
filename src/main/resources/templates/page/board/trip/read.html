@@ -38,11 +38,20 @@
 			$("#writerOnly").hide();
 		}
 		
-		var writeReplyMember = $("#writeReplyMember").val();
+		// 해당하는 사용자에게만 댓글 삭제버튼 토글
+		var replySize = $("#replySize").text();
+		replySize *= 1;
+		//alert(typeof replySize);
 		
-		if(loginMember!=writeReplyMember) {
-			$(".replyWriterOnly").hide();
-		}
+		for(var i=0; i<replySize; i++) {
+			var writeReplyMember = $(".writeReplyMember").val();
+			var replyIndex = $("#replyIndex"+i).val();
+			//alert(replyIndex);
+			
+			if(loginMember!=replyIndex) {
+				$("#replyDeleteBtn"+i).hide();
+			}
+		};
 		
 		// 지도
 		var planId = $("#planId").val();
@@ -287,7 +296,7 @@
 
 						<!-- 댓글 영역 -->
             <div class="pt-5 mt-5">
-              <h3 class="mb-5">댓글 [<span th:text="${#lists.size(board.tripReplyList)}"></span>]</h3>
+              <h3 class="mb-5">댓글 [<span id="replySize" th:text="${#lists.size(board.tripReplyList)}"></span>]</h3>
               <ul class="comment-list">
               	<!-- 댓글 반복문 돌릴 영역 -->
               	<li class="comment" th:each="reply : ${board.tripReplyList}">
@@ -296,13 +305,13 @@
                     <img th:src="${reply.member.picture}">
                   </div>
                   <div class="comment-body">
-                                        <a th:href="@{/member/mypage(memberId=${reply.member.memberId})}" style="font-size: 20px; color: black;" th:text="${reply.member.memberId}"></a><p>
-                    <div class="meta" th:text="${reply.tripReplyRegdate}"></div>
+                  	<a th:href="@{/member/mypage(memberId=${reply.member.memberId})}" style="font-size: 20px; color: black;" th:text="${reply.member.memberId}"></a><p>
+                    <div class="meta" th:text="${#strings.replace(reply.tripReplyRegdate, 'T', ' ')}"></div>
                     <p><h6 th:text="${reply.tripReplyContent}"></h6></p>
-                    <input type="hidden" id="writeReplyMember" th:value="${reply.member.memberId}">
-                  	<a id="replyWriterOnly" 
+                    <input type="hidden" th:id="${'replyIndex'+replyStat.index}" th:value="${reply.member.memberId}">
+                  	<a th:id="${'replyDeleteBtn'+replyStat.index}"
                   		 th:href="@{/board/trip/reply/delete(tripRno=${reply.tripRno}, tripBno=${board.tripBno})}" 
-                  		 class="reply replyWriterOnly" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
+                  		 class="reply" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
                   </div>
                 </li>
               </ul>

@@ -151,7 +151,11 @@ public class TripBoardController {
 	@RequestMapping("/update")
 	public ModelAndView update(TripBoard tripBoard) {
 		TripBoard dbBoard = tripService.update(tripBoard);
-		return new ModelAndView("page/board/trip/read", "board", dbBoard);
+		Member member = memberRepository.findByMemberId(tripBoard.getMemberId());
+		ModelAndView mv = new ModelAndView("page/board/trip/read", "board", dbBoard);
+		mv.addObject("tripBno", tripBoard.getTripBno());
+		mv.addObject("member", member);
+		return mv;
 	}
 	
 	/**

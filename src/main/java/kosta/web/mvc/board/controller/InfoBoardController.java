@@ -152,7 +152,11 @@ public class InfoBoardController {
 	@RequestMapping("/update")
 	public ModelAndView update(InfoBoard infoBoard) {
 		InfoBoard dbBoard = infoService.update(infoBoard);
-		return new ModelAndView("page/board/info/read", "board", dbBoard);
+		Member member = memberRepository.findByMemberId(infoBoard.getMemberId());
+		ModelAndView mv = new ModelAndView("page/board/info/read", "board", dbBoard);
+		mv.addObject("infoBno", infoBoard.getInfoBno());
+		mv.addObject("member", member);
+		return mv;
 	}
 	
 	/**
