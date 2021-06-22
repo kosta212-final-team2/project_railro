@@ -111,6 +111,7 @@ public class InfoBoardController {
 	public String insert(InfoBoard board) {
 		
 		//등록전에 입력한데이터에 유효하지 않는 특수문자,태그 등이 있는지 체크!! - filter 
+		//String content = board.getInfoContent().replace("<", "&lt;");
 		String content = board.getInfoContent().replace("<", "&lt;");
 		board.setInfoContent(content);
 		
