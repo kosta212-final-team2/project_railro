@@ -94,8 +94,8 @@
 												</p>
 												</div>
 												<!-- 네이버 로그인 -->
-													<a th:href="@{/member/naver}" th:unless="${isConnectedToNaver}"><img id="naverbtn" th:src="@{/images/btn_naver.png}"/></a>
 												
+													<a th:href="@{/member/naver}" th:unless="${isConnectedToNaver}"><img id="naverbtn" th:src="@{/images/btn_naver.png}"/></a>
 												<div th:if="@{isConnectedToNaver}">
 													<img th:src="@{/images/btn_naver.png}" style="visibility: hidden;"/>
 												</div>
