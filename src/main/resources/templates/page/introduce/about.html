@@ -21,9 +21,7 @@
 
 <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
 <script th:inline="javascript">
-	$(function() { 
 
-	});
 </script>
 </head>
 <body>
@@ -32,7 +30,7 @@
 
 <div layout:fragment="content">
 	<!-- 사진 영역 -->
-	<div class="hero-wrap js-fullheight" th:style="'background: url('+@{/images/bg_about.jpg}+');'">
+	<div class="hero-wrap js-fullheight" th:style="'background: url('+@{/images/bg_about.jpg}+'); no-repeat fixed; background-size: cover;'">
 	  <div class="overlay"></div>
 	  <div class="container">
 	    <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center" data-scrollax-parent="true">
@@ -47,7 +45,8 @@
     <section class="ftco-section">
     	<div class="container">
     		<div class="row d-md-flex">
-	    		<div id="railroTeam" class="col-md-6 ftco-animate img about-image" th:style="'background: url('+@{/images/team.jpg}+'); no-repeat fixed; background-size: cover;'">
+	    		<div class="col-md-6 ftco-animate img about-image">
+	    			<img alt="team" src="/images/team.jpg" style="width: 550px;height: 400px;">
 	    		</div>
 	    		<div class="col-md-6 ftco-animate p-md-5">
 		    		<div class="row">
@@ -83,8 +82,8 @@
 		              <div class="tab-pane fade" id="v-pills-goal" role="tabpanel" aria-labelledby="v-pills-goal-tab">
 		                <div>
 			                <h2 class="mb-4">내일로를 더 많은 사람이 알았으면 하는 바램</h2>
-			              	<p>‘내일로’ 서비스의 홍보와 수요 증가로 내수경제 활성화를 기대</p>
-			                <p>여행 계획을 세우려고 하는 사람들에게 기능을 제공</p><p> 다양한 여행 예시를 제공하여 여행 계획을 더 편리하게 짤 수 있게끔 정보를 제공</p>
+			                <p>여행 계획을 세우려고 하는 사람들에게 기능을 제공하고, 사용자가 남긴 후기를 통해 다양한 여행 예시를 볼 수 있고, 여행 계획을 더 편리하게 짤 수 있게끔 정보를 제공합니다.</p>
+			                <p>더 나아가, ‘내일로’ 서비스의 홍보와 수요 증가로 내수경제 활성화를 기대합니다.</p>
 				            </div>
 		              </div>
 		            </div>
